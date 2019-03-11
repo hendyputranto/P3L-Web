@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Role extends Model
 {
     //
-    protected $table = 'Role';      //mendefine tabel yang digunakan
+    protected $table = 'roles';      //mendefine tabel yang digunakan
     protected $primaryKey = 'id_role';
 
     public function pegawai(){
