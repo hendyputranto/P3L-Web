@@ -26,8 +26,8 @@ class CreatePengadaanSparepartsTable extends Migration
             $table->string('statusCetak_pengadaan');
             $table->timestamps();
 
-            $table->foreign('id_supplier_fk')->references('id_supplier')->on('Supplier');
-            $table->foreign('id_sparepartCabang_fk')->references('id_sparepartCabang')->on('Sparepart_Cabang');
+            $table->foreign('id_supplier_fk')->references('id_supplier')->on('suppliers');
+            $table->foreign('id_sparepartCabang_fk')->references('id_sparepartCabang')->on('sparepart_cabangs');
         });
     }
 

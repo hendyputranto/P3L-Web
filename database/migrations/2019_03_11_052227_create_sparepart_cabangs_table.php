@@ -24,8 +24,8 @@ class CreateSparepartCabangsTable extends Migration
             $table->integer('stokSisa_sparepart');
             $table->timestamps();
             
-            $table->foreign('id_cabang_fk')->references('id_cabang')->on('Cabang');
-            $table->foreign('id_sparepart_fk')->references('id_sparepart')->on('Sparepart');
+            $table->foreign('id_cabang_fk')->references('id_cabang')->on('cabangs');
+            $table->foreign('id_sparepart_fk')->references('id_sparepart')->on('spareparts');
             
         });
     }

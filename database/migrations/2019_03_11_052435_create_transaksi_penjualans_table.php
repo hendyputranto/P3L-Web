@@ -22,7 +22,7 @@ class CreateTransaksiPenjualansTable extends Migration
             $table->string('status_transaksi');
             $table->timestamps();
 
-            $table->foreign('id_cabang_fk')->references('id_cabang')->on('Cabang');
+            $table->foreign('id_cabang_fk')->references('id_cabang')->on('cabangs');
         });
     }
 

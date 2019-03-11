@@ -19,8 +19,8 @@ class CreatePegawaiOnDutiesTable extends Migration
             $table->unsignedInteger('id_transaksi_fk');
             $table->timestamps();
 
-            $table->foreign('id_pegawai_fk')->references('id_pegawai')->on('Pegawai');
-            $table->foreign('id_transaksi_fk')->references('id_transaksi')->on('TransaksiPenjualan');
+            $table->foreign('id_pegawai_fk')->references('id_pegawai')->on('pegawais');
+            $table->foreign('id_transaksi_fk')->references('id_transaksi')->on('transaksi_penjualans');
         });
     }
 

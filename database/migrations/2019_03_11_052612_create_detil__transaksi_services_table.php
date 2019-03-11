@@ -22,9 +22,9 @@ class CreateDetilTransaksiServicesTable extends Migration
             $table->string('status_service',15);
             $table->timestamps();
 
-            $table->foreign('id_transaksi_fk')->references('id_transaksi')->on('TransaksiPenjualan');
-            $table->foreign('id_jasaService_fk')->references('id_jasaService')->on('JasaService');
-            $table->foreign('id_motorKonsumen_fk')->references('id_motorKonsumen')->on('MotorKonsumen');
+            $table->foreign('id_transaksi_fk')->references('id_transaksi')->on('transaksi_penjualans');
+            $table->foreign('id_jasaService_fk')->references('id_jasaService')->on('jasa_services');
+            $table->foreign('id_motorKonsumen_fk')->references('id_motorKonsumen')->on('motor_konsumens');
         });
     }
 

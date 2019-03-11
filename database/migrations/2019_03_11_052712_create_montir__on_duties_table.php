@@ -19,8 +19,8 @@ class CreateMontirOnDutiesTable extends Migration
             $table->unsignedInteger('id_motorKonsumen_fk');
             $table->timestamps();
 
-            $table->foreign('id_pegawai_fk')->references('id_pegawai')->on('Pegawai');
-            $table->foreign('id_motorKonsumen_fk')->references('id_motorKonsumen')->on('MotorKonsumen');
+            $table->foreign('id_pegawai_fk')->references('id_pegawai')->on('pegawais');
+            $table->foreign('id_motorKonsumen_fk')->references('id_motorKonsumen')->on('motor_konsumens');
         });
     }
 
