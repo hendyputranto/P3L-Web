@@ -14,7 +14,10 @@ class CreateCabangsTable extends Migration
     public function up()
     {
         Schema::create('cabangs', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id_cabang');
+            $table->string('nama_cabang',20);
+            $table->string('alamat_cabang',150);
+            $table->string('noTelp_cabang',15);
             $table->timestamps();
         });
     }

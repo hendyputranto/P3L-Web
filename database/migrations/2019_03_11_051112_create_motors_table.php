@@ -14,7 +14,9 @@ class CreateMotorsTable extends Migration
     public function up()
     {
         Schema::create('motors', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id_motor');
+            $table->string('merk_motor',15);
+            $table->string('tipe_motor',30);
             $table->timestamps();
         });
     }

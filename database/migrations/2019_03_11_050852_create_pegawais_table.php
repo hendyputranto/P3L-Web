@@ -15,6 +15,9 @@ class CreatePegawaisTable extends Migration
     {
         Schema::create('pegawais', function (Blueprint $table) {
             $table->increments('id_pegawai');
+            $table->unsignedInteger('id_role_fk');
+            $table->unsignedInteger('id_cabang_fk');
+            $table->increments('id_pegawai');
             $table->string('nama_pegawai',50);
             $table->string('alamat_pegawai',150);
             $table->string('noTelp_pegawai',15);
@@ -22,6 +25,9 @@ class CreatePegawaisTable extends Migration
             $table->string('username_pegawai',15);
             $table->string('password_pegawai',15);
             $table->timestamps();
+
+            $table->foreign('id_role_fk')->references('id_role')->on('Role');
+            $table->foreign('id_cabang_fk')->references('id_cabang')->on('Cabang');
         });
     }
 
