@@ -15,7 +15,12 @@ class CreateMontirOnDutiesTable extends Migration
     {
         Schema::create('montir__on_duties', function (Blueprint $table) {
             $table->increments('id_montirOnDuty');
+            $table->unsignedInteger('id_pegawai_fk');
+            $table->unsignedInteger('id_motorKonsumen_fk');
             $table->timestamps();
+
+            $table->foreign('id_pegawai_fk')->references('id_pegawai')->on('Pegawai');
+            $table->foreign('id_motorKonsumen_fk')->references('id_motorKonsumen')->on('MotorKonsumen');
         });
     }
 
