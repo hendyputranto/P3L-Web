@@ -14,9 +14,14 @@ class CreateMotorKonsumensTable extends Migration
     public function up()
     {
         Schema::create('motor_konsumens', function (Blueprint $table) {
+            $table->unsignedInteger('id_motor_fk');
+            $table->unsignedInteger('id_konsumen_fk');
             $table->increments('id_motorKonsumen');
             $table->string('plat_motorKonsumen');
             $table->timestamps();
+
+            $table->foreign('id_motor_fk')->references('id_motor')->on('Motor');
+            $table->foreign('id_konsumen_fk')->references('id_konsumen')->on('Konsumen');
         });
     }
 

@@ -15,6 +15,8 @@ class CreatePengadaanSparepartsTable extends Migration
     {
         Schema::create('pengadaan_spareparts', function (Blueprint $table) {
             $table->increments('id_pengadaan');
+            $table->unsignedInteger('id_supplier_fk');
+            $table->unsignedInteger('id_sparepartCabang_fk');
             $table->string('status_pengadaan');
             $table->integer('satuan_pengadaan');
             $table->float('totalHarga_pengadaan');
@@ -23,6 +25,9 @@ class CreatePengadaanSparepartsTable extends Migration
             $table->date('tgl_barangDatang');
             $table->string('statusCetak_pengadaan');
             $table->timestamps();
+
+            $table->foreign('id_supplier_fk')->references('id_supplier')->on('Supplier');
+            $table->foreign('id_sparepartCabang_fk')->references('id_sparepartCabang')->on('Sparepart_Cabang');
         });
     }
 

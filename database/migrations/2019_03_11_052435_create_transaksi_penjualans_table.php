@@ -15,11 +15,14 @@ class CreateTransaksiPenjualansTable extends Migration
     {
         Schema::create('transaksi_penjualans', function (Blueprint $table) {
             $table->increments('id_transaksi');
+            $table->unsignedInteger('id_cabang_fk');
             $table->date('tgl_transaksi');
             $table->float('diskon');
             $table->float('total_transaksi');
             $table->string('status_transaksi');
             $table->timestamps();
+
+            $table->foreign('id_cabang_fk')->references('id_cabang')->on('Cabang');
         });
     }
 
