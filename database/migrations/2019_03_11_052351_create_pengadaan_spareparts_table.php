@@ -14,7 +14,14 @@ class CreatePengadaanSparepartsTable extends Migration
     public function up()
     {
         Schema::create('pengadaan_spareparts', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id_pengadaan');
+            $table->string('status_pengadaan');
+            $table->integer('satuan_pengadaan');
+            $table->float('totalHarga_pengadaan');
+            $table->integer('totalBarang_datang');
+            $table->date('tgl_pengadaan');
+            $table->date('tgl_barangDatang');
+            $table->string('statusCetak_pengadaan');
             $table->timestamps();
         });
     }

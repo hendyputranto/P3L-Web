@@ -14,7 +14,12 @@ class CreateSparepartCabangsTable extends Migration
     public function up()
     {
         Schema::create('sparepart_cabangs', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id_sparepartCabang');
+            $table->float('hargaBeli_sparepart');
+            $table->float('hargaJual_sparepart');
+            $table->string('letak_sparepart',11);
+            $table->integer('stokMin_sparepart');
+            $table->integer('stokSisa_sparepart');
             $table->timestamps();
         });
     }
