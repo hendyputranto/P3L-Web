@@ -14,7 +14,7 @@ class CreatePegawaiOnDutiesTable extends Migration
     public function up()
     {
         Schema::create('pegawai__on_duties', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id_pegawaiOnDuty');
             $table->timestamps();
         });
     }

@@ -14,7 +14,8 @@ class CreateDetilTransaksiSparepartsTable extends Migration
     public function up()
     {
         Schema::create('detil__transaksi_spareparts', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id_detilTransaksiSparepart');
+            $table->float('subTotal_sparepart');
             $table->timestamps();
         });
     }

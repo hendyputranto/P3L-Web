@@ -14,7 +14,7 @@ class CreateMontirOnDutiesTable extends Migration
     public function up()
     {
         Schema::create('montir__on_duties', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id_montirOnDuty');
             $table->timestamps();
         });
     }

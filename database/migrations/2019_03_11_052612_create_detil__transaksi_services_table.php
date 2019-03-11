@@ -14,7 +14,9 @@ class CreateDetilTransaksiServicesTable extends Migration
     public function up()
     {
         Schema::create('detil__transaksi_services', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id_detilTransaksiService');
+            $table->float('subTotal_service');
+            $table->string('status_service',15);
             $table->timestamps();
         });
     }
