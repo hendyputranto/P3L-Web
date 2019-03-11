@@ -16,4 +16,11 @@ class Pegawai extends Model
     public function cabang(){
         return $this->belongsTo('app\Cabang');
     }
+
+    public function montir_onduty(){
+        return $this->hasMany('app\Montir_OnDuty', 'id_pegawai');
+    }
+    public function pegawai_onduty(){
+        return $this->hasMany('app\Pegawai_OnDuty', 'id_pegawai');
+    }
 }

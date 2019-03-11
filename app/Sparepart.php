@@ -12,4 +12,8 @@ class Sparepart extends Model
     public function sparepart_cabang(){
         return $this->hasMany('app\SparepartCabang', 'id_sparepart');
     }
+
+    public function motor(){
+        return $this->hasMany('app\Motor', 'id_sparepart');
+    }
 }

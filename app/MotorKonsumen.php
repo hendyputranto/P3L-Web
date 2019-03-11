@@ -18,4 +18,13 @@ class MotorKonsumen extends Model
     public function montir_on_duty(){
         return $this->hasMany('app\Montir_OnDuty', 'id_motorKonsumen');
     }
+
+    public function motor(){
+        return $this->belongsTo('app\Motor');
+    }
+
+    public function konsumen(){
+        return $this->belongsTo('app\Konsumen');
+    }
+}
 }

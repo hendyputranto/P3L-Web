@@ -17,4 +17,10 @@ class SparepartCabang extends Model
     public function detil_transaksisparepart(){
         return $this->hasMany('app\Detil_TransaksiSparepart', 'id_detilTransaksiSparepart');
     }
+    public function sparepart(){
+        return $this->belongsTo('app\Sparepart');
+    }
+    public function cabang(){
+        return $this->belongsTo('app\Cabang');
+    }
 }
