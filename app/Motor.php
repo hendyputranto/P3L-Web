@@ -13,4 +13,7 @@ class Motor extends Model
     public function sparepart(){
         return $this->belongsTo('app\Sparepart');
     }
+    public function motor_konsumen(){
+        return $this->hasMany('app\MotorKonsumen', 'id_sparepart');
+    }
 }
