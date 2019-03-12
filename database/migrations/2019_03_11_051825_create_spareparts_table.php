@@ -18,7 +18,7 @@ class CreateSparepartsTable extends Migration
             $table->string('nama_sparepart',30);
             $table->string('merk_sparepart',30);
             $table->string('tipe_sparepart',30);
-            $table->string('kode_sparepart',2);
+            $table->string('kode_sparepart',20);
             //$table->string('kode_sparepart',25)->index();
             $table->string('gambar_sparepart',255);
             $table->timestamps();
