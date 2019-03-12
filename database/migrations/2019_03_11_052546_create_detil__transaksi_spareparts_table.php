@@ -18,6 +18,7 @@ class CreateDetilTransaksiSparepartsTable extends Migration
             $table->unsignedInteger('id_transaksi_fk');
             $table->unsignedInteger('id_sparepartCabang_fk');
             $table->unsignedInteger('id_motorKonsumen_fk');
+            $table->integer('jumlahBeli_saprepart');
             $table->float('subTotal_sparepart');
             $table->timestamps();
 
