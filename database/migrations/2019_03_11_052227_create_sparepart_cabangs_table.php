@@ -16,7 +16,7 @@ class CreateSparepartCabangsTable extends Migration
         Schema::create('sparepart_cabangs', function (Blueprint $table) {
             $table->increments('id_sparepartCabang');
             $table->unsignedInteger('id_cabang_fk');
-            $table->unsignedInteger('id_sparepart_fk');
+            $table->string('kode_sparepart_fk',25);
             $table->float('hargaBeli_sparepart');
             $table->float('hargaJual_sparepart');
             $table->string('letak_sparepart',11);
@@ -25,7 +25,7 @@ class CreateSparepartCabangsTable extends Migration
             $table->timestamps();
             
             $table->foreign('id_cabang_fk')->references('id_cabang')->on('cabangs');
-            $table->foreign('id_sparepart_fk')->references('id_sparepart')->on('spareparts');
+            $table->foreign('kode_sparepart_fk')->references('kode_sparepart')->on('spareparts');
             
         });
     }

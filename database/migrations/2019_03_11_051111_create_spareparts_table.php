@@ -14,12 +14,10 @@ class CreateSparepartsTable extends Migration
     public function up()
     {
         Schema::create('spareparts', function (Blueprint $table) {
-            $table->increments('id_sparepart');
+            $table->string('kode_sparepart',25)->index();
             $table->string('nama_sparepart',30);
             $table->string('merk_sparepart',30);
             $table->string('tipe_sparepart',30);
-            $table->string('kode_sparepart',20);
-            //$table->string('kode_sparepart',25)->index();
             $table->string('gambar_sparepart',255);
             $table->timestamps();
         });
