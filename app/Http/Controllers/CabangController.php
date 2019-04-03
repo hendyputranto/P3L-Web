@@ -14,7 +14,8 @@ class CabangController extends Controller
 
     //tampil by id
     public function showById(request $request, $id_cabang){
-        return Cabang::all();
+        $cabang = Cabang::find($id_cabang);
+        return $cabang;
     }
     //nambah data
     public function create(request $request){

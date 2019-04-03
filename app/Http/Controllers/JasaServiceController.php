@@ -14,7 +14,8 @@ class JasaServiceController extends Controller
 
     //tampil by id
     public function showById(request $request, $id_jasaService){
-        return JasaService::all();
+        $jasaService = JasaService::find($id_jasaService);
+        return $jasaService;
     }
     //nambah data
     public function create(request $request){

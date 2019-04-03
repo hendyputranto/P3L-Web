@@ -24,12 +24,14 @@ Route::delete('role/{id}','RoleController@delete');
 
 //Cabang
 Route::get('cabang','CabangController@show');
+Route::get('cabang/{id}','CabangController@showById');
 Route::post('cabang','CabangController@create');
 Route::put('cabang/{id}','CabangController@update');
 Route::delete('cabang/{id}','CabangController@delete');
 
 //Jasa Service
 Route::get('jasaService','JasaServiceController@show');
+Route::get('jasaService/{id}','JasaServiceController@showById');
 Route::post('jasaService','JasaServiceController@create');
 Route::put('jasaService/{id}','JasaServiceController@update');
 Route::delete('jasaService/{id}','JasaServiceController@delete');
@@ -61,3 +63,10 @@ Route::get('sparepartCabang/{id}','SparepartCabangController@showById');
 Route::post('sparepartCabang','SparepartCabangController@create');
 Route::put('sparepartCabang/{id}','SparepartCabangController@update');
 Route::delete('sparepartCabang/{id}','SparepartCabangController@delete');
+
+//Pengadaan Sparepart
+Route::get('pengadaanSparepart','PengadaanSparepartController@show');
+Route::get('pengadaanSparepart/{id}','PengadaanSparepartController@showById');
+Route::post('pengadaanSparepart','PengadaanSparepartController@create');
+Route::put('pengadaanSparepart/{id}','PengadaanSparepartController@update');
+Route::delete('pengadaanSparepart/{id}','PengadaanSparepartController@delete');
