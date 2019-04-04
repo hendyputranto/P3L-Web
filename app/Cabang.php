@@ -9,6 +9,11 @@ class Cabang extends Model
     protected $table = 'cabangs';      //mendefine tabel yang digunakan
     protected $primaryKey = 'id_cabang';
 
+    protected $fillable = [
+        'nama_cabang',
+        'alamat_cabang',
+        'noTelp_cabang'
+    ];
     public function pegawai(){
         return $this->hasMany('app\Pegawai', 'id_cabang');
     }
