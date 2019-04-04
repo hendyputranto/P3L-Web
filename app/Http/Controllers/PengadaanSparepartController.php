@@ -4,35 +4,64 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\PengadaanSparepart;
-class PengadaanSparepartController extends Controller
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Transformers\PengadaanSparepartTransformer;
+
+class PengadaanSparepartController extends RestController
 {
+    protected $transformer = PengadaanSparepartTransformer::class;
      //menampilkan data
      public function show(){
         return PengadaanSparepart::all();
+        $response = $this->generateCollection($pengadaanSparepart);
+        return $this->sendResponse($response);
     }
 
     //tampil by id
     public function showById(request $request, $id_pengadaan){
         $pengadaanSparepart = PengadaanSparepart::find($id_pengadaan);
-        return $pengadaanSparepart;
+        $response = $this->generateItem($pengadaanSparepart);
+        return $this->sendResponse($response);
     }
     //nambah data
     public function create(request $request){
-        $pengadaanSparepart = new PengadaanSparepart;
+        $this->validate($request,[
+            'id_supplier_fk' => 'required',
+            'id_sparepartCabang_fk' => 'required',
+            'status_pengadaan' => 'required',
+            'satuan_pengadaan' => 'required',
+            'totalHarga_pengadaan' => 'required',
+            'totalBarang_datang' => 'required',
+            'tgl_pengadaan' => 'required',
+            'tgl_barangDatang' => 'required',
+            'statusCetak_pengadaan' => 'required',
+        ]);
         
-        $pengadaanSparepart->id_supplier_fk = $request->id_supplier_fk;
-        $pengadaanSparepart->id_sparepartCabang_fk = $request->id_sparepartCabang_fk;
-        $pengadaanSparepart->status_pengadaan = $request->status_pengadaan;
-        $pengadaanSparepart->satuan_pengadaan = $request->satuan_pengadaan;
-        $pengadaanSparepart->totalHarga_pengadaan = $request->totalHarga_pengadaan;
-        $pengadaanSparepart->totalBarang_datang = $request->totalBarang_datang;
-        $pengadaanSparepart->tgl_pengadaan = $request->tgl_pengadaan;
-        $pengadaanSparepart->tgl_barangDatang = $request->tgl_barangDatang;
-        $pengadaanSparepart->statusCetak_pengadaan = $request->statusCetak_pengadaan;
+        try{
+            $pengadaanSparepart = new PengadaanSparepart;
         
-        $pengadaanSparepart->save();
+            $pengadaanSparepart->id_supplier_fk = $request->id_supplier_fk;
+            $pengadaanSparepart->id_sparepartCabang_fk = $request->id_sparepartCabang_fk;
+            $pengadaanSparepart->status_pengadaan = $request->status_pengadaan;
+            $pengadaanSparepart->satuan_pengadaan = $request->satuan_pengadaan;
+            $pengadaanSparepart->totalHarga_pengadaan = $request->totalHarga_pengadaan;
+            $pengadaanSparepart->totalBarang_datang = $request->totalBarang_datang;
+            $pengadaanSparepart->tgl_pengadaan = $request->tgl_pengadaan;
+            $pengadaanSparepart->tgl_barangDatang = $request->tgl_barangDatang;
+            $pengadaanSparepart->statusCetak_pengadaan = $request->statusCetak_pengadaan;
+            
+            $pengadaanSparepart->save();
 
-        return "Data berhasil disimpan";
+            $response = $this->generateItem($pengadaanSparepart);
+
+            return $this->sendResponse($response, 201);
+        }catch(\Exception $e){
+            return $this->sendIseResponse($e->getMessage());
+        }
+        
     }
     //update data
     public function update(request $request, $id_pengadaan){
@@ -46,27 +75,43 @@ class PengadaanSparepartController extends Controller
         $tgl_barangDatang = $request->tgl_barangDatang;
         $statusCetak_pengadaan = $request->statusCetak_pengadaan;
 
-        $pengadaanSparepart = PengadaanSparepart::find($id_pengadaan);
-        $pengadaanSparepart->id_supplier_fk = $id_supplier_fk;
-        $pengadaanSparepart->id_sparepartCabang_fk = $id_sparepartCabang_fk;
-        $pengadaanSparepart->status_pengadaan = $status_pengadaan;
-        $pengadaanSparepart->satuan_pengadaan = $satuan_pengadaan;
-        $pengadaanSparepart->totalHarga_pengadaan = $totalHarga_pengadaan;
-        $pengadaanSparepart->totalBarang_datang = $totalBarang_datang;
-        $pengadaanSparepart->tgl_pengadaan = $tgl_pengadaan;
-        $pengadaanSparepart->tgl_barangDatang = $tgl_barangDatang;
-        $pengadaanSparepart->statusCetak_pengadaan = $statusCetak_pengadaan;
-        
-        $pengadaanSparepart->save();
+        try{
+            $pengadaanSparepart = PengadaanSparepart::find($id_pengadaan);
+            $pengadaanSparepart->id_supplier_fk = $id_supplier_fk;
+            $pengadaanSparepart->id_sparepartCabang_fk = $id_sparepartCabang_fk;
+            $pengadaanSparepart->status_pengadaan = $status_pengadaan;
+            $pengadaanSparepart->satuan_pengadaan = $satuan_pengadaan;
+            $pengadaanSparepart->totalHarga_pengadaan = $totalHarga_pengadaan;
+            $pengadaanSparepart->totalBarang_datang = $totalBarang_datang;
+            $pengadaanSparepart->tgl_pengadaan = $tgl_pengadaan;
+            $pengadaanSparepart->tgl_barangDatang = $tgl_barangDatang;
+            $pengadaanSparepart->statusCetak_pengadaan = $statusCetak_pengadaan;
+            
+            $pengadaanSparepart->save();
 
-        return "Data berhasil Diubah";
+            $response = $this->generateItem($pengadaanSparepart);
+
+            return $this->sendResponse($response, 201);
+        }catch(\Exception $e){
+            return $this->sendIseResponse($e->getMessage());
+        }catch (ModelNotFoundException $e) {
+            return $this->sendNotFoundResponse('cabang_tidak_ditemukan');
+        }
+        
     }
 
     //hapus data
     public function delete($id_pengadaan){
-        $pengadaanSparepart = PengadaanSparepart::find($id_pengadaan);
-        $pengadaanSparepart->delete();
+        try{
+            $pengadaanSparepart = PengadaanSparepart::find($id_pengadaan);
+            $pengadaanSparepart->delete();
 
-        return "Data berhasil dihapus";
+            return response()->json('Successs', 201);
+        }catch (ModelNotFoundException $e) {
+            return $this->sendNotFoundResponse('cabang_tidak_ditemukan');
+        }catch(\Exception $e){
+            return $this->sendIseResponse($e->getMessage());
+        }
+        
     }
 }

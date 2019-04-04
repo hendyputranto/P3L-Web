@@ -8,7 +8,8 @@ class Sparepart extends Model
 {
     protected $table = 'spareparts';      //mendefine tabel yang digunakan
     protected $primaryKey = 'kode_sparepart';
-
+    public $incrementing = false;
+    
     public function sparepart_cabang(){
         return $this->hasMany('app\SparepartCabang', 'kode_sparepart');
     }
