@@ -15,7 +15,7 @@ class SupplierController extends RestController
     protected $transformer = SupplierTransformer::class;
      //menampilkan data
      public function show(){
-        return Supplier::all();
+        $supplier = Supplier::all();
         $response = $this->generateCollection($supplier);
         return $this->sendResponse($response);
     }

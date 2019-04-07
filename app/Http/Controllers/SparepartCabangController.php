@@ -15,7 +15,7 @@ class SparepartCabangController extends RestController
     protected $transformer = SparepartCabangTransformer::class;
    //menampilkan data
      public function show(){
-        return SparepartCabang::all();
+        $sparepartCabang = SparepartCabang::all();
         $response = $this->generateCollection($sparepartCabang);
         return $this->sendResponse($response);
     }

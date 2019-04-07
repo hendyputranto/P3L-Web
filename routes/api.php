@@ -42,6 +42,8 @@ Route::get('pegawai/{id}','PegawaiController@showById');
 Route::post('pegawai','PegawaiController@create');
 Route::put('pegawai/{id}','PegawaiController@update');
 Route::delete('pegawai/{id}','PegawaiController@delete');
+Route::POST('/pegawai/mobileauthenticate','PegawaiController@mobileauthenticate');
+
 
 //Supplier
 Route::get('supplier','SupplierController@show');

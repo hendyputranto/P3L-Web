@@ -28,17 +28,21 @@ class SparepartController extends RestController
     }
     //nambah data
     public function create(request $request){
-        $this->validate($request,[
-            'kode_sparepart' => 'required',
-            'nama_sparepart' => 'required',
-            'merk_sparepart' => 'required',
-            'tipe_sparepart' => 'required',
-            'gambar_sparepart' => 'required',
-        ]);
 
         try{
             $sparepart = new Sparepart;
         
+            if($request->hasfile('gambar_sparepart'))
+            {
+                $file = $request->file('gambar_sparepart');
+                $name=time().$file->getClientOriginalName();
+                $file->move(public_path().'/images/', $name);
+                $sparepart->gambar_sparepart=$name;
+            }else
+            {
+                $sparepart->gambar_sparepart = NULL;
+            }
+
             $sparepart->kode_sparepart = $request->kode_sparepart;
             $sparepart->nama_sparepart = $request->nama_sparepart;
             $sparepart->merk_sparepart = $request->merk_sparepart;
@@ -57,6 +61,7 @@ class SparepartController extends RestController
     }
     //update data
     public function update(request $request, $kode_sparepart){
+
         $kode_sparepart = $request->kode_sparepart;
         $nama_sparepart = $request->nama_sparepart;
         $merk_sparepart = $request->merk_sparepart;
@@ -65,6 +70,14 @@ class SparepartController extends RestController
 
         try{
             $sparepart = Sparepart::find($kode_sparepart);
+
+            if($request->hasfile('gambar_sparepart'))
+            {
+                $file = $request->file('gambar_sparepart');
+                $name=time().$file->getClientOriginalName();
+                $file->move(public_path().'/images/', $name);
+                $sparepart->gambar_sparepart=$name;
+            }
             $sparepart->kode_sparepart = $kode_sparepart;
             $sparepart->nama_sparepart = $nama_sparepart;
             $sparepart->merk_sparepart = $merk_sparepart;

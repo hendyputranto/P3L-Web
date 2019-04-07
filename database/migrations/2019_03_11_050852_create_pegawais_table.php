@@ -22,7 +22,7 @@ class CreatePegawaisTable extends Migration
             $table->string('noTelp_pegawai',15);
             $table->float('gaji_pegawai');
             $table->string('username_pegawai',15);
-            $table->string('password_pegawai',15);
+            $table->string('password_pegawai');
             $table->timestamps();
 
             $table->foreign('id_role_fk')->references('id_role')->on('roles');

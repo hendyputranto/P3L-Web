@@ -15,7 +15,7 @@ class CabangController extends RestController
     protected $transformer = CabangTransformer::class;
    //menampilkan data
     public function show(){
-        return Cabang::all();
+        $cabang = Cabang::all();
         $response = $this->generateCollection($cabang);
         return $this->sendResponse($response);
     }

@@ -15,7 +15,7 @@ class PengadaanSparepartController extends RestController
     protected $transformer = PengadaanSparepartTransformer::class;
      //menampilkan data
      public function show(){
-        return PengadaanSparepart::all();
+        $pengadaanSparepart = PengadaanSparepart::all();
         $response = $this->generateCollection($pengadaanSparepart);
         return $this->sendResponse($response);
     }

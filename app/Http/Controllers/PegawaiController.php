@@ -16,7 +16,7 @@ class PegawaiController extends RestController
     protected $transformer = PegawaiTransformer::class;
     //menampilkan data
     public function show(){
-        return Pegawai::all();
+        $pegawai = Pegawai::all();
         $response = $this->generateCollection($pegawai);
         return $this->sendResponse($response);
     }
@@ -53,7 +53,7 @@ class PegawaiController extends RestController
             $pegawai->noTelp_pegawai = $request->noTelp_pegawai;
             $pegawai->gaji_pegawai = $request->gaji_pegawai;
             $pegawai->username_pegawai = $request->username_pegawai;
-            $pegawai->password_pegawai = $request->password_pegawai;
+            $pegawai->password_pegawai = bcrypt($request->password_pegawai);
             
             $pegawai->save();
     
@@ -84,8 +84,8 @@ class PegawaiController extends RestController
             $pegawai->alamat_pegawai = $alamat_pegawai;
             $pegawai->noTelp_pegawai = $noTelp_pegawai;
             $pegawai->gaji_pegawai = $gaji_pegawai;
-            $pegawai->username_pegawai = $username_pegawai;
-            $pegawai->password_pegawai = $password_pegawai;
+            // $pegawai->username_pegawai = $username_pegawai;
+            // $pegawai->password_pegawai = $password_pegawai;
 
             $pegawai->save();
 
@@ -113,5 +113,34 @@ class PegawaiController extends RestController
             return $this->sendIseResponse($e->getMessage());
         }
         
+    }
+
+    public function validateUser($username,$password)
+    {
+        try{
+            $user = Pegawai::where('username_pegawai',$username)->firstOrFail();
+            
+            if (!password_verify($password, $user->password_pegawai)) {
+                dd('i am here');
+                throw new InvalidCredentialException();
+            }
+            return $user;
+        } catch(ModelNotFoundException $e) {
+            return $this->sendIseResponse($e->getMessage());
+        }
+    }
+
+    public function mobileauthenticate(Request $request)
+    {
+        try {
+            $user = $this->validateUser($request->get('username_pegawai'), $request->get('password_pegawai'));
+            
+            $response = $this->generateItem($user,PegawaiTransformer::class);
+            return $this->sendResponse($response, 201);
+        } catch (InvalidCredentialExcpetion $e) {
+            return $this->sendNotAuthorizeResponse($e->getMessage());
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 }

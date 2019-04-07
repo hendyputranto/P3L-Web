@@ -16,7 +16,7 @@ class JasaServiceController extends RestController
 
     ////menampilkan data
     public function show(){
-        return JasaService::all();
+        $jasaService = JasaService::all();
         $response = $this->generateCollection($jasaService);
         return $this->sendResponse($response);
     }
