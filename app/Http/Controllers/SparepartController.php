@@ -15,7 +15,7 @@ class SparepartController extends RestController
     protected $transformer = SparepartTransformer::class;
      //menampilkan data
      public function show(){
-        return Sparepart::all();
+        $sparepart = Sparepart::all();
         $response = $this->generateCollection($sparepart);
         return $this->sendResponse($response);
     }
