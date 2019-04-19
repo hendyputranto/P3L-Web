@@ -12,7 +12,7 @@ use App\Transformers\CabangTransformer;
 
 class CabangController extends RestController
 {
-    protected $transformer = CabangTransformer::class;
+    protected $transformer = CabangTransformer::Class;
 
    //menampilkan data
     public function show(){

@@ -27,4 +27,4 @@ class MotorKonsumen extends Model
         return $this->belongsTo('app\Konsumen');
     }
 }
-}
+

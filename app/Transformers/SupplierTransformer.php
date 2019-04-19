@@ -21,4 +21,5 @@ class SupplierTransformer extends TransformerAbstract
             'noTelp_sales' => $supplier->noTelp_sales,
         ];
     }
+    
 }

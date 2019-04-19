@@ -1,16 +1,14 @@
 <?php
-
 namespace App\Transformers;
-
 use League\Fractal\TransformerAbstract;
 use App\Cabang;
 
 class CabangTransformer extends TransformerAbstract
 {
     /**
-     * Transform Branch.
+     * Transform Barang.
      *
-     * @param Branch $branch
+     * @param Service $service
      */
     public function transform(Cabang $cabang)
     {

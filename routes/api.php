@@ -36,6 +36,27 @@ Route::post('jasaService','JasaServiceController@create');
 Route::put('jasaService/{id}','JasaServiceController@update');
 Route::delete('jasaService/{id}','JasaServiceController@delete');
 
+//Konsumen
+Route::get('konsumen','KonsumenController@show');
+Route::get('konsumen/{id}','KonsumenController@showById');
+Route::post('konsumen','KonsumenController@create');
+Route::put('konsumen/{id}','KonsumenController@update');
+Route::delete('konsumen/{id}','KonsumenController@delete');
+
+//Motor
+Route::get('motor','MotorController@show');
+Route::get('motor/{id}','MotorController@showById');
+Route::post('motor','MotorController@create');
+Route::put('motor/{id}','MotorController@update');
+Route::delete('motor/{id}','MotorController@delete');
+
+//Motor Konsumen
+Route::get('motorKonsumen','MotorKonsumenController@show');
+Route::get('motorKonsumen/{id}','MotorKonsumenController@showById');
+Route::post('motorKonsumen','MotorKonsumenController@create');
+Route::put('motorKonsumen/{id}','MotorKonsumenController@update');
+Route::delete('motorKonsumen/{id}','MotorKonsumenController@delete');
+
 //Pegawai
 Route::get('pegawai','PegawaiController@show');
 Route::get('pegawai/{id}','PegawaiController@showById');
@@ -72,3 +93,10 @@ Route::get('pengadaanSparepart/{id}','PengadaanSparepartController@showById');
 Route::post('pengadaanSparepart','PengadaanSparepartController@create');
 Route::put('pengadaanSparepart/{id}','PengadaanSparepartController@update');
 Route::delete('pengadaanSparepart/{id}','PengadaanSparepartController@delete');
+
+//Transaksi Penjualan
+Route::get('transaksiPenjualan','TransaksiPenjualanController@show');
+Route::get('transaksiPenjualan/{id}','TransaksiPenjualanController@showById');
+Route::post('transaksiPenjualan','TransaksiPenjualanController@create');
+Route::put('transaksiPenjualan/{id}','TransaksiPenjualanController@update');
+Route::delete('transaksiPenjualan/{id}','TransaksiPenjualanController@delete');
