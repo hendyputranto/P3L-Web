@@ -12,8 +12,98 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('page.home');
 });
 Route::get('/pengadaan', function () {
     return view('page.pengadaanSparepart');
 });
+Route::get('/tPengadaan', function () {
+    return view('page.tPengadaanSparepart');
+});
+Route::get('/ePengadaan', function () {
+    return view('page.ePengadaanSparepart');
+});
+Route::get('/tkonsumen', function () {
+    return view('page.tambahKonsumen');
+});
+Route::get('/ukonsumen', function () {
+    return view('page.ubahKonsumen');
+});
+Route::get('/konsumen', function () {
+    return view('page.konsumen');
+});
+Route::group(['prefix'=>'keloladata'],function(){
+
+    Route::get('/dcabang', function () {
+        
+        return view('page.cabang');
+
+    })->name('dcabang');
+
+    Route::get('/dpegawai', function () {
+        
+        return view('page.pegawai');
+
+    })->name('dpegawai');
+
+    Route::get('/dsupplier', function () {
+        
+        return view('page.supplier');
+
+    })->name('dsupplier');
+
+    Route::get('/dsparepart', function () {
+        
+        return view('page.sparepart');
+
+    })->name('dsparepart');
+
+    Route::get('/djasaService', function () {
+        
+        return view('page.jasaservice');
+
+    })->name('djasaService');
+
+});
+
+Route::get('/tcabang', function () {
+    return view('page.tambahcabang');
+});
+
+Route::get('/ucabang', function () {
+    return view('page.ubahcabang');
+});
+
+Route::get('/tpegawai', function () {
+    return view('page.tambahpegawai');
+});
+
+Route::get('/upegawai', function () {
+    return view('page.ubahpegawai');
+});
+
+Route::get('/tjasaservice', function () {
+    return view('page.tambahjasaservice');
+});
+
+Route::get('/ujasaservice', function () {
+    return view('page.ubahjasaservice');
+});
+
+Route::get('/tsupplier', function () {
+    return view('page.tambahsupplier');
+});
+
+Route::get('/usupplier', function () {
+    return view('page.ubahsupplier');
+});
+
+Route::get('/tsparepart', function () {
+    return view('page.tambahsparepart');
+});
+
+Route::get('/usparepart', function () {
+    return view('page.ubahsparepart');
+});
+
+//Route::resource('Konsumen','KonsumenController');

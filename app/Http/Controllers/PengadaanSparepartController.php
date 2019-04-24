@@ -28,30 +28,31 @@ class PengadaanSparepartController extends RestController
     }
     //nambah data
     public function create(request $request){
-        $this->validate($request,[
-            'id_supplier_fk' => 'required',
-            'id_sparepartCabang_fk' => 'required',
-            'status_pengadaan' => 'required',
-            'satuan_pengadaan' => 'required',
-            'totalHarga_pengadaan' => 'required',
-            'totalBarang_datang' => 'required',
-            'tgl_pengadaan' => 'required',
-            'tgl_barangDatang' => 'required',
-            'statusCetak_pengadaan' => 'required',
-        ]);
+        // $this->validate($request,[
+        //     'id_supplier_fk' => 'required',
+        //     'id_sparepartCabang_fk' => 'required',
+        //     'status_pengadaan' => 'required',
+        //     'satuan_pengadaan' => 'required',
+        //     'totalHarga_pengadaan' => 'required',
+        //     'totalBarang_datang' => 'required',
+        //     'tgl_pengadaan' => 'required',
+        //     'tgl_barangDatang' => 'required',
+        //     'statusCetak_pengadaan' => 'required',
+        // ]);
         
         try{
+            date_default_timezone_set('Asia/Jakarta');
             $pengadaanSparepart = new PengadaanSparepart;
         
             $pengadaanSparepart->id_supplier_fk = $request->id_supplier_fk;
             $pengadaanSparepart->id_sparepartCabang_fk = $request->id_sparepartCabang_fk;
-            $pengadaanSparepart->status_pengadaan = $request->status_pengadaan;
+            $pengadaanSparepart->status_pengadaan = "Belum Selesai";
             $pengadaanSparepart->satuan_pengadaan = $request->satuan_pengadaan;
             $pengadaanSparepart->totalHarga_pengadaan = $request->totalHarga_pengadaan;
-            $pengadaanSparepart->totalBarang_datang = $request->totalBarang_datang;
-            $pengadaanSparepart->tgl_pengadaan = $request->tgl_pengadaan;
-            $pengadaanSparepart->tgl_barangDatang = $request->tgl_barangDatang;
-            $pengadaanSparepart->statusCetak_pengadaan = $request->statusCetak_pengadaan;
+            $pengadaanSparepart->totalBarang_datang = 0;
+            $pengadaanSparepart->tgl_pengadaan = date("Y-m-d").' '.date('H:i:s');
+            $pengadaanSparepart->tgl_barangDatang = date("Y-m-d").' '.date('H:i:s');
+            $pengadaanSparepart->statusCetak_pengadaan = "Belum Cetak";
             
             $pengadaanSparepart->save();
 
@@ -71,7 +72,7 @@ class PengadaanSparepartController extends RestController
         $satuan_pengadaan = $request->satuan_pengadaan;
         $totalHarga_pengadaan = $request->totalHarga_pengadaan;
         $totalBarang_datang = $request->totalBarang_datang;
-        $tgl_pengadaan = $request->tgl_pengadaan;
+       // $tgl_pengadaan = $request->tgl_pengadaan;
         $tgl_barangDatang = $request->tgl_barangDatang;
         $statusCetak_pengadaan = $request->statusCetak_pengadaan;
 
@@ -83,7 +84,7 @@ class PengadaanSparepartController extends RestController
             $pengadaanSparepart->satuan_pengadaan = $satuan_pengadaan;
             $pengadaanSparepart->totalHarga_pengadaan = $totalHarga_pengadaan;
             $pengadaanSparepart->totalBarang_datang = $totalBarang_datang;
-            $pengadaanSparepart->tgl_pengadaan = $tgl_pengadaan;
+            //$pengadaanSparepart->tgl_pengadaan = $tgl_pengadaan;
             $pengadaanSparepart->tgl_barangDatang = $tgl_barangDatang;
             $pengadaanSparepart->statusCetak_pengadaan = $statusCetak_pengadaan;
             
@@ -95,7 +96,7 @@ class PengadaanSparepartController extends RestController
         }catch(\Exception $e){
             return $this->sendIseResponse($e->getMessage());
         }catch (ModelNotFoundException $e) {
-            return $this->sendNotFoundResponse('cabang_tidak_ditemukan');
+            return $this->sendNotFoundResponse('pengadaan_tidak_ditemukan');
         }
         
     }
@@ -108,7 +109,7 @@ class PengadaanSparepartController extends RestController
 
             return response()->json('Successs', 201);
         }catch (ModelNotFoundException $e) {
-            return $this->sendNotFoundResponse('cabang_tidak_ditemukan');
+            return $this->sendNotFoundResponse('pengadaan_tidak_ditemukan');
         }catch(\Exception $e){
             return $this->sendIseResponse($e->getMessage());
         }

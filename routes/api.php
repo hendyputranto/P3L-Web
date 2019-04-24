@@ -83,6 +83,7 @@ Route::delete('sparepart/{kode}','SparepartController@delete');
 //Sparepart Cabang
 Route::get('sparepartCabang','SparepartCabangController@show');
 Route::get('sparepartCabang/{id}','SparepartCabangController@showById');
+Route::get('sparepartCabang/stokKurang','SparepartCabangController@showStokKurang');
 Route::post('sparepartCabang','SparepartCabangController@create');
 Route::put('sparepartCabang/{id}','SparepartCabangController@update');
 Route::delete('sparepartCabang/{id}','SparepartCabangController@delete');

@@ -29,6 +29,7 @@
                     </div>
                     </div>
                 </span> -->
+                <h4>Edit Pengadaan Sparepart</h4>
                 <div class="form-group">
                     <label class="control-label col-sm-4" for="id_cabang">CABANG</label>
                     <div class="col-sm-5">
@@ -36,40 +37,34 @@
                             <option value=""  >---Pilih Cabang---</option>
                         </select>
                     </div>
-                    <div class="col-sm-offset-9 ">
-                        <button type="button" class="btn btn-info" onclick="tampil()">TAMPIL PENGADAAN</button>
                     </div>
-                    </div>
-                 
-                
+                <br>
                 <h5>Sparepart Dengan Stok Kurang</h5>
                 <table class="table table-bordered text-center" id="tableSparepartKurang">
                     <thead>
                     <tr>
                         <th>KODE SPAREPART</th>
-                        <!-- <th>NAMA</th>
-                        <th>MERK</th>
-                        <th>TIPE</th> -->
+                        
                         <th>STOK SISA</th>
-                        <!-- <th>Satuan Pengadaan</th>
-                        <th>Total Harga</th>
-                        <th>Total Barang Datang</th>
-                        <th>Tanggal Pengadaan</th>
-                        <th>Tanggal Barang datang</th>
-                        <th>Status Cetak</th> -->
-                        <!-- <th>PILIHAN</th> -->
+                        
                     </tr>
                     </thead>
                 </table>
-                <h4>Pengadaan Sparepart</h4>
+                
                 <table>
-                <form class="form-horizontal">
+
                     <div class="form-group">
                     <label class="control-label col-sm-4" for="id_supplier">SUPPLIER</label>
                     <div class="col-sm-8">
                         <select class="form-control" id = "id_supplier" name = "id_supplier">
                             <option value="">---Pilih Supplier---</option>
                         </select>
+                    </div>
+                    </div>
+                    <div class="form-group">
+                    <label class="control-label col-sm-4" for="status_pengadaan">STATUS PENGADAAN</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="status_pengadaan" placeholder="Status Pengadaan" name="status_pengadaan" readonly>
                     </div>
                     </div>
                     <div class="form-group">
@@ -81,14 +76,6 @@
                     </div>
                     </div>
 
-                    <!-- <div class="form-group">
-                    <label class="control-label col-sm-4" for="merk_sparepart">MERK SPAREPART</label>
-                    <div class="col-sm-8">
-                        <select class="form-control" id = "merk_sparepart" name = "merk_sparepart">
-                            <option value="">---Pilih Merk Sparepart---</option>
-                        </select>
-                    </div>
-                    </div> -->
                     <div class="form-group">
                     <label class="control-label col-sm-4" for="hargaBeli_sparepart">Harga</label>
                     <div class="col-sm-8">
@@ -110,7 +97,11 @@
                     </div>
 
 
-                    
+                    <div class="form-group">
+                    <div class="col-sm-offset-10 ">
+                        <button type="button" class="btn btn-info" onclick="tampil()">TAMPIL PENGADAAN</button>
+                    </div>
+                    </div>
 
                     <div class="form-group">
                     <div class="col-sm-offset-10 col-sm-20">
@@ -118,7 +109,7 @@
                         <button type="submit" value="Submit" class="btn btn-success" onclick="simpan()">SIMPAN</button>
                     </div>
                     </div>
-                </form>
+
             </table>
             </div>
         </div>
@@ -128,15 +119,40 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>     
         let sparepartKurang;
-        let total;
-        let id_sparepartCabang;
+        let harga1;
+        let id_sparepartCabang,id_supplier_fk, totalBarang_datang, tgl_pengadaan, tgl_barangDatang, statusCetak_pengadaan;
         let select1 = document.querySelector('#id_supplier');
         let select2 = document.querySelector('#id_cabang');
         let select3 = document.querySelector('#kode_sparepart');
         let select4 = document.querySelector('#hargaBeli_sparepart');
         let tableSparepartKurang = document.querySelector('#tableSparepartKurang');
         let col = ['kode_sparepart_fk','stokSisa_sparepart'];
+        let b = localStorage.getItem("id_pengadaan");
+        let data;
         
+        //get data ke field
+        console.log(b);
+        axios.get('http://127.0.0.1:8000/api/pengadaanSparepart/'+b)
+        .then(function (response) {
+            // handle success
+            data = response.data.data;
+            let col = ['id_pengadaan','id_supplier_fk','id_sparepartCabang_fk','status_pengadaan','satuan_pengadaan','totalHarga_pengadaan','totalBarang_datang','tgl_barangDatang','statusCetak_pengadaan'];
+            id_supplier_fk = data[col[1]];
+            id_sparepartCabang = data[col[2]];
+            document.getElementById("status_pengadaan").value = data[col[3]];
+            document.getElementById("satuan_pengadaan").value = data[col[4]];
+            document.getElementById("total_harga").value = data[col[5]];
+            totalBarang_datang = data[col[6]];
+            tgl_barangDatang = data[col[7]];
+            statusCetak_pengadaan = data[col[8]];
+            //console.log(statusCetak_pengadaan);
+            console.log(data[col[1]]);
+            console.log(data);
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        });
         //tabel sparepart kurang
         function tampilData(){
             axios.get('http://127.0.0.1:8000/api/sparepartCabang')
@@ -154,7 +170,7 @@
                         for(j=0;j<=col.length;j++){
                             td = tr.insertCell();
                             if(j==col.length){
-                                
+                
                             }
                             else{
                                 td.innerHTML = sparepartKurang[i][col[j]];
@@ -181,7 +197,10 @@
                         option.appendChild(txt);
                         option.setAttribute('value', sparepart[i].kode_sparepart_fk);
                         select3.insertBefore(option, select3.lastChild);
-                    }
+                    }// }else if(sparepart[i].id_cabang_fk == id_sparepartCabang)
+                    // {
+                    //     document.getElementById("kode_sparepart") = sparepart[i].kode_sparepart_fk;
+                    // }
                     
                 }
             }).catch((error) => {
@@ -198,11 +217,17 @@
             
             for(let i=0; i<supplier.length; i++){
                 // console.log("test3");
+                if(id_supplier_fk == supplier[i].id_supplier)
+                    {
+                        console.log(id_supplier_fk);
+                        document.getElementById("id_supplier").value = supplier[i].nama_supplier;
+                    }
                 let option = document.createElement('option');
                 let txt = document.createTextNode(supplier[i].nama_supplier);
                 option.appendChild(txt);
                 option.setAttribute('value', supplier[i].id_supplier);
                 select1.insertBefore(option, select1.lastChild);
+                
             }
         }).catch((error) => {
             console.log(error);
@@ -267,6 +292,7 @@
             //return total;
             
         }
+        
         //hanya angka
         function hanyaAngka(evt) {
         var charCode = (evt.which) ? evt.which : event.keyCode
@@ -281,26 +307,42 @@
         }
         //simpan
         function simpan(){
-        let id_supplier_fk = document.querySelector('#id_supplier').value;
-        let id_sparepartCabang_fk = id_sparepartCabang;
-        let satuan_pengadaan = document.querySelector('#satuan_pengadaan').value;
-        let totalHarga_pengadaan = document.querySelector('#total_harga').value;
-        let formData = new FormData();
-        formData.append('id_supplier_fk', id_supplier_fk);
-        formData.append('id_sparepartCabang_fk', id_sparepartCabang_fk);
-        formData.append('satuan_pengadaan', satuan_pengadaan);
-        formData.append('totalHarga_pengadaan', totalHarga_pengadaan);
-        axios.post('http://127.0.0.1:8000/api/pengadaanSparepart', formData)
-        .then((result) =>{
-            console.log(result);
-            alert("Data Pengadaan Berhasil di Tambahkan");
-           // location.href = "{{ url('/pengadaan')}}";
-        })
-        .catch((error) =>{
-            console.log(error.response);
-        });
-        
-        return false;
+            let formData = new FormData; 
+            let id_supplier_fk = document.querySelector('#id_supplier').value;
+            console.log(id_supplier_fk);
+            //let id_sparepartCabang_fk = id_sparepartCabang;
+            let satuan_pengadaan = document.querySelector('#satuan_pengadaan').value;
+            console.log(satuan_pengadaan);
+            let totalHarga_pengadaan = document.querySelector('#total_harga').value;
+            console.log(totalHarga_pengadaan);
+            let status_pengadaan = document.getElementById("status_pengadaan").value;
+            console.log(status_pengadaan);
+            console.log(id_sparepartCabang);
+            console.log(totalBarang_datang);
+            console.log(tgl_barangDatang);
+            console.log(statusCetak_pengadaan);
+            formData.append('_method', 'PUT');
+            formData.append('id_supplier_fk', id_supplier_fk);
+            formData.append('id_sparepartCabang_fk', id_sparepartCabang);
+            formData.append('satuan_pengadaan', satuan_pengadaan);
+            formData.append('totalHarga_pengadaan', totalHarga_pengadaan);
+            formData.append('status_pengadaan', status_pengadaan);
+            formData.append('totalHarga_pengadaan', totalHarga_pengadaan);
+            formData.append('totalBarang_datang', totalBarang_datang);
+            formData.append('tgl_barangDatang', tgl_barangDatang);
+            formData.append('statusCetak_pengadaan', statusCetak_pengadaan);
+            console.log(b);
+            axios.post('http://127.0.0.1:8000/api/pengadaanSparepart/' + b, formData)
+                    .then((result) => {
+                        console.log(result);
+                        location.href = "{{ url('/tPengadaan')}}";
+                        edited = false;
+                        alert("Data berhasil Di Update");
+                    }).catch((err) => {
+                        console.log(err);
+                    });
     }
+
+    
     </script>
 @endsection

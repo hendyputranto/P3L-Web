@@ -18,19 +18,6 @@
       padding-top: 70px;
     }
 
-    .jumbotron1 {
-    padding-top: 10px; 
-    padding-bottom: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    color: inherit;
-    background-color: #66CDAA;
-    }
-
-    .jumbotron1>img {
-      float: right;
-    }
-
     h1 {
       text-transform: uppercase;
       color: #191970;
@@ -38,7 +25,7 @@
     }
 
     body {
-      background-color: lightblue;
+      background-color: #C0C0C0;
     }
   </style>
 </head>
@@ -47,14 +34,24 @@
 <nav class="navbar navbar-default" data-spy="affix" data-offset-top="128" padding-top="70px">
   <div class="container-fluid">
     <div class="navbar-header">
-
     </div>
-    <ul class="nav navbar-nav" display="none">
-      <li class="{{Request::is('/') ? 'active' : null}}"><a href="{{ url('/')}}">Pengadaan Sparepart</a></li>
-      
+    <img src="gambar/logosimato.png" alt="" width="50" height="50">
+    <ul class="nav navbar-nav navbar-right" display="none" >
+      <li class="{{Request::is('/') ? 'active' : null}}"><a href="{{ url('/pengadaan')}}">Pengadaan Sparepart</a></li>
+      <li class="dropdown {{Request::is('keloladata/*') ? 'active' : null }}"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Kelola Data <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li class="{{Request::is('keloladata/dcabang') ? 'active' : null}}"><a href="{{ route('dcabang') }}">Cabang</a></li>
+          <li class="divider"></li>
+          <li class="{{Request::is('keloladata/dpegawai') ? 'active' : null}}"><a href="{{ route('dpegawai') }}">Pegawai</a></li>
+          <li class="divider"></li>
+          <li class="{{Request::is('keloladata/dsupplier') ? 'active' : null}}"><a href="{{ route('dsupplier') }}">Supplier</a></li>
+          <li class="divider"></li>
+          <li class="{{Request::is('keloladata/dsparepart') ? 'active' : null}}"><a href="{{ route('dsparepart') }}">Sparepart</a></li>
+          <li class="divider"></li>
+          <li class="{{Request::is('keloladata/djasaService') ? 'active' : null}}"><a href="{{ route('djasaService') }}">Jasa Service</a></li>
+        </ul>
+      </li>
       <li><a href="#">Laporan</a></li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
       <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Keluar</a></li>
     </ul>
   </div>
