@@ -21,6 +21,6 @@ class SparepartCabang extends Model
         return $this->belongsTo('app\Sparepart');
     }
     public function cabang(){
-        return $this->belongsTo('app\Cabang');
+        return $this->belongsTo('app\Cabang','id_cabang','id_cabang_fk'); // ini ada sinta edit
     }
 }
