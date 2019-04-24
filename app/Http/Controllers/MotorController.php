@@ -31,13 +31,13 @@ class MotorController extends RestController
     public function create(request $request){
         
         $this->validate($request,[
-            'kode_sparepart_fk' => 'required',
+            // 'kode_sparepart_fk' => 'required',
             'merk_motor' => 'required',
             'tipe_motor' => 'required',
         ]);   
         try{
             $motor = new Motor;
-            $motor->kode_sparepart_fk = $request->kode_sparepart_fk;
+            // $motor->kode_sparepart_fk = $request->kode_sparepart_fk;
             $motor->merk_motor = $request->merk_motor;
             $motor->tipe_motor = $request->tipe_motor;
 
@@ -53,13 +53,13 @@ class MotorController extends RestController
     }
     //update data
     public function update(request $request, $id_motor){
-        $kode_sparepart_fk = $request->kode_sparepart_fk;
+        // $kode_sparepart_fk = $request->kode_sparepart_fk;
         $merk_motor = $request->merk_motor;
         $tipe_motor = $request->tipe_motor;
 
         try{
             $motor = Motor::find($id_motor);
-            $motor->kode_sparepart_fk = $kode_sparepart_fk;
+            // $motor->kode_sparepart_fk = $kode_sparepart_fk;
             $motor->merk_motor = $merk_motor;
             $motor->tipe_motor = $tipe_motor;
             

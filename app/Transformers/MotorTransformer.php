@@ -13,7 +13,7 @@ class MotorTransformer extends TransformerAbstract
     {
         return [
             'id_motor' => $motor->id_motor,
-            'kode_sparepart_fk' => $motor->kode_sparepart_fk,
+            // 'kode_sparepart_fk' => $motor->kode_sparepart_fk,
             'merk_motor' => $motor->merk_motor,
             'tipe_motor' => $motor->tipe_motor,
         ];
