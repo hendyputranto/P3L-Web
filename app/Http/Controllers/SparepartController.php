@@ -47,7 +47,7 @@ class SparepartController extends RestController
             $sparepart->nama_sparepart = $request->nama_sparepart;
             $sparepart->merk_sparepart = $request->merk_sparepart;
             $sparepart->tipe_sparepart = $request->tipe_sparepart;
-            $sparepart->gambar_sparepart = $request->gambar_sparepart;
+            // $sparepart->gambar_sparepart = $request->gambar_sparepart;
             
             $sparepart->save();
 
