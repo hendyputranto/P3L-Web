@@ -60,10 +60,10 @@ class SparepartController extends RestController
         
     }
     //update data
-    public function update(request $request, $kode_sparepart){
+    public function update(request $request, $kode){
 
         try{
-            $sparepart = Sparepart::find($kode_sparepart);
+            $sparepart = Sparepart::find($kode);
 
             if($request->hasfile('gambar_sparepart'))
             {
