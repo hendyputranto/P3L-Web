@@ -76,7 +76,7 @@ class SparepartController extends RestController
             }
             $sparepart->kode_sparepart = $request->get('kode_sparepart');
             $sparepart->nama_sparepart = $request->get('nama_sparepart');
-            $sparepart->merk_sparepart = $request->get('merk_sparepart');;
+            $sparepart->merk_sparepart = $request->get('merk_sparepart');
             $sparepart->tipe_sparepart = $request->get('tipe_sparepart');
             $sparepart->save();
 
