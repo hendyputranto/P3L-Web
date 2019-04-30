@@ -77,7 +77,7 @@ Route::delete('supplier/{id}','SupplierController@delete');
 Route::get('sparepart','SparepartController@show');
 Route::get('sparepart/{kode}','SparepartController@showById');
 Route::post('sparepart/store','SparepartController@create');
-Route::put('sparepart/{kode}','SparepartController@update');
+Route::post('sparepart/{kode}','SparepartController@update');
 Route::delete('sparepart/{kode}','SparepartController@delete');
 
 //Sparepart Cabang

@@ -60,7 +60,8 @@ class SparepartController extends RestController
         
     }
     //update data
-    public function update(request $request, $kode){
+    public function update(Request $request, $kode)
+    {
         try{
             $sparepart = Sparepart::find($kode);
 
@@ -70,11 +71,9 @@ class SparepartController extends RestController
                 $name=time().$file->getClientOriginalName();
                 $file->move(public_path().'/images/', $name);
                 $sparepart->gambar_sparepart=$name;
-            }else
-            {
-                $sparepart->gambar_sparepart = NULL;
             }
-            $sparepart->kode_sparepart = $request->get('kode_sparepart');
+
+            // $sparepart->kode_sparepart = $request->get('kode_sparepart');
             $sparepart->nama_sparepart = $request->get('nama_sparepart');
             $sparepart->merk_sparepart = $request->get('merk_sparepart');
             $sparepart->tipe_sparepart = $request->get('tipe_sparepart');
@@ -88,7 +87,6 @@ class SparepartController extends RestController
         }catch (ModelNotFoundException $e) {
             return $this->sendNotFoundResponse('sparepart_tidak_ditemukan');
         }
-        
     }
 
     //hapus data
