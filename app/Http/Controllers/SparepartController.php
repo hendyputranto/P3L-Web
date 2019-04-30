@@ -62,12 +62,6 @@ class SparepartController extends RestController
     //update data
     public function update(request $request, $kode_sparepart){
 
-        $kode_sparepart = $request->kode_sparepart;
-        $nama_sparepart = $request->nama_sparepart;
-        $merk_sparepart = $request->merk_sparepart;
-        $tipe_sparepart = $request->tipe_sparepart;
-        $gambar_sparepart = $request->gambar_sparepart;
-
         try{
             $sparepart = Sparepart::find($kode_sparepart);
 
@@ -78,12 +72,10 @@ class SparepartController extends RestController
                 $file->move(public_path().'/images/', $name);
                 $sparepart->gambar_sparepart=$name;
             }
-            $sparepart->kode_sparepart = $kode_sparepart;
-            $sparepart->nama_sparepart = $nama_sparepart;
-            $sparepart->merk_sparepart = $merk_sparepart;
-            $sparepart->tipe_sparepart = $tipe_sparepart;
-            $sparepart->gambar_sparepart = $gambar_sparepart;
-            
+            $sparepart->kode_sparepart = $request->kode_sparepart;
+            $sparepart->nama_sparepart = $request->nama_sparepart;
+            $sparepart->merk_sparepart = $request->merk_sparepart;
+            $sparepart->tipe_sparepart = $request->tipe_sparepart;
             $sparepart->save();
 
             $response = $this->generateItem($sparepart);
