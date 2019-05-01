@@ -88,7 +88,30 @@ class SparepartController extends RestController
             return $this->sendNotFoundResponse('sparepart_tidak_ditemukan');
         }
     }
+    //update data
+    public function updateImageMobile(Request $request, $kode)
+    {
+        try{
+            $sparepart = Sparepart::find($kode);
 
+            if($request->hasfile('gambar_sparepart'))
+            {
+                $file = $request->file('gambar_sparepart');
+                $name=time().$file->getClientOriginalName();
+                $file->move(public_path().'/images/', $name);
+                $sparepart->gambar_sparepart=$name;
+            }
+            $sparepart->save();
+
+            $response = $this->generateItem($sparepart);
+
+            return $this->sendResponse($response, 201);
+        }catch(\Exception $e){
+            return $this->sendIseResponse($e->getMessage());
+        }catch (ModelNotFoundException $e) {
+            return $this->sendNotFoundResponse('sparepart_tidak_ditemukan');
+        }
+    }
     //hapus data
     public function delete($kode_sparepart){
         try{
