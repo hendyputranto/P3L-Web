@@ -11,9 +11,9 @@ class Motor extends Model
     protected $primaryKey = 'id_motor';
 
     public function sparepart(){
-        return $this->belongsTo('app\Sparepart');
+        return $this->belongsTo('App\Sparepart');
     }
     public function motor_konsumen(){
-        return $this->hasMany('app\MotorKonsumen', 'id_motor');
+        return $this->hasMany('App\MotorKonsumen', 'id_motor');
     }
 }

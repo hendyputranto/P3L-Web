@@ -10,12 +10,12 @@ class Detil_TransaksiService extends Model
     protected $primaryKey = 'id_detilTransaksiService';
 
     public function jasa_service(){
-        return $this->belongsTo('app\JasaService');
+        return $this->belongsTo('App\JasaService');
     }
     public function transaksi_penjualan(){
-        return $this->belongsTo('app\TransaksiPenjualan');
+        return $this->belongsTo('App\TransaksiPenjualan');
     }
     public function motor_konsumen(){
-        return $this->belongsTo('app\MotorKonsumen');
+        return $this->belongsTo('App\MotorKonsumen');
     }
 }

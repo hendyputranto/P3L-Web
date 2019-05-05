@@ -11,10 +11,10 @@ class PengadaanSparepart extends Model
     protected $primaryKey = 'id_pengadaan';
 
     public function supplier(){
-        return $this->belongsTo('app\Supplier');
+        return $this->belongsTo('App\Supplier');
     }
 
     public function sparepart_cabang(){
-        return $this->belongsTo('app\SparepartCabang');
+        return $this->belongsTo('App\SparepartCabang');
     }
 }

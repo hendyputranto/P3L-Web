@@ -15,12 +15,12 @@ class Cabang extends Model
         'noTelp_cabang'
     ];
     public function pegawai(){
-        return $this->hasMany('app\Pegawai', 'id_cabang');
+        return $this->hasMany('App\Pegawai', 'id_cabang');
     }
     public function transaksi_penjualan(){
-        return $this->hasMany('app\TransaksiPenjualan', 'id_cabang');
+        return $this->hasMany('App\TransaksiPenjualan', 'id_cabang');
     }
-    public function sparepart_cabang(){
-        return $this->hasMany('app\SparepartCabang', 'id_cabang','id_cabang_fk'); //ini ada sinta edit
-    }
+    // public function sparepart_cabang(){
+    //     return $this->hasMany('app\SparepartCabang', 'id_cabang','id_cabang_fk'); //ini ada sinta edit
+    // }
 }

@@ -10,6 +10,6 @@ class Konsumen extends Model
     protected $primaryKey = 'id_konsumen';
 
     public function motor_konsumen(){
-        return $this->hasMany('app\MotorKonsumen', 'id_konsumen');
+        return $this->hasMany('App\MotorKonsumen', 'id_konsumen');
     }
 }

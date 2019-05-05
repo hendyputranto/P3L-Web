@@ -11,12 +11,12 @@ class Detil_TransaksiSparepart extends Model
     protected $primaryKey = 'id_detilTransaksiSparepart';
 
     public function transaksi_penjualan(){
-        return $this->belongsTo('app\TransaksiPenjualan');
+        return $this->belongsTo('App\TransaksiPenjualan');
     }
     public function motor_konsumen(){
-        return $this->belongsTo('app\MotorKonsumen');
+        return $this->belongsTo('App\MotorKonsumen');
     }
     public function sparepart_cabang(){
-        return $this->belongsTo('app\SparepartCabang');
+        return $this->belongsTo('App\SparepartCabang');
     }
 }
