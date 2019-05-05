@@ -73,11 +73,12 @@ Route::post('supplier','SupplierController@create');
 Route::put('supplier/{id}','SupplierController@update');
 Route::delete('supplier/{id}','SupplierController@delete');
 
-//Spareart
+//Sparepart
 Route::get('sparepart','SparepartController@show');
 Route::get('sparepart/{kode}','SparepartController@showById');
-Route::post('sparepart','SparepartController@create');
-Route::put('sparepart/{kode}','SparepartController@update');
+Route::post('sparepart/store','SparepartController@create');
+Route::post('sparepart/{kode}','SparepartController@update');
+Route::post('sparepart/updateImageMobile/{kode}','SparepartController@updateImageMobile');
 Route::delete('sparepart/{kode}','SparepartController@delete');
 
 //Sparepart Cabang

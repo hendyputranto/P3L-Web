@@ -15,12 +15,12 @@ class CreateMotorsTable extends Migration
     {
         Schema::create('motors', function (Blueprint $table) {
             $table->increments('id_motor');
-            $table->string('kode_sparepart_fk', 25);
+            // $table->string('kode_sparepart_fk', 25);
             $table->string('merk_motor',15);
             $table->string('tipe_motor',30);
             $table->timestamps();
 
-            $table->foreign('kode_sparepart_fk')->references('kode_sparepart')->on('spareparts');
+            // $table->foreign('kode_sparepart_fk')->references('kode_sparepart')->on('spareparts');
         });
     }
 

@@ -76,6 +76,47 @@ class MotorKonsumenController extends RestController
         
     }
 
+    public function findDataKonsumen($id_motorKonsumen)
+    {
+        try{
+            $FinalDataKonsumen = new Konsumen;
+            
+            $DataKonsumen = MotorKonsumen::find($id_motorKonsumen);
+            $FinalDataKonsumen = Konsumen::find($DataKonsumen->id_konsumen_fk);
+            $response = $this->generateItem($FinalDataKonsumen);
+            
+            return $this->sendResponse($response,201);
+        }
+        catch (ModelNotFoundException $e)
+        {
+                return $this->sendNotFoundResponse('motorKonsumen_not_found');
+        }
+        catch (\Exception $e)
+        {
+                return $this->sendIseResponse($e->getMessage());
+        }
+    }
+    public function findDataMotor($id_motorKonsumen)
+    {
+        try{
+            $FinalDataMotor = new Motor;
+            
+            $DataMotor = MotorKonsumen::find($id_motorKonsumen);
+            $FinalDataMotor = Motor::find($DataKonsumen->id_motor_fk);
+            $response = $this->generateItem($FinalDataMotor);
+            
+            return $this->sendResponse($response,201);
+        }
+        catch (ModelNotFoundException $e)
+        {
+                return $this->sendNotFoundResponse('motorKonsumen_not_found');
+        }
+        catch (\Exception $e)
+        {
+                return $this->sendIseResponse($e->getMessage());
+        }
+    }
+
     //hapus data
     public function delete($id_motorKonsumen){
         try{

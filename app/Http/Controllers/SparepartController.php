@@ -60,16 +60,10 @@ class SparepartController extends RestController
         
     }
     //update data
-    public function update(request $request, $kode_sparepart){
-
-        $kode_sparepart = $request->kode_sparepart;
-        $nama_sparepart = $request->nama_sparepart;
-        $merk_sparepart = $request->merk_sparepart;
-        $tipe_sparepart = $request->tipe_sparepart;
-        $gambar_sparepart = $request->gambar_sparepart;
-
+    public function update(Request $request, $kode)
+    {
         try{
-            $sparepart = Sparepart::find($kode_sparepart);
+            $sparepart = Sparepart::find($kode);
 
             if($request->hasfile('gambar_sparepart'))
             {
@@ -78,12 +72,11 @@ class SparepartController extends RestController
                 $file->move(public_path().'/images/', $name);
                 $sparepart->gambar_sparepart=$name;
             }
-            $sparepart->kode_sparepart = $kode_sparepart;
-            $sparepart->nama_sparepart = $nama_sparepart;
-            $sparepart->merk_sparepart = $merk_sparepart;
-            $sparepart->tipe_sparepart = $tipe_sparepart;
-            $sparepart->gambar_sparepart = $gambar_sparepart;
-            
+
+            // $sparepart->kode_sparepart = $request->get('kode_sparepart');
+            $sparepart->nama_sparepart = $request->get('nama_sparepart');
+            $sparepart->merk_sparepart = $request->get('merk_sparepart');
+            $sparepart->tipe_sparepart = $request->get('tipe_sparepart');
             $sparepart->save();
 
             $response = $this->generateItem($sparepart);
@@ -94,9 +87,31 @@ class SparepartController extends RestController
         }catch (ModelNotFoundException $e) {
             return $this->sendNotFoundResponse('sparepart_tidak_ditemukan');
         }
-        
     }
+    //update data
+    public function updateImageMobile(Request $request, $kode)
+    {
+        try{
+            $sparepart = Sparepart::find($kode);
 
+            if($request->hasfile('gambar_sparepart'))
+            {
+                $file = $request->file('gambar_sparepart');
+                $name=time().$file->getClientOriginalName();
+                $file->move(public_path().'/images/', $name);
+                $sparepart->gambar_sparepart=$name;
+            }
+            $sparepart->save();
+
+            $response = $this->generateItem($sparepart);
+
+            return $this->sendResponse($response, 201);
+        }catch(\Exception $e){
+            return $this->sendIseResponse($e->getMessage());
+        }catch (ModelNotFoundException $e) {
+            return $this->sendNotFoundResponse('sparepart_tidak_ditemukan');
+        }
+    }
     //hapus data
     public function delete($kode_sparepart){
         try{
