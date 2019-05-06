@@ -106,4 +106,20 @@ Route::get('/usparepart', function () {
     return view('page.ubahsparepart');
 });
 
+Route::get('/transaksiSV', function () {
+    return view('page.transaksiPenjualan');
+});
+
+Route::get('/transaksiSP', function () {
+    return view('page.transaksiPenjualanSparepart');
+});
+
+Route::get('/ttransaksi', function () {
+    return view('page.tampilTransaksi');
+});
+
+Route::get('/ttransaksis', function () {
+    return view('page.tampilTransaksi1');
+});
+
 //Route::resource('Konsumen','KonsumenController');

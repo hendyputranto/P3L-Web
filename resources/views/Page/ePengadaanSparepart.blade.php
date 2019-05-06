@@ -132,7 +132,7 @@
         
         //get data ke field
         console.log(b);
-        axios.get('http://127.0.0.1:8000/api/pengadaanSparepart/'+b)
+        axios.get('http://10.53.0.225:8000/api/pengadaanSparepart/'+b)
         .then(function (response) {
             // handle success
             data = response.data.data;
@@ -155,7 +155,7 @@
         });
         //tabel sparepart kurang
         function tampilData(){
-            axios.get('http://127.0.0.1:8000/api/sparepartCabang')
+            axios.get('http://10.53.0.225:8000/api/sparepartCabang')
             .then((result) => {
                 sparepartKurang = result.data.data;
                 let cek = document.getElementById("id_cabang").value;
@@ -183,7 +183,7 @@
                 console.log(error);
             });
             //kode sprepart dropdown
-            axios.get('http://127.0.0.1:8000/api/sparepartCabang')
+            axios.get('http://10.53.0.225:8000/api/sparepartCabang')
             .then((result) => {
                 sparepart = result.data.data;
                 let cek = document.getElementById("id_cabang").value;
@@ -211,7 +211,7 @@
         
         
         //supplier dropdown
-        axios.get('http://127.0.0.1:8000/api/supplier')
+        axios.get('http://10.53.0.225:8000/api/supplier')
         .then((result) => {
             supplier = result.data.data;
             
@@ -236,7 +236,7 @@
         
         //harga sprepart dropdown
         function harga(){
-            axios.get('http://127.0.0.1:8000/api/sparepartCabang')
+            axios.get('http://10.53.0.225:8000/api/sparepartCabang')
             .then((result) => {
                 sparepart = result.data.data;
                 let cek = document.getElementById("kode_sparepart").value;
@@ -262,7 +262,7 @@
         
 
         //cabang dropdown
-        axios.get('http://127.0.0.1:8000/api/cabang')
+        axios.get('http://10.53.0.225:8000/api/cabang')
         .then((result) => {
             cabang = result.data.data;
             console.log(cabang);
@@ -332,7 +332,7 @@
             formData.append('tgl_barangDatang', tgl_barangDatang);
             formData.append('statusCetak_pengadaan', statusCetak_pengadaan);
             console.log(b);
-            axios.post('http://127.0.0.1:8000/api/pengadaanSparepart/' + b, formData)
+            axios.post('http://10.53.0.225:8000/api/pengadaanSparepart/' + b, formData)
                     .then((result) => {
                         console.log(result);
                         location.href = "{{ url('/tPengadaan')}}";

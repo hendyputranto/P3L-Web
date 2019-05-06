@@ -15,6 +15,6 @@ class Sparepart extends Model
     }
 
     public function motor(){
-        return $this->hasMany('app\Motor', 'kode_sparepart');
+        return $this->hasMany('App\Motor', 'kode_sparepart');
     }
 }

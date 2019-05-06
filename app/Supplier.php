@@ -11,6 +11,6 @@ class Supplier extends Model
     protected $primaryKey = 'id_supplier';
 
     public function pengadaan_sparepart(){
-        return $this->hasMany('app\PengadaanSparepart', 'id_pengadaan');
+        return $this->hasMany('App\PengadaanSparepart', 'id_pengadaan');
     }
 }

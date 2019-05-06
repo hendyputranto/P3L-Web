@@ -11,15 +11,15 @@ class TransaksiPenjualan extends Model
     protected $primaryKey = 'id_transaksi';
 
     public function pegawai_onduty(){
-        return $this->hasMany('app\Pegawai_OnDuty', 'id_transaksi');
+        return $this->hasMany('App\Pegawai_OnDuty', 'id_transaksi');
     }
     public function detil_transaksi_sparepart(){
-        return $this->hasMany('app\Detil_TransaksiSparepart', 'id_transaksi');
+        return $this->hasMany('App\Detil_TransaksiSparepart', 'id_transaksi');
     }
     public function detil_transaksi_service(){
-        return $this->hasMany('app\Detil_TransaksiService', 'id_transaksi');
+        return $this->hasMany('App\Detil_TransaksiService', 'id_transaksi');
     }
     public function cabang(){
-        return $this->belongsTo('app\Cabang');
+        return $this->belongsTo('App\Cabang');
     }
 }

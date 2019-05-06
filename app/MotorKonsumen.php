@@ -10,13 +10,13 @@ class MotorKonsumen extends Model
     protected $primaryKey = 'id_motorKonsumen';
 
     public function detil_transaksi_sparepart(){
-        return $this->hasMany('app\Detil_TransaksiSparepart', 'id_motorKonsumen');
+        return $this->hasMany('App\Detil_TransaksiSparepart', 'id_motorKonsumen');
     }
     public function detil_transaksi_service(){
-        return $this->hasMany('app\Detil_TransaksiService', 'id_motorKonsumen');
+        return $this->hasMany('App\Detil_TransaksiService', 'id_motorKonsumen');
     }
     public function montir_on_duty(){
-        return $this->hasMany('app\Montir_OnDuty', 'id_motorKonsumen');
+        return $this->hasMany('App\Montir_OnDuty', 'id_motorKonsumen');
     }
 
     public function motor(){

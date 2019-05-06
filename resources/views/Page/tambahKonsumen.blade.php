@@ -63,7 +63,7 @@
         formData.append('nama_konsumen', nama_konsumen);
         formData.append('alamat_konsumen', alamat_konsumen);
         formData.append('noTelp_konsumen', noTelp_konsumen);
-        axios.post('http://127.0.0.1:8000/api/konsumen', formData)
+        axios.post('http://192.168.0.176:8000/api/konsumen', formData)
         .then((result) =>{
             console.log(result);
             location.href = "{{ url('/konsumen')}}";

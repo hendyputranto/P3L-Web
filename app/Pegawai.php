@@ -11,16 +11,16 @@ class Pegawai extends Model
     protected $primaryKey = 'id_pegawai';
 
     public function role(){
-        return $this->belongsTo('app\Role');
+        return $this->belongsTo('App\Role');
     }
     public function cabang(){
-        return $this->belongsTo('app\Cabang');
+        return $this->belongsTo('App\Cabang');
     }
 
     public function montir_onduty(){
-        return $this->hasMany('app\Montir_OnDuty', 'id_pegawai');
+        return $this->hasMany('App\Montir_OnDuty', 'id_pegawai');
     }
     public function pegawai_onduty(){
-        return $this->hasMany('app\Pegawai_OnDuty', 'id_pegawai');
+        return $this->hasMany('App\Pegawai_OnDuty', 'id_pegawai');
     }
 }

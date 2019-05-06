@@ -11,6 +11,6 @@ class Role extends Model
     protected $primaryKey = 'id_role';
 
     public function pegawai(){
-        return $this->hasMany('app\Pegawai', 'id_role');
+        return $this->hasMany('App\Pegawai', 'id_role');
     }
 }

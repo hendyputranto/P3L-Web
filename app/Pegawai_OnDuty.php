@@ -10,9 +10,9 @@ class Pegawai_OnDuty extends Model
     protected $primaryKey = 'id_pegawaiOnDuty';
 
     public function pegawai(){
-        return $this->belongsTo('app\Pegawai');
+        return $this->belongsTo('App\Pegawai');
     }
     public function transaksi_penjualan(){
-        return $this->belongsTo('app\TransaksiPenjualan');
+        return $this->belongsTo('App\TransaksiPenjualan');
     }
 }
