@@ -18,8 +18,6 @@ class DetilTransaksiServiceTransformer extends TransformerAbstract
             'id_motorKonsumen_fk' => $dt_service->id_motorKonsumen_fk,
             'subTotal_service' => $dt_service->subTotal_service,
             'status_service' => $dt_service->status_service,
-            
-            
         ];
     }
 }

@@ -40,6 +40,14 @@ class SparepartCabangController extends RestController
         $response = $this->generateItem($sparepartCabang);
         return $this->sendResponse($response);
     }
+
+    public function showByCabang(request $request, $id)
+    {
+        $sparepart = SparepartCabang::where('id_cabang_fk',$id)->get();
+        $response = $this->generateCollection($sparepart);
+        return $this->sendResponse($response);
+    }
+
     //nambah data
     public function create(request $request){
         $this->validate($request,[
