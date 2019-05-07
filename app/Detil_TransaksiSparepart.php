@@ -11,13 +11,11 @@ class Detil_TransaksiSparepart extends Model
     protected $primaryKey = 'id_detilTransaksiSparepart';
 
     protected $fillable = [
-        'id_detilPengadaanSparepart',
-        'id_pengadaan_fk',
-        'id_sparepartCabang_fk',
-        'satuan_pengadaan',
-        'sub_total_sparepart',
-        'totalBarang_datang'
-
+        'id_detilTransaksiSparepart',
+        'id_transaksi_fk',
+        'id_motorKonsumen_fk',
+        'jumlahBeli_sparepart',
+        'subTotal_sparepart'
     ];
     public function transaksi_penjualan(){
         return $this->belongsTo('App\TransaksiPenjualan', 'id_transaksi_fk','id_transaksi');
