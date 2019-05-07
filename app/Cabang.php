@@ -21,8 +21,7 @@ class Cabang extends Model
         return $this->hasMany('App\TransaksiPenjualan', 'id_cabang');
     }
     public function sparepart_cabang(){
-        return $this->hasMany('App\SparepartCabang', 'id_cabang'); //ini ada sinta edit
-        // return $this->hasMany('app\SparepartCabang', 'id_cabang','id_cabang_fk'); //ini ada sinta edit
+        return $this->hasMany('App\SparepartCabang', 'id_cabang_fk','id_cabang'); //ini ada sinta edit
     }
     // public function sparepart_cabang(){
     //     return $this->hasMany('app\SparepartCabang', 'id_cabang','id_cabang_fk'); //ini ada sinta edit
