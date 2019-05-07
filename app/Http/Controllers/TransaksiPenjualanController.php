@@ -74,9 +74,9 @@ class TransaksiPenjualanController extends RestController
     {
         try {
             date_default_timezone_set('Asia/Jakarta');
-            $service = $request->get('Detil_TransaksiService');
-            $sparepart = $request->get('Detil_TransaksiSparepart');
-            $pegawai = $request->get('Pegawai');
+            // $service = $request->get('Detil_TransaksiService');
+            // $sparepart = $request->get('Detil_TransaksiSparepart');
+            // $pegawai = $request->get('Pegawai');
             $transaksi = new TransaksiPenjualan;
             $id = array();
 
@@ -92,14 +92,14 @@ class TransaksiPenjualanController extends RestController
             $transaksi->tgl_transaksi=date("Y-m-d").' '.date('H:i:s');
             $transaksi->diskon=$request->diskon;
             $transaksi->total_transaksi=$request->total_transaksi;
-            $transaksi->status_transaksi=$request->status_transaksi;
+            $transaksi->status_transaksi="Belum Lunas";
             
             $transaksi->save();
 
-            $transaction = DB::transaction(function () use ($transaksi,$pegawai) {
-                $transaction->employees()->attach($pegawai);
-                return $transaction;
-            });
+            // $transaction = DB::transaction(function () use ($transaksi,$pegawai) {
+            //     $transaction->employees()->attach($pegawai);
+            //     return $transaction;
+            // });
 
             // $transaksi = DB::transaction(function () use ($transaksi,$service) {
             //     $transaksi->detil_transaksi_service()->createMany($service);

@@ -37,8 +37,8 @@ class DetilTransaksiServiceController extends RestController
         
         $datas = array();
         $datas = json_decode($request->data);
-        $test = Detil_TransaksiService::where('id_detilTransaksiService', $datas[0]->id_detilTransaksiService)->delete();
-        $subtotal = 0;
+        //$test = Detil_TransaksiService::where('id_detilTransaksiService', $datas[0]->id_detilTransaksiService)->delete();
+        //$subtotal = 0;
         try{
             foreach($datas as $data){
                 $detilJasa = new Detil_TransaksiService();
@@ -47,19 +47,19 @@ class DetilTransaksiServiceController extends RestController
                 $detilJasa->id_motorKonsumen_fk = $data->id_motorKonsumen_fk;
                 $detilJasa->status_service = "Belum Selesai";
 
-                $service = JasaService::find($data->id_jasaService_fk);
-                $detilJasa->subTotal_service = $service->harga_jasaService;
+                //$service = JasaService::find($data->id_jasaService_fk);
+                $detilJasa->subTotal_service = $data->subTotal_service;
                 $detilJasa->save();
-                $subtotal += $detilJasa->subTotal_service;
-                $response = $this->generateItem($detilJasa);
+                //$subtotal += $detilJasa->subTotal_service;
+               // $response = $this->generateCollection($detilJasa);
 
-                return $this->sendResponse($response,201);
             }
-            $penjualan = TransaksiPenjualan::find($datas[0]->id_detilTransaksiService);
-            $penjualan->total_transaksi = 0 + $subtotal;
-            $penjualan->save();
-            $response = $this->generateItem($penjualan);
-            return $this->sendResponse($response,201);
+                return response()->json(['status' => 'success creating detail penjualan jasa', 'detail_penjualan_jasa' => $detilJasa], 200);
+            // $penjualan = TransaksiPenjualan::find($datas[0]->id_detilTransaksiService);
+            // $penjualan->total_transaksi = 0 + $subtotal;
+            // $penjualan->save();
+            // $response = $this->generateItem($penjualan);
+            // return $this->sendResponse($response,201);
         }catch(\Exception $e){
             return $this->sendIseResponse($e->getMessage());
         }

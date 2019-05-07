@@ -13,7 +13,7 @@ class CreateDetilTransaksiServicesTable extends Migration
      */
     public function up()
     {
-        Schema::create('detil__transaksi_services', function (Blueprint $table) {
+        Schema::create('detil_transaksi_services', function (Blueprint $table) {
             $table->increments('id_detilTransaksiService');
             $table->unsignedInteger('id_transaksi_fk');
             $table->unsignedInteger('id_jasaService_fk');

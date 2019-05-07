@@ -80,11 +80,9 @@
                     <table id= "tableDetailService" class="table table-bordered text-center">
                     <thead>
                         <tr>
-                            <th scope="col">ID Jasa Service</th>
-                            <th scope="col">ID Motor Konsumen</th>
+                            
                             <th scope="col">Nama Service</th>
-                            <!-- <th scope="col">Satuan</th> -->
-                            <!-- <th scope="col">Jumlah</th> -->
+                            
                             <th scope="col">Harga</th>
                             
                             <th scope="col">Aksi</th>
@@ -125,11 +123,11 @@
         let sparepartKurang;
         var total = 0;
         let detailService = [];
-        let det = [];
+        
         let detail = [];
         let tampung;
-        let id_service, id_motor_fk,id_cabang_fk;
-        let col2 = ['id_jasaService_fk','id_motorKonsumen_fk','nama_service', 'harga'];
+        let nama_service, id_motor_fk,id_cabang_fk;
+        let col2 = ['nama_service', 'subTotal_service'];
         let select1 = document.querySelector('#id_montir');
         let select2 = document.querySelector('#jenis_service');
         let select3 = document.querySelector('#kode_sparepart');
@@ -148,14 +146,15 @@
         }
         //tambah jasa service
         function tambah(){
+            let det = {};
             if(cekDetail() == false)
                 return false;
 
-            det.nama_service = document.querySelector('#jenis_service').value;
-            det.harga = document.querySelector('#hargaService').value;
-            det.id_jasaService_fk = id_service;
+            det.nama_service = nama_service;
+            det.subTotal_service = document.querySelector('#hargaService').value;
+            det.id_jasaService_fk = document.querySelector('#jenis_service').value;
             det.id_motorKonsumen_fk = id_motor_fk;
-            total += parseFloat(det.harga);
+            total += parseFloat(det.subTotal_service);
             // det.jumlah_pemesanan = document.querySelector('#jumlah_pemesanan').value;
             // det.harga_beli = document.querySelector('#harga_beli').value;
             
@@ -166,14 +165,14 @@
             // }
 
             detailService.push(det);
-            console.log(detailService.id_jasaService_fk);
-            console.log(detailService.id_motorKonsumen_fk);
+            // console.log(detailService.id_jasaService_fk);
+            // console.log(detailService.id_motorKonsumen_fk);
             document.querySelector('#subtotal').value = total;
             let tr = tableDetailService.insertRow(-1);
             let td = document.createElement('td'); 
-            for(j = 0; j <= Object.keys(det).length; j++){
+            for(j = 0; j <= 2; j++){
                 td = tr.insertCell();  
-                if(j == Object.keys(det).length) {
+                if(j == 2) {
                     let buttonHapus = document.createElement('input');
                     buttonHapus.setAttribute('type', 'button');
                     buttonHapus.setAttribute('value', 'Hapus');
@@ -228,8 +227,8 @@
                 let option = document.createElement('option');
                 let txt = document.createTextNode(service[i].nama_jasaService);
                 option.appendChild(txt);
-                option.setAttribute('value', service[i].nama_jasaService);
-                id_service = service[i].id_jasaService;
+                option.setAttribute('value', service[i].id_jasaService);
+                nama_service = service[i].nama_jasaService;
                // option.setAttribute('value1', service[i].nama_jasaService);
                 select2.insertBefore(option, select2.lastChild);
                 
@@ -250,7 +249,7 @@
                 //console.log(sparepart);
                 for(let i=0; i<service.length; i++){
                     console.log("test3");
-                    if(service[i].nama_jasaService == cek )
+                    if(service[i].id_jasaService == cek )
                     {
                         //id_sparepartCabang = sparepart[i].id_sparepartCabang;
                         //console.log(id_sparepartCabang);
@@ -293,9 +292,26 @@
             });
         }
         
+        function tambahDetail(detailService, id_transaksi_fk) {
+            //console.log(detail);
+            detailService.map(dts => dts.id_transaksi_fk = id_transaksi_fk);
+            let formDataDetail = new FormData(); 
+            console.log(JSON.stringify(detailService));
+            formDataDetail.append('data', JSON.stringify(detailService));
+            // formDataDetail.append('kode_sparepart', kode_sparepart);
+            // formDataDetail.append('jumlah_pemesanan', jumlah_pemesanan);
+            // formDataDetail.append('harga_beli', harga_beli);
+            // formDataDetail.append('satuan', satuan);
+            axios.post('http://127.0.0.1:8000/api/detilJasa', formDataDetail)
+            .then((result) => {
+                console.log(result);
+            }).catch((err) => {
+                console.log(err.response);
+            });
+        }
         //simpan
         function simpan(){
-        let tampung = detailService;
+        //let tampung = detailService;
         let formData = new FormData();
         formData.append('id_cabang_fk', id_cabang_fk);
         // formData.append('kode_transaksi', kode_transaksi);
@@ -307,37 +323,22 @@
             console.log(result);
             //let tes = result.data.transaksiPenjualanSV;
             //console.log("tes = ",tes);
-            for(let i = 0; i < tampung.length; i++)
-                tampung[i].id_transaksi_fk = result.data.transaksiPenjualanSV.id_transaksi;
-                console.log("tampung = ",tampung);
+            for(let i = 0; i < detailService.length; i++)
+                detailService[i].id_transaksi_fk = result.data.data.id_transaksi;
+                console.log("tampung = ",detailService);
                 //console.log(tes[i]);
             
-            tambahDetail(tampung);
+            tambahDetail(detailService, result.data.data.id_transaksi);
             alert('Data Transaksi Service Berhasil di Tambahkan');
-           // location.href = "{{ url('/pengadaan')}}";
+            location.href = "{{ url('/transaksiSV')}}";
         })
         .catch((error) =>{
-            console.log(error.response);
+            console.log(error);
         });
         
         return false;
     }
 
-    function tambahDetail(detail) {
-        console.log(detail);
-        let formDataDetail = new FormData(); 
-        console.log(JSON.stringify(detail));
-        formDataDetail.append('data', JSON.stringify(detail));
-        // formDataDetail.append('kode_sparepart', kode_sparepart);
-        // formDataDetail.append('jumlah_pemesanan', jumlah_pemesanan);
-        // formDataDetail.append('harga_beli', harga_beli);
-        // formDataDetail.append('satuan', satuan);
-        axios.post('http://192.168.0.176:8000/api/detilJasa', formDataDetail)
-        .then((result) => {
-            console.log(result);
-        }).catch((err) => {
-            console.log(err.response);
-        });
-    }
+
     </script>
 @endsection

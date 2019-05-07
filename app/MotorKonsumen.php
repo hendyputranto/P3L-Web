@@ -20,12 +20,8 @@ class MotorKonsumen extends Model
     }
 
     public function motor(){
-<<<<<<< HEAD
-        return $this->belongsTo('App\Motor');
-=======
         return $this->belongsTo('App\Motor','id_motor_fk','id_motor');
         //id_motor_fk -> ini foreign key dari Motor Konsumen, biar dia bisa dihubungkan di tabel motor.
->>>>>>> 25cc9106987ca0932c48f3884aa9c84bfc277c59
     }
 
     public function konsumen(){
