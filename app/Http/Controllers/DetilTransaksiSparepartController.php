@@ -31,6 +31,12 @@ class DetilTransaksiSparepartController extends RestController
         $response = $this->generateItem($detilSparepart);
         return $this->sendResponse($response);
     }
+    //tampil by id transaksi
+    public function showByIdTransaksi(request $request, $id_transaksi_fk){
+        $detilSparepart = Detil_TransaksiSparepart::find($id_transaksi_fk);
+        $response = $this->generateItem($detilSparepart);
+        return $this->sendResponse($response);
+    }
     //nambah data
     public function create(request $request){
         

@@ -19,6 +19,7 @@ class TransaksiPenjualanTransformer extends TransformerAbstract
             'diskon' => $transaksi->diskon,
             'total_transaksi' => $transaksi->total_transaksi,
             'status_transaksi' => $transaksi->status_transaksi,
+            //'nama_konsumen' => $transaksi->detil_transaksi_sparepart->konsumen->nama_konsumen,
             
         ];
     }

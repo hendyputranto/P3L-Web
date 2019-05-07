@@ -19,8 +19,6 @@ class DetilTransaksiSparepartTransformer extends TransformerAbstract
             'id_konsumen_fk' => $dt_sparepart->id_konsumen_fk,
             'jumlahBeli_sparepart' => $dt_sparepart->jumlahBeli_sparepart,
             'subTotal_sparepart' => $dt_sparepart->subTotal_sparepart,
-            
-            
         ];
     }
 }

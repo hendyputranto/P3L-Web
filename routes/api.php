@@ -105,6 +105,7 @@ Route::post('transaksiPenjualanSV','TransaksiPenjualanController@createSV');
 Route::post('transaksiPenjualanSP','TransaksiPenjualanController@createSP');
 Route::post('transaksiPenjualanSS','TransaksiPenjualanController@createSS');
 Route::put('transaksiPenjualan/{id}','TransaksiPenjualanController@update');
+Route::put('transaksiPenjualan/payment/{id}','TransaksiPenjualanController@payment');
 Route::delete('transaksiPenjualan/{id}','TransaksiPenjualanController@delete');
 
 //Detil Transaksi Service
@@ -117,6 +118,7 @@ Route::delete('detilJasa/{id}','DetilTransaksiServiceController@delete');
 //Detil Transaksi Sparepart
 Route::get('detilSparepart','DetilTransaksiSparepartController@show');
 Route::get('detilSparepart/{id}','DetilTransaksiSparepartController@showById');
+Route::get('detilSparepart/transaksi/{id}','DetilTransaksiSparepartController@showByIdTransaksi');
 Route::post('detilSparepart','DetilTransaksiSparepartController@create');
 //Route::put('detilSparepart/{id}','DetilTransaksiSparepartController@update');
 Route::delete('detilSparepart/{id}','DetilTransaksiSparepartController@delete');
