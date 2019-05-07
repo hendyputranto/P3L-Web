@@ -13,7 +13,7 @@ class Detil_TransaksiService extends Model
         return $this->belongsTo('App\JasaService');
     }
     public function transaksi_penjualan(){
-        return $this->belongsTo('App\TransaksiPenjualan');
+        return $this->belongsTo('App\TransaksiPenjualan', 'id_transaksi_fk','id_transaksi');
     }
     public function motor_konsumen(){
         return $this->belongsTo('App\MotorKonsumen');
