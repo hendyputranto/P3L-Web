@@ -25,7 +25,7 @@ class MotorKonsumen extends Model
     }
 
     public function konsumen(){
-        return $this->belongsTo('App\Konsumen');
+        return $this->belongsTo('App\Konsumen','id_konsumen_fk','id_konsumen');
     }
 }
 

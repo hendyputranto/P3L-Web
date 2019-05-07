@@ -11,10 +11,11 @@ class PengadaanSparepart extends Model
     protected $primaryKey = 'id_pengadaan';
 
     public function supplier(){
-        return $this->belongsTo('App\Supplier');
+        return $this->belongsTo('app\Supplier' , 'id_supplier_fk' , 'id_supplier');
+        //yang kiri itu foreign key entah dipake dimana :' D
     }
 
-    public function sparepart_cabang(){
-        return $this->belongsTo('App\SparepartCabang');
+    public function detil_pengadaansparepart(){
+        return $this->hasMany('App\DetilPengadaanSparepart','id_pengadaan_fk','id_pengadaan');
     }
 }

@@ -19,7 +19,7 @@ class CreateSparepartCabangsTable extends Migration
             $table->string('kode_sparepart_fk',25);
             $table->float('hargaBeli_sparepart');
             $table->float('hargaJual_sparepart');
-            $table->string('letak_sparepart',11);
+            $table->string('letak_sparepart',12);
             $table->integer('stokMin_sparepart');
             $table->integer('stokSisa_sparepart');
             $table->timestamps();

@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\PengadaanSparepart;
+use App\DetilPengadaanSparepart;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Transformers\PengadaanSparepartTransformer;
 
@@ -40,21 +42,47 @@ class PengadaanSparepartController extends RestController
         //     'statusCetak_pengadaan' => 'required',
         // ]);
         
+        // try{
+        //     date_default_timezone_set('Asia/Jakarta');
+        //     $pengadaanSparepart = new PengadaanSparepart;
+        
+        //     $pengadaanSparepart->id_supplier_fk = $request->id_supplier_fk;
+        //     $pengadaanSparepart->id_sparepartCabang_fk = $request->id_sparepartCabang_fk;
+        //     $pengadaanSparepart->status_pengadaan = "Belum Selesai";
+        //     $pengadaanSparepart->satuan_pengadaan = $request->satuan_pengadaan;
+        //     $pengadaanSparepart->totalHarga_pengadaan = $request->totalHarga_pengadaan;
+        //     $pengadaanSparepart->totalBarang_datang = 0;
+        //     $pengadaanSparepart->tgl_pengadaan = date("Y-m-d").' '.date('H:i:s');
+        //     $pengadaanSparepart->tgl_barangDatang = date("Y-m-d").' '.date('H:i:s');
+        //     $pengadaanSparepart->statusCetak_pengadaan = "Belum Cetak";
+            
+        //     $pengadaanSparepart->save();
+
+        //     $response = $this->generateItem($pengadaanSparepart);
+
+        //     return $this->sendResponse($response, 201);
+        // }catch(\Exception $e){
+        //     return $this->sendIseResponse($e->getMessage());
+        // }
+        
         try{
             date_default_timezone_set('Asia/Jakarta');
             $pengadaanSparepart = new PengadaanSparepart;
-        
+            $detil = $request->detil;
             $pengadaanSparepart->id_supplier_fk = $request->id_supplier_fk;
-            $pengadaanSparepart->id_sparepartCabang_fk = $request->id_sparepartCabang_fk;
-            $pengadaanSparepart->status_pengadaan = "Belum Selesai";
-            $pengadaanSparepart->satuan_pengadaan = $request->satuan_pengadaan;
+            $pengadaanSparepart->status_pengadaan = "Belum Selesai";            
             $pengadaanSparepart->totalHarga_pengadaan = $request->totalHarga_pengadaan;
-            $pengadaanSparepart->totalBarang_datang = 0;
             $pengadaanSparepart->tgl_pengadaan = date("Y-m-d").' '.date('H:i:s');
             $pengadaanSparepart->tgl_barangDatang = date("Y-m-d").' '.date('H:i:s');
             $pengadaanSparepart->statusCetak_pengadaan = "Belum Cetak";
             
             $pengadaanSparepart->save();
+
+            $pengadaanSparepart = DB::transaction(function()use($pengadaanSparepart,$detil){
+                $pengadaanSparepart->detil_pengadaansparepart()->createMany($detil);
+                return $pengadaanSparepart;
+                //input data dalam bentuk array 2d, meskipun datanya cuma 1. 
+            });
 
             $response = $this->generateItem($pengadaanSparepart);
 
@@ -62,7 +90,6 @@ class PengadaanSparepartController extends RestController
         }catch(\Exception $e){
             return $this->sendIseResponse($e->getMessage());
         }
-        
     }
     //update data
     public function update(request $request, $id_pengadaan){

@@ -11,7 +11,7 @@ class Sparepart extends Model
     public $incrementing = false;
     
     public function sparepart_cabang(){
-        return $this->hasMany('App\SparepartCabang', 'kode_sparepart');
+        return $this->hasMany('App\SparepartCabang','kode_sparepart_fk', 'kode_sparepart');
     }
 
     public function motor(){
