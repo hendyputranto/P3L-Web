@@ -21,6 +21,64 @@ class TransaksiPenjualanController extends RestController
         $response = $this->generateCollection($transaksi);
         return $this->sendResponse($response);
     }
+    public function update_sinta(Request $request, $id)
+    {
+        $diskon = $request->diskon;
+        $total_transaksi = $request->total_transaksi;
+        $status_transaksi = $request->status_transaksi;
+        try {
+            $transaksi = TransaksiPenjualan::find($id);
+            $transaksi->diskon = $diskon;
+            $transaksi->total_transaksi = $total_transaksi;
+            $transaksi->status_transaksi = $status_transaksi;
+            
+            $transaksi->save();
+            $response = $this->generateItem($transaksi);
+            return $this->sendResponse($response, 201);
+        } catch (\Exception $e) {
+            return $this->sendIseResponse($e->getMessage());
+        }
+    }
+    public function createTransaksiPenjualan_sinta(request $request)
+    {
+        try{
+            date_default_timezone_set('Asia/Jakarta');
+            $transaksiPenjualan = new TransaksiPenjualan;
+            $detil = $request->detil;
+
+            $transaksiPenjualan->id_cabang_fk = $request->id_cabang_fk;
+            $id = array();
+            
+            $id = DB::select('select kode_transaksi from transaksi_penjualans order by substring(kode_transaksi, 11) + 0 desc limit 1');
+            if(!$id)
+                $no = 1;
+            else {
+                $no_str = substr($id[0]->kode_transaksi, 10);
+                $no = ++$no_str;
+            }
+            
+            $transaksiPenjualan->id_cabang_fk=$request->id_cabang_fk;
+            $transaksiPenjualan->kode_transaksi='SP'.'-'.date("d").date("m").date("y").'-'.$no;
+            $transaksiPenjualan->tgl_transaksi = date("Y-m-d").' '.date('H:i:s');
+            $transaksiPenjualan->diskon = $request->diskon;
+            $transaksiPenjualan->total_transaksi = $request->total_transaksi;
+            $transaksiPenjualan->status_transaksi = $request->status_transaksi;
+            
+            $transaksiPenjualan->save();
+            $transaksiPenjualan = DB::transaction(function()use($transaksiPenjualan,$detil){
+                $transaksiPenjualan->detil_transaksi_sparepart()->createMany($detil);
+                return $transaksiPenjualan;
+                //input data dalam bentuk array 2d, meskipun datanya cuma 1. 
+            });
+
+            $response = $this->generateItem($transaksiPenjualan);
+
+            return $this->sendResponse($response, 201);
+
+        }catch(\Exception $e){
+            return $this->sendIseResponse($e->getMessage());
+        }
+    }
     
     public function createSV(request $request)
     {

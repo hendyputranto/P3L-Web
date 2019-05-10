@@ -13,7 +13,7 @@ class CreatePegawaiOnDutiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('pegawai__on_duties', function (Blueprint $table) {
+        Schema::create('pegawai_on_duties', function (Blueprint $table) {
             $table->increments('id_pegawaiOnDuty');
             $table->unsignedInteger('id_pegawai_fk');
             $table->unsignedInteger('id_transaksi_fk');

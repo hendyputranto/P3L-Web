@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\SparepartCabang;
+use App\Sparepart;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Transformers\SparepartCabangTransformer;
+use App\Transformers\TipeSparepartTransformer;
 
 class SparepartCabangController extends RestController
 {
@@ -47,6 +49,25 @@ class SparepartCabangController extends RestController
         $response = $this->generateCollection($sparepart);
         return $this->sendResponse($response);
     }
+
+    // public function showByTipeSparepart(request $request, $id_cabang)
+    // {
+    //     $sparepart_cabang = SparepartCabang::where('id_cabang_fk',$id_cabang)->get();
+
+    //     $spareparts = $sparepart_cabang->map(function ($item) {
+    //         return [
+    //             'tipe_sparepart' => $item->sparepart->tipe_sparepart,
+    //             'nama_sparepart' => $item->sparepart->nama_sparepart,
+    //         ];
+    //     });
+    //     // $tipe = new TipeSparepartTransformer;
+    //     // dd($spareparts);
+    //     // $temp = $sparepart_cabang[0]->kode_sparepart_fk;
+    //     // $tipe_sparepart = Sparepart::where('kode_sparepart',$temp)->get();
+    //     $response = $this->generateCollection($spareparts);
+    //     return $this->sendResponse($response);
+    // }
+
 
     //nambah data
     public function create(request $request){

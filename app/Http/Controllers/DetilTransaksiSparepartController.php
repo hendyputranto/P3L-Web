@@ -43,7 +43,7 @@ class DetilTransaksiSparepartController extends RestController
                 $detilSparepart = new Detil_TransaksiSparepart();
                 $detilSparepart->id_transaksi_fk = $data->id_transaksi_fk;
                 $detilSparepart->id_sparepartCabang_fk = $data->id_sparepartCabang_fk;
-                $detilSparepart->id_motorKonsumen_fk = $data->id_motorKonsumen_fk;
+                $detilSparepart->id_konsumen_fk = $data->id_konsumen_fk;
                 $detilSparepart->jumlahBeli_sparepart = $data->jumlahBeli_sparepart;
                 
                 $detilSparepart->subTotal_sparepart = $data->subTotal_sparepart;

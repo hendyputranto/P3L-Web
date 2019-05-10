@@ -13,7 +13,7 @@ class CreateMontirOnDutiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('montir__on_duties', function (Blueprint $table) {
+        Schema::create('montir_on_duties', function (Blueprint $table) {
             $table->increments('id_montirOnDuty');
             $table->unsignedInteger('id_pegawai_fk');
             $table->unsignedInteger('id_motorKonsumen_fk');
