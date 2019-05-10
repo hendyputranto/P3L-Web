@@ -86,6 +86,7 @@ Route::get('sparepartCabang','SparepartCabangController@show');
 Route::get('sparepartCabang/{id}','SparepartCabangController@showById');
 Route::get('sparepartCabang/stokKurang','SparepartCabangController@showStokKurang');
 Route::get('sparepartCabang/showByCabang/{id}','SparepartCabangController@showByCabang');
+Route::get('sparepartCabang/showByTipe/{id}','SparepartCabangController@showByTipeSparepart');
 Route::post('sparepartCabang','SparepartCabangController@create');
 Route::put('sparepartCabang/{id}','SparepartCabangController@update');
 Route::delete('sparepartCabang/{id}','SparepartCabangController@delete');
@@ -104,7 +105,9 @@ Route::get('transaksiPenjualan/showLunas','TransaksiPenjualanController@showSuda
 Route::post('transaksiPenjualanSV','TransaksiPenjualanController@createSV');
 Route::post('transaksiPenjualanSP','TransaksiPenjualanController@createSP');
 Route::post('transaksiPenjualanSS','TransaksiPenjualanController@createSS');
+Route::post('transaksiPenjualanSparepart','TransaksiPenjualanController@createTransaksiPenjualan_sinta');
 Route::put('transaksiPenjualan/{id}','TransaksiPenjualanController@update');
+Route::put('transaksiPenjualan/update_sinta/{id}','TransaksiPenjualanController@update_sinta');
 Route::put('transaksiPenjualan/payment/{id}','TransaksiPenjualanController@payment');
 Route::delete('transaksiPenjualan/{id}','TransaksiPenjualanController@delete');
 

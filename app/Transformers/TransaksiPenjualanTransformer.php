@@ -8,7 +8,12 @@ class TransaksiPenjualanTransformer extends TransformerAbstract
      * Transform Barang.
      *
      * @param Service $service
-     */
+     */ 
+
+     protected $defaultIncludes = [
+        'detil_TransaksiSparepart',
+        'detil_TransaksiService'
+     ];
     public function transform(TransaksiPenjualan $transaksi)
     {
         return [
@@ -19,8 +24,19 @@ class TransaksiPenjualanTransformer extends TransformerAbstract
             'diskon' => $transaksi->diskon,
             'total_transaksi' => $transaksi->total_transaksi,
             'status_transaksi' => $transaksi->status_transaksi,
+            'nama_cabang' => $transaksi->cabang->nama_cabang
             //'nama_konsumen' => $transaksi->detil_transaksi_sparepart->konsumen->nama_konsumen,
             
         ];
+    }
+    public function includeDetilTransaksiSparepart(TransaksiPenjualan $transaksiPenjualan)
+    {
+        //collection itu seperti array
+        return $this->collection($transaksiPenjualan->detil_transaksi_sparepart, new DetilTransaksiSparepartTransformer);
+    }
+    public function includeDetilTransaksiService(TransaksiPenjualan $transaksiPenjualan)
+    {
+        //collection itu seperti array
+        return $this->collection($transaksiPenjualan->detil_transaksi_service, new DetilTransaksiServiceTransformer);
     }
 }

@@ -12,8 +12,8 @@ class DetilPengadaanSparepart extends Model
         'id_pengadaan_fk',
         'id_sparepartCabang_fk',
         'satuan_pengadaan',
+        'sub_total_sparepart',
         'totalBarang_datang',
-        'sub_total_sparepart'
     ];
 
     public function sparepart_cabang(){

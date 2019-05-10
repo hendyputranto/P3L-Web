@@ -12,7 +12,7 @@ class PengadaanSparepartTransformer extends TransformerAbstract
      */
 
      protected $defaultIncludes = [
-         'detil_PengadaanSparepart'
+         'detil_PengadaanSparepart' 
      ];
     public function transform(PengadaanSparepart $pengadaanSparepart)
     {
@@ -20,11 +20,10 @@ class PengadaanSparepartTransformer extends TransformerAbstract
         return [
             'id_pengadaan' => $pengadaanSparepart->id_pengadaan,
             'id_supplier_fk' => $pengadaanSparepart->id_supplier_fk,
-            'id_sparepartCabang_fk' => $pengadaanSparepart->id_sparepartCabang_fk,
+            'nama_supplier'  => $pengadaanSparepart->supplier->nama_supplier,
+            'nama_cabang' => $pengadaanSparepart->cabang->nama_cabang,
             'status_pengadaan' => $pengadaanSparepart->status_pengadaan,
-            // 'satuan_pengadaan' => $pengadaanSparepart->satuan_pengadaan,
             'totalHarga_pengadaan' => $pengadaanSparepart->totalHarga_pengadaan,
-            // 'totalBarang_datang' => $pengadaanSparepart->totalBarang_datang,
             'tgl_pengadaan' => $pengadaanSparepart->tgl_pengadaan,
             'tgl_barangDatang' => $pengadaanSparepart->tgl_barangDatang,
             'statusCetak_pengadaan' => $pengadaanSparepart->statusCetak_pengadaan,
