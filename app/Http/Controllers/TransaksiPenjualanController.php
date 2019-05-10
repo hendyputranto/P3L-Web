@@ -21,6 +21,7 @@ class TransaksiPenjualanController extends RestController
         $response = $this->generateCollection($transaksi);
         return $this->sendResponse($response);
     }
+    //Buatan sintaa
     public function update_sinta(Request $request, $id)
     {
         $diskon = $request->diskon;
