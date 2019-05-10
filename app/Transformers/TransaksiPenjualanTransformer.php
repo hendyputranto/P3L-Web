@@ -25,6 +25,8 @@ class TransaksiPenjualanTransformer extends TransformerAbstract
             'total_transaksi' => $transaksi->total_transaksi,
             'status_transaksi' => $transaksi->status_transaksi,
             'nama_cabang' => $transaksi->cabang->nama_cabang
+            //'nama_konsumen' => $transaksi->detil_transaksi_sparepart->konsumen->nama_konsumen,
+            
         ];
     }
     public function includeDetilTransaksiSparepart(TransaksiPenjualan $transaksiPenjualan)

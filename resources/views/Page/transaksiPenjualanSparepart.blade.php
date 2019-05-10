@@ -45,7 +45,7 @@
                     <button type="submit" value="Submit" class="btn btn-info" onclick="cari()">CARI</button>
                     </div>
                 <table>
-                <form class="form-horizontal">
+                
                     <div class="form-group">
                     <label class="control-label col-sm-4" for="nama_konsumen">NAMA KONSUMEN</label>
                     <div class="col-sm-8">
@@ -80,7 +80,7 @@
                     <div class="form-group">
                     <label class="control-label col-sm-4" for="jumlah_beli">JUMLAH BELI</label>
                     <div class="col-sm-7">
-                        <input type="text" class="form-control" id="jumlah_beli" placeholder="Jumlah Beli" name="jumlah_beli" onkeypress="return hanyaAngka(event)" onkeyup="hitungTotal()">
+                        <input type="text" class="form-control" id="jumlah_beli" placeholder="Jumlah Beli" name="jumlah_beli" onkeypress="return hanyaAngka(event)" >
                     </div>
                     <button type="button" class="btn btn-info btn-circle" onclick = "return tambah()">+</button>
                     </div>
@@ -88,7 +88,7 @@
                     <thead>
                         <tr>
                             <th scope="col">Tipe Sparepart</th>
-                            <th scope="col">Nama Sparepart</th>
+                            <th scope="col">Kode Sparepart</th>
                             <th scope="col">Jumlah Beli</th>
                             <!-- <th scope="col">Jumlah</th> -->
                             <th scope="col">Harga Satuan</th>
@@ -118,7 +118,7 @@
                         <button type="submit" value="Submit" class="btn btn-success" onclick="simpan()">BELI</button>
                     </div>
                     </div>
-                </form>
+                
             </table>
             </div>
         </div>
@@ -130,15 +130,15 @@
         let sparepartKurang;
         var total = 0;
         let detailSparepart = [];
-        let det = [];
+        
         let detail = [];
         let tampung;
-        let id_service, id_motor_fk,id_cabang_fk;
-        let col2 = ['tipe_sparepart', 'nama_sparepart', 'jumlah_beli', 'harga_satuan'];
+        let nama_sparepart,tipe_sparepart, id_konsumen_fk,id_cabang_fk, id_sparepartCabang_fk;
+        let col2 = ['tipe_sparepart', 'nama_sparepart', 'jumlahBeli_sparepart', 'subTotal_sparepart'];
         let select1 = document.querySelector('#tipe_sparepart');
         let select2 = document.querySelector('#nama_sparepart');
         let select3 = document.querySelector('#kode_sparepart');
-        let select4 = document.querySelector('#hargaBeli_sparepart');
+        //let select4 = document.querySelector('#hargaBeli_sparepart');
         let tableDetailSparepart = document.querySelector('#tableDetailSparepart tbody');
         
 
@@ -151,14 +151,17 @@
         }
         //tambah Sparepart
         function tambah(){
+            let det = {};
             if(cekDetail() == false)
                 return false;
 
             det.tipe_sparepart = document.querySelector('#tipe_sparepart').value;
             det.nama_sparepart = document.querySelector('#nama_sparepart').value;
-            det.jumlah_beli = document.querySelector('#jumlah_beli').value;
-            det.harga_satuan = document.querySelector('#hargaSatuan').value;
-            total += parseFloat(det.harga_satuan * det.jumlah_beli);
+            det.jumlahBeli_sparepart = document.querySelector('#jumlah_beli').value;
+            det.subTotal_sparepart = document.querySelector('#hargaSatuan').value;
+            det.id_konsumen_fk = id_konsumen_fk;
+            det.id_sparepartCabang_fk = id_sparepartCabang_fk;
+            total += parseFloat(det.subTotal_sparepart * det.jumlahBeli_sparepart);
             // det.jumlah_pemesanan = document.querySelector('#jumlah_pemesanan').value;
             // det.harga_beli = document.querySelector('#harga_beli').value;
             
@@ -172,9 +175,9 @@
             document.querySelector('#subtotal').value = total;
             let tr = tableDetailSparepart.insertRow(-1);
             let td = document.createElement('td'); 
-            for(j = 0; j <= Object.keys(det).length; j++){
+            for(j = 0; j <= 4; j++){
                 td = tr.insertCell();  
-                if(j == Object.keys(det).length) {
+                if(j == 4) {
                     let buttonHapus = document.createElement('input');
                     buttonHapus.setAttribute('type', 'button');
                     buttonHapus.setAttribute('value', 'Hapus');
@@ -194,7 +197,7 @@
 
 
             //tipe sparepart dropdown
-            axios.get('http://192.168.0.176:8000/api/sparepart')
+            axios.get('http://127.0.0.1:8000/api/sparepart')
             .then((result) => {
                 sparepart = result.data.data;
                 let cek = document.getElementById("tipe_sparepart").value;
@@ -207,10 +210,12 @@
                         let txt = document.createTextNode(sparepart[i].tipe_sparepart);
                         option.appendChild(txt);
                         option.setAttribute('value', sparepart[i].tipe_sparepart);
+                        
                         select1.insertBefore(option, select1.lastChild);
                     
                     
                 }
+                console.log(cek);
             }).catch((error) => {
                 console.log(error);
             });
@@ -219,20 +224,22 @@
         
         
         //nama sparepart dropdown
-        axios.get('http://192.168.0.176:8000/api/sparepart')
+        axios.get('http://127.0.0.1:8000/api/sparepart')
         .then((result) => {
             sparepart = result.data.data;
-            
+            let cek = document.getElementById("tipe_sparepart").value;
             for(let i=0; i<sparepart.length; i++){
-                // console.log("test3");
-                let option = document.createElement('option');
-                let txt = document.createTextNode(sparepart[i].nama_sparepart);
-                option.appendChild(txt);
-                //id_service = service[i].id_jasaService;
+                console.log("test3");
+                console.log(cek);
                 
-                option.setAttribute('value', sparepart[i].nama_sparepart);
-               // option.setAttribute('value1', service[i].nama_jasaService);
-                select2.insertBefore(option, select2.lastChild);
+                    let option = document.createElement('option');
+                    let txt = document.createTextNode(sparepart[i].nama_sparepart);
+                    option.appendChild(txt);
+                    //id_service = service[i].id_jasaService;
+                    
+                    option.setAttribute('value', sparepart[i].kode_sparepart);
+                // option.setAttribute('value1', service[i].nama_jasaService);
+                    select2.insertBefore(option, select2.lastChild);
                 
             }
         }).catch((error) => {
@@ -240,7 +247,7 @@
         });
 
         function harga(){
-            axios.get('http://192.168.0.176:8000/api/sparepartCabang')
+            axios.get('http://127.0.0.1:8000/api/sparepartCabang')
             .then((result) => {
                 sparepart = result.data.data;
                 let cek = document.getElementById("nama_sparepart").value;
@@ -251,10 +258,11 @@
                 //console.log(sparepart);
                 for(let i=0; i<sparepart.length; i++){
                     console.log("test3");
-                    if(sparepart[i].nama_sparepart == cek )
+                    if(sparepart[i].kode_sparepart_fk == cek )
                     {
-                        //id_sparepartCabang = sparepart[i].id_sparepartCabang;
-                        //console.log(id_sparepartCabang);
+                        id_sparepartCabang_fk = sparepart[i].id_sparepartCabang;
+                        id_cabang_fk = sparepart[i].id_cabang_fk;
+                        console.log(id_cabang_fk);
                         document.getElementById("hargaSatuan").value = sparepart[i].hargaJual_sparepart;
                     }
                 }
@@ -265,27 +273,35 @@
         }
 
         function hapusDetail(obj) {
-            detailService.splice(obj.parentNode.parentNode.rowIndex-1, 1);
-            tableDetailService.deleteRow(obj.parentNode.parentNode.rowIndex-1);
+            detailSparepart.splice(obj.parentNode.parentNode.rowIndex-1, 1);
+            tableDetailSparepart.deleteRow(obj.parentNode.parentNode.rowIndex-1);
             // let cek = det[obj.parentNode.parentNode.rowIndex].nama_service;
             // console.log(cek);
         }
-       
+       //hanya angka
+       function hanyaAngka(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+
+            return false;
+        return true;
+        }
         //cari
         function cari(){
-            axios.get('http://192.168.0.176:8000/api/motorKonsumen')
+            axios.get('http://127.0.0.1:8000/api/konsumen')
             .then((result) => {
-                motorK = result.data.data;
-                let cek = document.getElementById("cari_plat").value;
-                console.log(motorK);
-                for(let i=0; i<motorK.length; i++){
+                konsumen = result.data.data;
+                let cek = document.getElementById("cari_nama").value;
+                console.log(konsumen);
+                for(let i=0; i<konsumen.length; i++){
                     // console.log("test3");
-                    if(motorK[i].plat_motorKonsumen == cek)
+                    if(konsumen[i].nama_konsumen == cek)
                     {
-                        document.getElementById("plat_nomor").value = motorK[i].plat_motorKonsumen;
-                        id_motor_fk = motorK[i].id_motorKonsumen;
+                        document.getElementById("nama_konsumen").value = konsumen[i].nama_konsumen;
+                        id_konsumen_fk = konsumen[i].id_konsumen;
+                        console.log(id_konsumen_fk);
                     }else{
-                        alert("Plat Motor Tidak ditemukan");
+                        alert("Nama Konsumen Tidak ditemukan");
                     }
                     
                 }
@@ -294,9 +310,27 @@
             });
         }
         
+        function tambahDetail(detailSparepart , id_transaksi_fk) {
+            console.log(detailSparepart);
+            detailSparepart.map(dts => dts.id_transaksi_fk = id_transaksi_fk);
+            let formDataDetail = new FormData(); 
+            console.log(JSON.stringify(detailSparepart));
+            formDataDetail.append('data', JSON.stringify(detailSparepart));
+            // formDataDetail.append('kode_sparepart', kode_sparepart);
+            // formDataDetail.append('jumlah_pemesanan', jumlah_pemesanan);
+            // formDataDetail.append('harga_beli', harga_beli);
+            // formDataDetail.append('satuan', satuan);
+            axios.post('http://127.0.0.1:8000/api/detilSparepart', formDataDetail)
+            .then((result) => {
+                console.log(result);
+            }).catch((err) => {
+                console.log(err.response);
+            });
+    }
+
         //simpan
         function simpan(){
-        let tampung = detailService;
+        //let tampung = detailSparepart;
         let formData = new FormData();
         formData.append('id_cabang_fk', id_cabang_fk);
         // formData.append('kode_transaksi', kode_transaksi);
@@ -306,15 +340,15 @@
         axios.post('http://127.0.0.1:8000/api/transaksiPenjualanSP', formData)
         .then((result) =>{
             console.log(result);
-            let tes = result.data.data;
-            for(let i = 0; i < tampung.length; i++){
-                tampung[i].id_transaksi_fk = tes[i].id_transaksi;
+            //let tes = result.data.data;
+            for(let i = 0; i < detailSparepart.length; i++)
+                detailSparepart[i].id_transaksi_fk = result.data.data.id_transaksi;
+                console.log("tampung = ",detailSparepart);
                 //console.log(tes[i]);
-                //console.log(tampung);
-                tambahDetail(tampung);
-            }
-            alert('Data Transaksi Service Berhasil di Tambahkan');
-           // location.href = "{{ url('/pengadaan')}}";
+            
+            tambahDetail(detailSparepart, result.data.data.id_transaksi);
+            alert('Data Transaksi Sparepart Berhasil di Tambahkan');
+            location.href = "{{ url('/transaksiSP')}}";
         })
         .catch((error) =>{
             console.log(error.response);
@@ -323,21 +357,6 @@
         return false;
     }
 
-    function tambahDetail(detail) {
-        console.log(detail);
-        let formDataDetail = new FormData(); 
-        console.log(JSON.stringify(detail));
-        formDataDetail.append('data', JSON.stringify(detail));
-        // formDataDetail.append('kode_sparepart', kode_sparepart);
-        // formDataDetail.append('jumlah_pemesanan', jumlah_pemesanan);
-        // formDataDetail.append('harga_beli', harga_beli);
-        // formDataDetail.append('satuan', satuan);
-        axios.post('http://127.0.0.1:8000/api/detilJasa', formDataDetail)
-        .then((result) => {
-            console.log(result);
-        }).catch((err) => {
-            console.log(err.response);
-        });
-    }
+    
     </script>
 @endsection

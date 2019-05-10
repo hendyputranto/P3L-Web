@@ -132,9 +132,9 @@ class TransaksiPenjualanController extends RestController
     {
         try {
             date_default_timezone_set('Asia/Jakarta');
-            $service = $request->get('Detil_TransaksiService');
-            $sparepart = $request->get('Detil_TransaksiSparepart');
-            $pegawai = $request->get('Pegawai');
+            // $service = $request->get('Detil_TransaksiService');
+            // $sparepart = $request->get('Detil_TransaksiSparepart');
+            // $pegawai = $request->get('Pegawai');
             $transaksi = new TransaksiPenjualan;
             $id = array();
 
@@ -150,14 +150,14 @@ class TransaksiPenjualanController extends RestController
             $transaksi->tgl_transaksi=date("Y-m-d").' '.date('H:i:s');
             $transaksi->diskon=$request->diskon;
             $transaksi->total_transaksi=$request->total_transaksi;
-            $transaksi->status_transaksi=$request->status_transaksi;
+            $transaksi->status_transaksi="Belum Lunas";
             
             $transaksi->save();
 
-            $transaction = DB::transaction(function () use ($transaksi,$pegawai) {
-                $transaction->employees()->attach($pegawai);
-                return $transaction;
-            });
+            // $transaction = DB::transaction(function () use ($transaksi,$pegawai) {
+            //     $transaction->employees()->attach($pegawai);
+            //     return $transaction;
+            // });
 
             // $transaksi = DB::transaction(function () use ($transaksi,$service) {
             //     $transaksi->detil_transaksi_service()->createMany($service);
@@ -239,15 +239,15 @@ class TransaksiPenjualanController extends RestController
     }
 
     //tcp 3
-    public function update(Request $request, $id_transaksi)
+    public function update(request $request, $id_transaksi)
     {
         try {
             date_default_timezone_set('Asia/Jakarta');
             $service = $request->get('service');
             $sparepart = $request->get('sparepart');
-            $transaksi = Transaction::find($id);
-            $transaksi->detail_services()->delete();
-            $transaksi->detail_spareparts()->delete();
+            $transaksi = TransaksiPenjualan::find($id);
+            // $transaksi->detail_services()->delete();
+            // $transaksi->detail_spareparts()->delete();
             if($request->get('transaction_type')!=$transaksi->transaction_type)
             {
                 $count = Transaction::get()
@@ -289,6 +289,21 @@ class TransaksiPenjualanController extends RestController
         }
     }
    
+    public function payment(request $request, $id_transaksi)
+    {
+        try {
+            $transaksi = TransaksiPenjualan::find($id_transaksi);
+            $transaksi->status_transaksi="Sudah Lunas";
+            $transaksi->diskon=$request->get('diskon');;
+            $transaksi->total_transaksi=$request->get('total_transaksi');
+            $transaksi->save();
+            $response = $this->generateItem($transaksi);
+            return $this->sendResponse($response, 201);
+        } catch (\Exception $e) {
+            return $this->sendIseResponse($e->getMessage());
+        }
+    }
+
     public function delete($id_transaksi)
     {
         try {

@@ -13,7 +13,6 @@ class Detil_TransaksiSparepart extends Model
     protected $fillable = [
         'id_detilTransaksiSparepart',
         'id_transaksi_fk',
-        'id_sparepartCabang_fk',
         'id_konsumen_fk',
         'jumlahBeli_sparepart',
         'subTotal_sparepart'

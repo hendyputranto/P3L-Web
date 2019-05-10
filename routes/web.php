@@ -122,4 +122,8 @@ Route::get('/ttransaksis', function () {
     return view('page.tampilTransaksi1');
 });
 
+Route::get('/catalog', function () {
+    return view('page.catalog');
+});
+
 //Route::resource('Konsumen','KonsumenController');

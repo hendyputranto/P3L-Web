@@ -136,7 +136,7 @@
         
         //tabel sparepart kurang
         function tampilData(){
-            axios.get('http://192.168.0.176:8000/api/sparepartCabang')
+            axios.get('http://127.0.0.1:8000/api/sparepartCabang')
             .then((result) => {
                 sparepartKurang = result.data.data;
                 let cek = document.getElementById("id_cabang").value;
@@ -164,7 +164,7 @@
                 console.log(error);
             });
             //kode sprepart dropdown
-            axios.get('http://192.168.0.176:8000/api/sparepartCabang')
+            axios.get('http://127.0.0.1:8000/api/sparepartCabang')
             .then((result) => {
                 sparepart = result.data.data;
                 let cek = document.getElementById("id_cabang").value;
@@ -189,7 +189,7 @@
         
         
         //supplier dropdown
-        axios.get('http://192.168.0.176:8000/api/supplier')
+        axios.get('http://127.0.0.1:8000/api/supplier')
         .then((result) => {
             supplier = result.data.data;
             
@@ -208,7 +208,7 @@
         
         //harga sprepart dropdown
         function harga(){
-            axios.get('http://192.168.0.176:8000/api/sparepartCabang')
+            axios.get('http://127.0.0.1:8000/api/sparepartCabang')
             .then((result) => {
                 sparepart = result.data.data;
                 let cek = document.getElementById("kode_sparepart").value;
@@ -234,7 +234,7 @@
         
 
         //cabang dropdown
-        axios.get('http://192.168.0.176:8000/api/cabang')
+        axios.get('http://127.0.0.1:8000/api/cabang')
         .then((result) => {
             cabang = result.data.data;
             console.log(cabang);
@@ -287,7 +287,7 @@
         formData.append('id_sparepartCabang_fk', id_sparepartCabang_fk);
         formData.append('satuan_pengadaan', satuan_pengadaan);
         formData.append('totalHarga_pengadaan', totalHarga_pengadaan);
-        axios.post('http://192.168.0.176:8000/api/pengadaanSparepart', formData)
+        axios.post('http://127.0.0.1:8000/api/pengadaanSparepart', formData)
         .then((result) =>{
             console.log(result);
             alert("Data Pengadaan Berhasil di Tambahkan");

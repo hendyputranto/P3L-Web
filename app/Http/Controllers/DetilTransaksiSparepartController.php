@@ -31,13 +31,19 @@ class DetilTransaksiSparepartController extends RestController
         $response = $this->generateItem($detilSparepart);
         return $this->sendResponse($response);
     }
+    //tampil by id transaksi
+    public function showByIdTransaksi(request $request, $id_transaksi_fk){
+        $detilSparepart = Detil_TransaksiSparepart::find($id_transaksi_fk);
+        $response = $this->generateItem($detilSparepart);
+        return $this->sendResponse($response);
+    }
     //nambah data
     public function create(request $request){
         
         $datas = array();
         $datas = json_decode($request->data);
-        $test = Detil_TransaksiSparepart::where('id_detilTransaksiSparepart', $datas[0]->id_detilTransaksiService)->delete();
-        $subtotal = 0;
+        //$test = Detil_TransaksiSparepart::where('id_detilTransaksiSparepart', $datas[0]->id_detilTransaksiService)->delete();
+        //$subtotal = 0;
         try{
             foreach($datas as $data){
                 $detilSparepart = new Detil_TransaksiSparepart();
@@ -48,19 +54,20 @@ class DetilTransaksiSparepartController extends RestController
                 
                 $detilSparepart->subTotal_sparepart = $data->subTotal_sparepart;
 
-                $sparepart = SparepartCabang::find($data->id_sparepartCabang_fk);
-                $detilSparepart->subTotal_sparepart = $sparepart->hargaJual_sparepart;
+                //$sparepart = SparepartCabang::find($data->id_sparepartCabang_fk);
+                //$detilSparepart->subTotal_sparepart = $sparepart->hargaJual_sparepart;
                 $detilSparepart->save();
-                $subtotal += $detilSparepart->subTotal_sparepart;
-                $response = $this->generateItem($detilSparepart);
+                //$subtotal += $detilSparepart->subTotal_sparepart;
+                // $response = $this->generateItem($detilSparepart);
 
-                return $this->sendResponse($response,201);
+                // return $this->sendResponse($response,201);
             }
-            $penjualan = TransaksiPenjualan::find($datas[0]->id_detilTransaksiSparepart);
-            $penjualan->total_transaksi = 0 + $subtotal;
-            $penjualan->save();
-            $response = $this->generateItem($penjualan);
-            return $this->sendResponse($response,201);
+            return response()->json(['status' => 'success creating detail penjualan sparepart', 'detail_penjualan_sparepart' => $detilSparepart], 200);
+            // $penjualan = TransaksiPenjualan::find($datas[0]->id_detilTransaksiSparepart);
+            // $penjualan->total_transaksi = 0 + $subtotal;
+            // $penjualan->save();
+            // $response = $this->generateItem($penjualan);
+            // return $this->sendResponse($response,201);
         }catch(\Exception $e){
             return $this->sendIseResponse($e->getMessage());
         }
