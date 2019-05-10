@@ -40,13 +40,13 @@
                 <table class="table table-bordered text-center" id="tablePengadaan">
                     <thead>
                     <tr>
-                        <th>ID PENGADAAN</th>
-                        <th>ID SUPPLIER</th>
-                        <th>ID SPAREPART CABANG</th>
+                        <!-- <th>ID PENGADAAN</th> -->
+                        <th>NAMA SUPPLIER</th>
+                        <!-- <th>ID SPAREPART CABANG</th> -->
                         <th>STATUS PENGADAAN</th>
-                        <th>SATUAN PENGADAAN</th>
+                        <!-- <th>SATUAN PENGADAAN</th> -->
                         <th>TOTAL HARGA</th>
-                        <th>Total Barang Datang</th>
+                        <!-- <th>Total Barang Datang</th> -->
                         <th>Tanggal Pengadaan</th>
                         <th>Tanggal Barang datang</th>
                         <th>Status Cetak</th>

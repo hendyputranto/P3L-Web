@@ -20,7 +20,7 @@
     <div class="container">          
         <div class="kotak">
             <div class="table-responsive">
-                <h2>Kelola Data Sparepart</h2>
+                <h2>Sparepart Yang Dijual</h2>
                 
                 <form action="/action_page.php">
                     <div class="col-sm-offset-0 col-sm-4">
@@ -36,6 +36,7 @@
                         <th>NAMA</th>
                         <th>MERK</th>
                         <th>TIPE</th>
+                        <th>GAMBAR</th>
                     </tr>
                     </thead>
                 </table>
@@ -46,38 +47,31 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
     let Sparepart;
+    
     let tableSparepart = document.querySelector('#tableSparepart');
-    let col = ['kode_sparepart', 'nama_sparepart', 'merk_sparepart', 'tipe_sparepart'];
-
-    axios.get('http://127.0.0.1:8000/api/sparepart')
+    let col = ['kode_sparepart', 'nama_sparepart', 'merk_sparepart', 'tipe_sparepart','gambar_sparepart'];
+    let col1 = ['hargaJual_sparepart'];
+    axios.get('http://10.53.8.60:8000/api/sparepart')
     .then((result) => {
         console.log(result.data);
             Sparepart = result.data.data;
+            let kode;
             console.log(Sparepart);
 
             for(let i=0; i<Sparepart.length; i++){
                 let tr = tableSparepart.insertRow(-1);
                 let td = document.createElement('td');
                 console.log(i);
-
+                kode = Sparepart[i].kode_sparepart;
                 for(j=0;j<col.length;j++){
                     td = tr.insertCell();
                     console.log(j);
-                    if(j==5){
-                        let buttonUbah = document.createElement('input');
-                        buttonUbah.setAttribute('type','button');
-                        buttonUbah.setAttribute('value','ubah');
-                        buttonUbah.setAttribute('class','btn btn-primary');
-                        buttonUbah.setAttribute('onclick','ubah(this)');
-                        td.appendChild(buttonUbah);
-                        td.appendChild(document.createTextNode(' '));
-                        let buttonHapus = document.createElement('input');
-                        buttonHapus.setAttribute('type','button');
-                        buttonHapus.setAttribute('value','hapus');
-                        buttonHapus.setAttribute('class','btn');
-                        buttonHapus.setAttribute('class','btn btn-danger');
-                        buttonHapus.setAttribute('onclick','hapus(this)');
-                        td.appendChild(buttonHapus);
+                    if(j==4){
+                        let img = document.createElement('img');
+                        img.src = '/images/'+Sparepart[i][col[j]];
+                        img.width = 150;
+                        img.height = 150;
+                        td.appendChild(img);
                     }
                     else{
                         td.innerHTML = Sparepart[i][col[j]];
@@ -88,25 +82,31 @@
         console.log(error);
     });
 
-    function tambah(obj){
-            location.href = "{{ url('/tsparepart')}}";
-    }
+    // axios.get('http://127.0.0.1:8000/api/sparepartCabang')
+    // .then((result) => {
+    //     console.log(result.data);
+    //         Sparepart = result.data.data;
+    //         console.log(Sparepart);
 
-    function ubah(obj){
-            localStorage.setItem("id_sparepart",obj.parentNode.parentNode.cells[0].innerHTML);
-            location.href = "{{ url('/usparepart')}}";
-    }
+    //         for(let i=0; i<Sparepart.length; i++){
+    //             let tr = tableSparepart.insertRow(-1);
+    //             let td = document.createElement('td');
+    //             console.log(i);
 
-    function hapus(obj) {
-        console.log(obj.parentNode.parentNode.cells[0].innerHMTL);
-        axios.delete('http://127.0.0.1:8000/api/sparepart/'+obj.parentNode.parentNode.cells[0].innerHTML)
-        .then((result) => {
-            sparepart.splice(obj.parentNode.parentNode.rowIndex-1, 1);
-            tableSparepart.deleteRow(obj.parentNode.parentNode.rowIndex);
-        }).catch((error) => { 
-            console.log(error);
-        });
-    }
+    //             for(j=0;j<col.length;j++){
+    //                 td = tr.insertCell();
+    //                 if(kode == Sparepart[i].kode_sparepart_fk){
+
+    //                 }
+    //                 else{
+    //                     td.innerHTML = Sparepart[i][col1[j]];
+    //                 }
+    //             }
+    //     }
+    // }).catch((error) => {
+    //     console.log(error);
+    // });
+    
 
      //search data
      function myFunction() {
@@ -116,7 +116,7 @@
         table = document.getElementById("tableSparepart");
         tr = table.getElementsByTagName("tr");
         for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[2];
+            td = tr[i].getElementsByTagName("td")[1];
             if (td) {
                 txtValue = td.textContent || td.innerText;
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {

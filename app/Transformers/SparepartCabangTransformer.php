@@ -15,11 +15,7 @@ class SparepartCabangTransformer extends TransformerAbstract
         return [
             'id_sparepartCabang' => $sparepartCabang->id_sparepartCabang,
             'id_cabang_fk' => $sparepartCabang->id_cabang_fk,
-<<<<<<< HEAD
-            //'nama_cabang'   => $sparepartCabang->cabangs->nama_cabang, //ini ada sinta edit
-=======
             'nama_cabang'   => $sparepartCabang->cabang->nama_cabang,
->>>>>>> 7c842180aea758e1343567b6a35bd8dc63b214ce
             'kode_sparepart_fk' => $sparepartCabang->kode_sparepart_fk,
             'merk_sparepart' => $sparepartCabang->sparepart->merk_sparepart,
             'tipe_sparepart' => $sparepartCabang->sparepart->tipe_sparepart,

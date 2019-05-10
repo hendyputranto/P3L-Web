@@ -126,4 +126,8 @@ Route::get('/catalog', function () {
     return view('page.catalog');
 });
 
+Route::get('/homeKonsumen', function () {
+    return view('page.homeKonsumen');
+});
+
 //Route::resource('Konsumen','KonsumenController');

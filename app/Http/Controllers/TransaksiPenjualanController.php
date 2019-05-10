@@ -176,8 +176,10 @@ class TransaksiPenjualanController extends RestController
 
     public function showSudahLunas()
     {
-        $transaksi = DB::select('select kode_transaksi, tgl_transaksi, diskon, total_transaksi, status_transaksi from transaksi__penjualanns where status_transaksi = "Sudah Lunas"');
-        return response()->json($transaksi, 201);
+        $sudahLunas = "Sudah Lunas";
+        $transaksi = TransaksiPenjualan::where('status_transaksi',$sudahLunas)->get();
+        $response = $this->generateCollection($transaksi);
+        return $this->sendResponse($response);
     }
 
     //tcp 3

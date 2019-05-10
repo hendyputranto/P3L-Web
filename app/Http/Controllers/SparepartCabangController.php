@@ -20,8 +20,10 @@ class SparepartCabangController extends RestController
         return $this->sendResponse($response);
     }
      public function showStokKurang(){
-        $sparepartKurang = SparepartCabang::whereColumn(['stokSisa_sparepart'],['<='],['stokMin_sparepart'])->get();
-        return response()->json($sparepartKurang, 200);
+        $sparepartKurang = DB::select('* from sparepart_cabangs where stokSisa_sparepart <= stokMin_sparepart');
+        // $response = $this->generateItem($sparepartKurang);
+        // return $this->sendResponse($response);
+        return $sparepartKurang;
     }
 
     //tampil by id
