@@ -70,12 +70,13 @@ class PengadaanSparepartController extends RestController
             $pengadaanSparepart = new PengadaanSparepart;
             $detil = $request->detil;
             $pengadaanSparepart->id_supplier_fk = $request->id_supplier_fk;
+            $pengadaanSparepart->id_cabang_fk = $request->id_cabang_fk;
+            $pengadaanSparepart->statusCetak_pengadaan = "Belum Cetak";
             $pengadaanSparepart->status_pengadaan = "Belum Selesai";            
             $pengadaanSparepart->totalHarga_pengadaan = $request->totalHarga_pengadaan;
             $pengadaanSparepart->tgl_pengadaan = date("Y-m-d").' '.date('H:i:s');
             $pengadaanSparepart->tgl_barangDatang = date("Y-m-d").' '.date('H:i:s');
-            $pengadaanSparepart->statusCetak_pengadaan = "Belum Cetak";
-            
+      
             $pengadaanSparepart->save();
 
             $pengadaanSparepart = DB::transaction(function()use($pengadaanSparepart,$detil){
@@ -85,6 +86,26 @@ class PengadaanSparepartController extends RestController
             });
 
             $response = $this->generateItem($pengadaanSparepart);
+
+            return $this->sendResponse($response, 201);
+        }catch(\Exception $e){
+            return $this->sendIseResponse($e->getMessage());
+        }
+    }
+    public function createDetilPengadaan(request $request){
+        try{
+            
+            $detilPengadaanSparepart = new DetilPengadaanSparepart;
+            
+            $detilPengadaanSparepart->id_pengadaan_fk = $request->id_pengadaan_fk;
+            $detilPengadaanSparepart->id_sparepartCabang_fk = $request->id_sparepartCabang_fk;
+            $detilPengadaanSparepart->satuan_pengadaan = $request->satuan_pengadaan;
+            $detilPengadaanSparepart->sub_total_sparepart = $request->sub_total_sparepart;    
+            $detilPengadaanSparepart->totalBarang_datang = 0;
+      
+            $detilPengadaanSparepart->save();
+
+            $response = $this->generateItem($detilPengadaanSparepart);
 
             return $this->sendResponse($response, 201);
         }catch(\Exception $e){

@@ -58,6 +58,12 @@ class SparepartCabangController extends RestController
         // $tipe_sparepart = Sparepart::where('kode_sparepart',$temp)->get();
         
         return response()->json($spareparts);
+        // $tipe = new TipeSparepartTransformer;
+        // dd($spareparts);
+        // $temp = $sparepart_cabang[0]->kode_sparepart_fk;
+        // $tipe_sparepart = Sparepart::where('kode_sparepart',$temp)->get();
+        $response = $this->generateCollection($spareparts);
+        return $this->sendResponse($response);
     }
 
 
