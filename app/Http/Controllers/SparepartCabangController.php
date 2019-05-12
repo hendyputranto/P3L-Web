@@ -42,23 +42,23 @@ class SparepartCabangController extends RestController
         return $this->sendResponse($response);
     }
 
-    // public function showByTipeSparepart(request $request, $id_cabang)
-    // {
-    //     $sparepart_cabang = SparepartCabang::where('id_cabang_fk',$id_cabang)->get();
+    public function showByTipeSparepart(request $request, $id_cabang)
+    {
+        $sparepart_cabang = SparepartCabang::where('id_cabang_fk',$id_cabang)->get();
 
-    //     $spareparts = $sparepart_cabang->map(function ($item) {
-    //         return [
-    //             'tipe_sparepart' => $item->sparepart->tipe_sparepart,
-    //             'nama_sparepart' => $item->sparepart->nama_sparepart,
-    //         ];
-    //     });
-    //     // $tipe = new TipeSparepartTransformer;
-    //     // dd($spareparts);
-    //     // $temp = $sparepart_cabang[0]->kode_sparepart_fk;
-    //     // $tipe_sparepart = Sparepart::where('kode_sparepart',$temp)->get();
-    //     $response = $this->generateCollection($spareparts);
-    //     return $this->sendResponse($response);
-    // }
+        $spareparts = $sparepart_cabang->map(function ($item) {
+            return [
+                'tipe_sparepart' => $item->sparepart->tipe_sparepart,
+                'nama_sparepart' => $item->sparepart->nama_sparepart,
+            ];
+        });
+        //$tipe = new TipeSparepartTransformer;
+        // dd($spareparts);
+        // $temp = $sparepart_cabang[0]->kode_sparepart_fk;
+        // $tipe_sparepart = Sparepart::where('kode_sparepart',$temp)->get();
+        
+        return response()->json($spareparts);
+    }
 
 
     //nambah data
