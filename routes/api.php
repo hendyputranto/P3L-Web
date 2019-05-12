@@ -98,6 +98,12 @@ Route::post('pengadaanSparepart','PengadaanSparepartController@create');
 Route::put('pengadaanSparepart/{id}','PengadaanSparepartController@update');
 Route::delete('pengadaanSparepart/{id}','PengadaanSparepartController@delete');
 
+//Detil Pengadaan Sparepart
+Route::get('detilPengadaanSparepart','DetilPengadaanSparepartController@show');
+Route::get('detilPengadaanSparepart/showByIdPengadaan/{id}','DetilPengadaanSparepartController@showByIdPengadaan');
+Route::post('detilPengadaanSparepart/createDetilPengadaan','DetilPengadaanSparepartController@createDetilPengadaan');
+
+
 //Transaksi Penjualan
 Route::get('transaksiPenjualan','TransaksiPenjualanController@show');
 Route::get('transaksiPenjualan/{id}','TransaksiPenjualanController@showById');

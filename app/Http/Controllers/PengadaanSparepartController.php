@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Transformers\PengadaanSparepartTransformer;
+//use App\Transformers\DetilPengadaanSparepartTransformer;
 
 class PengadaanSparepartController extends RestController
 {
@@ -92,26 +93,7 @@ class PengadaanSparepartController extends RestController
             return $this->sendIseResponse($e->getMessage());
         }
     }
-    public function createDetilPengadaan(request $request){
-        try{
-            
-            $detilPengadaanSparepart = new DetilPengadaanSparepart;
-            
-            $detilPengadaanSparepart->id_pengadaan_fk = $request->id_pengadaan_fk;
-            $detilPengadaanSparepart->id_sparepartCabang_fk = $request->id_sparepartCabang_fk;
-            $detilPengadaanSparepart->satuan_pengadaan = $request->satuan_pengadaan;
-            $detilPengadaanSparepart->sub_total_sparepart = $request->sub_total_sparepart;    
-            $detilPengadaanSparepart->totalBarang_datang = 0;
-      
-            $detilPengadaanSparepart->save();
-
-            $response = $this->generateItem($detilPengadaanSparepart);
-
-            return $this->sendResponse($response, 201);
-        }catch(\Exception $e){
-            return $this->sendIseResponse($e->getMessage());
-        }
-    }
+   
     //update data
     public function update(request $request, $id_pengadaan){
         $id_supplier_fk = $request->id_supplier_fk;
