@@ -85,6 +85,8 @@ Route::delete('sparepart/{kode}','SparepartController@delete');
 Route::get('sparepartCabang','SparepartCabangController@show');
 Route::get('sparepartCabang/{id}','SparepartCabangController@showById');
 Route::get('sparepartCabang/stokKurang','SparepartCabangController@showStokKurang');
+Route::get('sparepartCabang/stokKurangByCabang/{id}','SparepartCabangController@showStokKurangByCabang');
+Route::get('sparepartCabang/stokKurang/test','SparepartCabangController@showStokKurang2');
 Route::get('sparepartCabang/showByCabang/{id}','SparepartCabangController@showByCabang');
 Route::get('sparepartCabang/showByTipe/{id}','SparepartCabangController@showByTipeSparepart');
 Route::post('sparepartCabang','SparepartCabangController@create');

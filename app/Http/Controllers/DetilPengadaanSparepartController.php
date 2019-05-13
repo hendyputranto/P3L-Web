@@ -17,7 +17,7 @@ class DetilPengadaanSparepartController extends RestController
         $response = $this->generateCollection($detil);
         return $this->sendResponse($response);
     }
-    public function createDetilPengadaan(request $request){
+    public function createDetilPengadaan(Request $request){
         try{
             
             $detilPengadaanSparepart = new DetilPengadaanSparepart;
@@ -37,14 +37,16 @@ class DetilPengadaanSparepartController extends RestController
     //menampilkan data
     public function show(){
         $detilPengadaanSparepart = DetilPengadaanSparepart::all();
-        $response = $this->generateCollection($detilPengadaanSparepart);
+        // dd($detilPengadaanSparepart);
+        $response = $this->generateCollection($detilPengadaanSparepart, new DetilPengadaanSparepartTransformer);
+        // dd($response);
         return $this->sendResponse($response);
     }
 
     //tampil by id
     public function showByIdPengadaan(request $request, $id_pengadaan_fk){
         $detilPengadaanSparepart = DetilPengadaanSparepart::find($id_pengadaan_fk);
-        $response = $this->generateItem($detilPengadaanSparepart);
+        $response = $this->generateItem($detilPengadaanSparepart, new DetilPengadaanSparepartTransformer);
         return $this->sendResponse($response);
     }
 }

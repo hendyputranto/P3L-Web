@@ -22,10 +22,28 @@ class SparepartCabangController extends RestController
         return $this->sendResponse($response);
     }
      public function showStokKurang(){
-        $sparepartKurang = DB::select('* from sparepart_cabangs where stokSisa_sparepart <= stokMin_sparepart');
-        // $response = $this->generateItem($sparepartKurang);
-        // return $this->sendResponse($response);
-        return $sparepartKurang;
+        // $sparepartKurang = DB::select('* from sparepart_cabangs where stokSisa_sparepart <= stokMin_sparepart');
+        // // $response = $this->generateItem($sparepartKurang);
+        // // return $this->sendResponse($response);
+        // return $sparepartKurang;
+       // whereColumn('stokSisa_sparepart','<=','stokMin_sparepart')->
+    //    dd('miaw'); 
+    //    $sparepart = SparepartCabang::get();
+    //     dd($sparepart);
+    //     $response=$this->generateCollection($sparepart);
+    //     return $this->sendResponse($response,201);
+    }
+    public function showStokKurang2(){
+        $sparepartCabang = SparepartCabang::whereColumn('stokSisa_sparepart','<=','stokMin_sparepart')->get();
+        $response=$this->generateCollection($sparepartCabang);
+        return $this->sendResponse($response,201);
+    }
+    public function showStokKurangByCabang($id)
+    {
+        $sparepartStokKurangFilter = SparepartCabang::where('id_cabang_fk',$id)->whereColumn('stokSisa_sparepart','<=','stokMin_sparepart')->get();
+        // dd($sparepartStokKurangFilter);
+        $response = $this->generateCollection($sparepartStokKurangFilter);
+        return $this->sendResponse($response);
     }
 
     //tampil by id

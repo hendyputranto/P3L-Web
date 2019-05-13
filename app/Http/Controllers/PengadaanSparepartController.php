@@ -30,7 +30,7 @@ class PengadaanSparepartController extends RestController
         return $this->sendResponse($response);
     }
     //nambah data
-    public function create(request $request){
+    public function create(Request $request){
         // $this->validate($request,[
         //     'id_supplier_fk' => 'required',
         //     'id_sparepartCabang_fk' => 'required',
@@ -69,23 +69,29 @@ class PengadaanSparepartController extends RestController
         try{
             date_default_timezone_set('Asia/Jakarta');
             $pengadaanSparepart = new PengadaanSparepart;
-            $detil = $request->detil;
+            if($request->has('detil'))
+            {
+                $detil = $request->detil;
+            }
             $pengadaanSparepart->id_supplier_fk = $request->id_supplier_fk;
             $pengadaanSparepart->id_cabang_fk = $request->id_cabang_fk;
             $pengadaanSparepart->statusCetak_pengadaan = "Belum Cetak";
             $pengadaanSparepart->status_pengadaan = "Belum Selesai";            
             $pengadaanSparepart->totalHarga_pengadaan = $request->totalHarga_pengadaan;
             $pengadaanSparepart->tgl_pengadaan = date("Y-m-d").' '.date('H:i:s');
-            $pengadaanSparepart->tgl_barangDatang = date("Y-m-d").' '.date('H:i:s');
+            $pengadaanSparepart->tgl_barangDatang = null;
       
             $pengadaanSparepart->save();
 
-            $pengadaanSparepart = DB::transaction(function()use($pengadaanSparepart,$detil){
-                $pengadaanSparepart->detil_pengadaansparepart()->createMany($detil);
-                return $pengadaanSparepart;
-                //input data dalam bentuk array 2d, meskipun datanya cuma 1. 
-            });
-
+            if($request->has('detil'))
+            {
+                $pengadaanSparepart = DB::transaction(function()use($pengadaanSparepart,$detil){
+                    $pengadaanSparepart->detil_pengadaansparepart()->createMany($detil);
+                    return $pengadaanSparepart;
+                    //input data dalam bentuk array 2d, meskipun datanya cuma 1. 
+                });
+            }
+            
             $response = $this->generateItem($pengadaanSparepart);
 
             return $this->sendResponse($response, 201);
