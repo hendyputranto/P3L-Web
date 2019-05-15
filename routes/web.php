@@ -12,6 +12,9 @@
 */
 
 Route::get('laporan','ReportController@LaporanPengeluaranBulanan');
+Route::get('laporan_penjualan_jasa', function() {
+    return view('laporanpenjualanjasa');
+});
 
 Route::get('/', function () {
     return view('page.home');

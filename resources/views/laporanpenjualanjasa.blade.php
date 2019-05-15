@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Laporan Pengeluaran Bulanan</title>
+    <title>Laporan Penjualan Jasa</title>
 </head>
 <body>
     <div id="fullcontainer">
@@ -20,29 +20,23 @@
 
             <hr>
 
-            <p style="text-align: center"><strong>LAPORAN PENGELUARAN BULANAN</strong></p>
+            <p style="text-align: center"><strong>LAPORAN PENJUALAN JASA</strong></p>
             <p style="text-align: left">Tahun : </p>
-        
+            <p style="text-align: left">Bulan : </p>
         
             <table id="tableBulan">
                 <thead>
                     <tr>
                         <th style="width: 50px; text-align: center">No</th>
-                        <th style="width: 150px; text-align: center">Bulan</th>
-                        <th style="width: 250px; text-align: center">Jumlah Pengeluaran</th>
+                        <th style="width: 150px; text-align: center">Merk</th>
+                        <th style="width: 250px; text-align: center">Tipe Motor</th>
+                        <th style="width: 250px; text-align: center">Nama Service</th>
+                        <th style="width: 250px; text-align: center">Jumlah Penjualan</th>
                     </tr>
                 </thead>
                 <tbody>
-                @foreach($query as $q)
-                <tr>
-                    <td style="text-align: center"> {{ ++$no }} </td>
-                    <td style="text-align: center"> {{ date("F", mktime(0, 0, 0, $q->Bulan, 1)) }} </td>
-                    <td style="text-align: center"> {{ $q->Pengeluaran }} </td>
-                </tr>
-                @endforeach
                 </tbody>
             </table>
-            <p id = "judultotal"><strong>TOTAL       {{ $total}} <span id="total"><span></strong></p>
             <br>
             
             <p id="dicetak" style="text-align: right">dicetak tanggal <span id="datetime"></span></p>

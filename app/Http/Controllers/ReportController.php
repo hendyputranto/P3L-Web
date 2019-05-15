@@ -29,4 +29,8 @@ class ReportController extends Controller
         }
         return view('pengeluaranbulanan', ['query'=>$query, 'label'=>$label, 'data'=>$data, 'no'=>0, 'total'=>$total]);
     }
+
+    public function LaporanPenjualanJasa(){
+        
+    }
 }
