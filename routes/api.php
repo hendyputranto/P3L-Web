@@ -30,6 +30,7 @@ Route::put('cabang/{id}','CabangController@update');
 Route::delete('cabang/{id}','CabangController@delete');
 
 //Jasa Service
+Route::get('jasaService/sortByHargaAsc','JasaServiceController@sortByHargaAsc');
 Route::get('jasaService','JasaServiceController@show');
 Route::get('jasaService/{id}','JasaServiceController@showById');
 Route::post('jasaService','JasaServiceController@create');
@@ -82,16 +83,21 @@ Route::post('sparepart/updateImageMobile/{kode}','SparepartController@updateImag
 Route::delete('sparepart/{kode}','SparepartController@delete');
 
 //Sparepart Cabang
+Route::post('sparepartCabang','SparepartCabangController@create');
 Route::get('sparepartCabang','SparepartCabangController@show');
 Route::get('sparepartCabang/{id}','SparepartCabangController@showById');
-Route::get('sparepartCabang/stokKurang','SparepartCabangController@showStokKurang');
-Route::get('sparepartCabang/stokKurangByCabang/{id}','SparepartCabangController@showStokKurangByCabang');
-Route::get('sparepartCabang/stokKurang/test','SparepartCabangController@showStokKurang2');
-Route::get('sparepartCabang/showByCabang/{id}','SparepartCabangController@showByCabang');
-Route::get('sparepartCabang/showByTipe/{id}','SparepartCabangController@showByTipeSparepart');
-Route::post('sparepartCabang','SparepartCabangController@create');
 Route::put('sparepartCabang/{id}','SparepartCabangController@update');
 Route::delete('sparepartCabang/{id}','SparepartCabangController@delete');
+
+Route::get('sparepartCabang/stokKurang','SparepartCabangController@showStokKurang'); //gabisa
+Route::get('sparepartCabang/stokKurangByCabang/{id}','SparepartCabangController@showStokKurangByCabang');
+Route::get('sparepartCabang/showByCabang/{id}','SparepartCabangController@showByCabang');
+Route::get('sparepartCabang/showByTipe/{id}','SparepartCabangController@showByTipeSparepart');
+ 
+Route::get('sparepartCabang/sortByStokSisaAsc','SparepartCabangController@sortByStokSisaAsc'); //gabisa
+Route::get('sparepartCabang/sortByHargaAsc','SparepartCabangController@sortByHargaAsc'); //gabisa
+
+Route::get('sparepartCabang/sort','SparepartCabangController@testsort');
 
 //Pengadaan Sparepart
 Route::get('pengadaanSparepart','PengadaanSparepartController@show');
@@ -116,6 +122,8 @@ Route::post('transaksiPenjualanSS','TransaksiPenjualanController@createSS');
 Route::post('transaksiPenjualanSparepart','TransaksiPenjualanController@createTransaksiPenjualan_sinta');
 Route::put('transaksiPenjualan/{id}','TransaksiPenjualanController@update');
 Route::put('transaksiPenjualan/update_sinta/{id}','TransaksiPenjualanController@update_sinta');
+Route::put('transaksiPenjualan/update_status_transaksi_sinta/{id}','TransaksiPenjualanController@update_status_transaksi_sinta');
+
 Route::put('transaksiPenjualan/payment/{id}','TransaksiPenjualanController@payment');
 Route::delete('transaksiPenjualan/{id}','TransaksiPenjualanController@delete');
 

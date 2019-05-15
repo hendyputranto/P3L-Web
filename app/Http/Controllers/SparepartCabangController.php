@@ -15,51 +15,56 @@ use App\Transformers\TipeSparepartTransformer;
 class SparepartCabangController extends RestController
 {
     protected $transformer = SparepartCabangTransformer::class;
-   //menampilkan data
-     public function show(){
-        $sparepartCabang = SparepartCabang::all();
+
+    public function sortByStokSisaAsc(){
+        dd('trt');
+        //$sparepartCabang = SparepartCabang::orderBy('stokSisa_sparepart')->where('id_cabang_fk',$id)->get();
+        $sparepartCabang = SparepartCabang::orderBy('stokSisa_sparepart')->get();
+        dd($sparepartCabang);
         $response = $this->generateCollection($sparepartCabang);
-        return $this->sendResponse($response);
+        return $this->sendResponse($response,201);
     }
-     public function showStokKurang(){
-        // $sparepartKurang = DB::select('* from sparepart_cabangs where stokSisa_sparepart <= stokMin_sparepart');
-        // // $response = $this->generateItem($sparepartKurang);
-        // // return $this->sendResponse($response);
-        // return $sparepartKurang;
-       // whereColumn('stokSisa_sparepart','<=','stokMin_sparepart')->
-    //    dd('miaw'); 
-    //    $sparepart = SparepartCabang::get();
-    //     dd($sparepart);
-    //     $response=$this->generateCollection($sparepart);
-    //     return $this->sendResponse($response,201);
+
+    public function testsort(){
+        $sparepartCabang = SparepartCabang::orderBy('stokSisa_sparepart')->get();
+        dd($sparepartCabang);
+        $response = $this->generateCollection($sparepartCabang);
+        return $this->sendResponse($response,201);
     }
-    public function showStokKurang2(){
+    public function sortByHargaAsc(){
+        $sparepartCabang = SparepartCabang::orderBy('hargaJual_sparepart')->get();
+        $response = $this->generateCollection($sparepartCabang);
+        return $this->sendResponse($response,201);
+    }
+
+    public function showStokKurang(){
         $sparepartCabang = SparepartCabang::whereColumn('stokSisa_sparepart','<=','stokMin_sparepart')->get();
         $response=$this->generateCollection($sparepartCabang);
         return $this->sendResponse($response,201);
     }
-    public function showStokKurangByCabang($id)
+
+    ////menampilkan data
+    public function show()
     {
-        $sparepartStokKurangFilter = SparepartCabang::where('id_cabang_fk',$id)->whereColumn('stokSisa_sparepart','<=','stokMin_sparepart')->get();
-        // dd($sparepartStokKurangFilter);
-        $response = $this->generateCollection($sparepartStokKurangFilter);
-        return $this->sendResponse($response);
+        $sparepartCabang = SparepartCabang::all();
+        $response = $this->generateCollection($sparepartCabang);
+        return $this->sendResponse($response,201);
     }
 
     //tampil by id
-    public function showById(request $request, $id_sparepartCabang){
+    public function showById(request $request, $id_sparepartCabang)
+    {
         $sparepartCabang = SparepartCabang::find($id_sparepartCabang);
         $response = $this->generateItem($sparepartCabang);
-        return $this->sendResponse($response);
+        return $this->sendResponse($response,201);
     }
 
     public function showByCabang(request $request, $id)
     {
         $sparepart = SparepartCabang::where('id_cabang_fk',$id)->get();
         $response = $this->generateCollection($sparepart);
-        return $this->sendResponse($response);
+        return $this->sendResponse($response,201);
     }
-
     public function showByTipeSparepart(request $request, $id_cabang)
     {
         $sparepart_cabang = SparepartCabang::where('id_cabang_fk',$id_cabang)->get();
@@ -80,10 +85,19 @@ class SparepartCabangController extends RestController
         // dd($spareparts);
         // $temp = $sparepart_cabang[0]->kode_sparepart_fk;
         // $tipe_sparepart = Sparepart::where('kode_sparepart',$temp)->get();
-        $response = $this->generateCollection($spareparts);
-        return $this->sendResponse($response);
+        //awalnya gak dicomment 
+        // $response = $this->generateCollection($spareparts);
+        // return $this->sendResponse($response);
     }
 
+    
+    public function showStokKurangByCabang($id)
+    {
+        $sparepartStokKurangFilter = SparepartCabang::where('id_cabang_fk',$id)->whereColumn('stokSisa_sparepart','<=','stokMin_sparepart')->get();
+        // dd($sparepartStokKurangFilter);
+        $response = $this->generateCollection($sparepartStokKurangFilter);
+        return $this->sendResponse($response,201);
+    }
 
     //nambah data
     public function create(request $request){
@@ -115,8 +129,7 @@ class SparepartCabangController extends RestController
             return $this->sendResponse($response, 201);
         }catch(\Exception $e){
             return $this->sendIseResponse($e->getMessage());
-        }
-        
+        }   
     }
     //update data
     public function update(request $request, $id_sparepartCabang){
@@ -143,15 +156,15 @@ class SparepartCabangController extends RestController
             $response = $this->generateItem($sparepartCabang);
 
             return $this->sendResponse($response, 201);
-        }catch(\Exception $e){
+        }
+	catch(\Exception $e){
             return $this->sendIseResponse($e->getMessage());
-        }catch (ModelNotFoundException $e) {
+        }
+	catch (ModelNotFoundException $e){
             return $this->sendNotFoundResponse('cabang_tidak_ditemukan');
         }
-        
     }
-
-    //hapus data
+        //hapus data
     public function delete($id_sparepartCabang){
        
         try{
@@ -159,11 +172,14 @@ class SparepartCabangController extends RestController
             $sparepartCabang->delete();
     
             return response()->json('Successs', 201);
-        }catch (ModelNotFoundException $e) {
-            return $this->sendNotFoundResponse('cabang_tidak_ditemukan');
-        }catch(\Exception $e){
-            return $this->sendIseResponse($e->getMessage());
         }
-       
+        catch (ModelNotFoundException $e)
+        {
+                return $this->sendNotFoundResponse('cabang_tidak_ditemukan');
+        }
+        catch(\Exception $e)
+        {
+                return $this->sendIseResponse($e->getMessage());
+        }
     }
 }

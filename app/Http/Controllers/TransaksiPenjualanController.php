@@ -22,16 +22,27 @@ class TransaksiPenjualanController extends RestController
         return $this->sendResponse($response);
     }
     //Buatan sintaa
+    public function update_status_transaksi_sinta($id)
+    {
+        $status_transaksi = "Sudah Selesai";
+        try {
+            $transaksi = TransaksiPenjualan::find($id);
+            $transaksi->status_transaksi = $status_transaksi;
+            $transaksi->save();
+            $response = $this->generateItem($transaksi);
+            return $this->sendResponse($response, 201);
+        } catch (\Exception $e) {
+            return $this->sendIseResponse($e->getMessage());
+        }
+    }
     public function update_sinta(Request $request, $id)
     {
         $diskon = $request->diskon;
         $total_transaksi = $request->total_transaksi;
-        $status_transaksi = $request->status_transaksi;
         try {
             $transaksi = TransaksiPenjualan::find($id);
             $transaksi->diskon = $diskon;
             $transaksi->total_transaksi = $total_transaksi;
-            $transaksi->status_transaksi = $status_transaksi;
             
             $transaksi->save();
             $response = $this->generateItem($transaksi);

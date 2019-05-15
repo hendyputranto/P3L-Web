@@ -20,7 +20,11 @@ class JasaServiceController extends RestController
         $response = $this->generateCollection($jasaService);
         return $this->sendResponse($response);
     }
-
+    public function sortByHargaAsc(){
+        $jasaService = JasaService::orderBy('harga_jasaService')->get();
+        $response = $this->generateCollection($jasaService);
+        return $this->sendResponse($response,201);
+    }
     //tampil by id
     public function showById(request $request, $id_jasaService){
         $jasaService = JasaService::find($id_jasaService);

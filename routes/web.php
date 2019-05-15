@@ -11,6 +11,8 @@
 |
 */
 
+Route::get('laporan','ReportController@LaporanPengeluaranBulanan');
+
 Route::get('/', function () {
     return view('page.home');
 });
@@ -129,5 +131,12 @@ Route::get('/catalog', function () {
 Route::get('/homeKonsumen', function () {
     return view('page.homeKonsumen');
 });
+
+Route::get('laporan/pendapatan', function() {
+
+    return view('pendapatanpertahun');
+});
+
+Route::get('laporan/pengeluaran', 'ReportController@LaporanPengeluaranBulanan');
 
 //Route::resource('Konsumen','KonsumenController');
