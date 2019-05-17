@@ -21,7 +21,7 @@
             <hr>
 
             <p style="text-align: center"><strong>LAPORAN PENGELUARAN BULANAN</strong></p>
-            <p style="text-align: left">Tahun : </p>
+            <p style="text-align: left">Tahun : 2019 </p>
         
         
             <table id="tableBulan">

@@ -20,6 +20,7 @@ class PengadaanSparepartTransformer extends TransformerAbstract
         return [
             'id_pengadaan' => $pengadaanSparepart->id_pengadaan,
             'id_supplier_fk' => $pengadaanSparepart->id_supplier_fk,
+            'id_cabang_fk' =>  $pengadaanSparepart->cabang->id_cabang,
             'nama_supplier'  => $pengadaanSparepart->supplier->nama_supplier,
             'nama_cabang' => $pengadaanSparepart->cabang->nama_cabang,
             'status_pengadaan' => $pengadaanSparepart->status_pengadaan,

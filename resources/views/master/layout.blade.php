@@ -37,8 +37,8 @@
     </div>
     <img src="gambar/logosimato.png" alt="" width="50" height="50">
     <ul class="nav navbar-nav navbar-right" display="none" >
-      <li class="{{Request::is('/') ? 'active' : null}}"><a href="{{ url('/pengadaan')}}">Pengadaan Sparepart</a></li>
-      <li class="dropdown {{Request::is('keloladata/*') ? 'active' : null }}"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Kelola Data <span class="caret"></span></a>
+    <li class="{{Request::is('/') ? 'active' : null}}"><a href="{{ url('/pengadaan')}}">Pengadaan Sparepart</a></li>
+      <li class="dropdown {{Request::is('keloladata/dpengadaanSparepart') ? 'active' : null }}"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Kelola Data <span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li class="{{Request::is('keloladata/dcabang') ? 'active' : null}}"><a href="{{ route('dcabang') }}">Cabang</a></li>
           <li class="divider"></li>
@@ -49,10 +49,15 @@
           <li class="{{Request::is('keloladata/dsparepart') ? 'active' : null}}"><a href="{{ route('dsparepart') }}">Sparepart</a></li>
           <li class="divider"></li>
           <li class="{{Request::is('keloladata/djasaService') ? 'active' : null}}"><a href="{{ route('djasaService') }}">Jasa Service</a></li>
+          <li class="divider"></li>
+          <li class="{{Request::is('keloladata/dmotor') ? 'active' : null}}"><a href="{{ route('dmotor') }}">Motor</a></li>
+          <li class="divider"></li>
+          <li class="{{Request::is('keloladata/dsparepartCabang') ? 'active' : null}}"><a href="{{ route('dsparepartCabang') }}">Sparepart Cabang</a></li>
         </ul>
       </li>
       <li><a href="#">Laporan</a></li>
-      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Keluar</a></li>
+      
+      <li><a href="{{ url('/login')}}"><span class="glyphicon glyphicon-log-in"></span> Keluar</a></li>
     </ul>
   </div>
 </nav>

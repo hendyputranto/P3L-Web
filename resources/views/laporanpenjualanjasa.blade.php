@@ -21,8 +21,8 @@
             <hr>
 
             <p style="text-align: center"><strong>LAPORAN PENJUALAN JASA</strong></p>
-            <p style="text-align: left">Tahun : </p>
-            <p style="text-align: left">Bulan : </p>
+            <p style="text-align: left">Tahun : 2019 </p>
+            <p style="text-align: left">Bulan : Mei </p>
         
             <table id="tableBulan">
                 <thead>
@@ -35,6 +35,16 @@
                     </tr>
                 </thead>
                 <tbody>
+                @foreach($query as $q)
+                <tr>
+                    <td style="text-align: center"> {{ ++$no }} </td>
+                    <td style="text-align: center"> {{ $q->MERK }} </td>
+                    <td style="text-align: center"> {{ $q->TIPE }} </td>
+                    <td style="text-align: center"> {{ $q->NAMAJASA }} </td>
+                    <td style="text-align: center"> </td>
+                    
+                </tr>
+                @endforeach
                 </tbody>
             </table>
             <br>

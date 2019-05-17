@@ -16,7 +16,6 @@ class ReportController extends Controller
         ->get();
 
         $count=count($query);
-        //dd($count);
         $label  = [];
         $data   = [];
         $total=0;
@@ -31,6 +30,32 @@ class ReportController extends Controller
     }
 
     public function LaporanPenjualanJasa(){
+        $query = DB::table('motors')
+                ->join('motor_konsumens', 'motors.id_motor', '=', 'motor_konsumens.id_motor_fk')
+                ->join('detil_transaksi_services', 'motor_konsumens.id_motorKonsumen', '=', 'detil_transaksi_services.id_motorKonsumen_fk')
+                ->join('jasa_services', 'detil_transaksi_services.id_jasaService_fk', '=', 'jasa_services.id_jasaService')
+                ->join( 'transaksi_penjualans', 'detil_transaksi_services.id_transaksi_fk', '=', 'transaksi_penjualans.id_transaksi')
+                ->select('motors.tipe_motor as TIPE' ,'motors.merk_motor as MERK', 'jasa_services.nama_jasaService as NAMAJASA')
+                ->get();
+        // $query = DB::select("SELECT p.merk_motor AS Merk, p.tipe_motor AS Tipe, s.nama_jasaService AS `NamaService`, Count( t.tgl_transaksi ) AS `JumlahService` 
+        //                         FROM motors AS p INNER JOIN motor_konsumens as q ON q.id_motor_fk = p.id_motor INNER JOIN detil_transaksi_services AS r ON r.id_motorKonsumen_fk = q.id_motorKonsumen INNER JOIN jasa_services AS s ON r.id_jasaService_fk = s.id_jasaService INNER JOIN transaksi_penjualans AS t ON r.id_transaksi_fk = t.id_transaksi 
+        //                         WHERE MONTHNAME( t.tgl_transaksi) = 'Mei' AND YEAR ( t.tgl_transaksi) = 2019 
+        //                         GROUP BY p.tipe_motor, p.merk_motor, s.nama_jasaService");
+        $count=count($query);
+        $label  = [];
+        $data   = [];
+        $test   = [];
+       // $jumlah = [];
+        for($i=0;$i<$count;$i++)
+        {
+            $label[$i]  = $query[$i]->MERK;
+            $data[$i]   = $query[$i]->TIPE;
+            $test[$i]   = $query[$i]->NAMAJASA;
+            // $jumlah[$i] = $query[$i]->JumlahService;
+        }
+        return view('laporanpenjualanjasa', ['query'=>$query, 'label'=>$label, 'data'=>$data, 'test'=>$test, 'no'=>0]);
+
+    }
         
     public function cetakSuratPerintahKerjaDesktop($id)
     {

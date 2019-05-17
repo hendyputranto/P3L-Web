@@ -16,27 +16,30 @@ class SparepartCabangController extends RestController
 {
     protected $transformer = SparepartCabangTransformer::class;
 
-    public function sortByStokSisaAsc(){
-        dd('trt');
-        //$sparepartCabang = SparepartCabang::orderBy('stokSisa_sparepart')->where('id_cabang_fk',$id)->get();
-        $sparepartCabang = SparepartCabang::orderBy('stokSisa_sparepart')->get();
-        dd($sparepartCabang);
+    public function sortByStokSisaDesc($id){
+        $sparepartCabang = SparepartCabang::orderBy('stokSisa_sparepart','desc')->where('id_cabang_fk',$id)->get();
         $response = $this->generateCollection($sparepartCabang);
         return $this->sendResponse($response,201);
     }
 
-    public function testsort(){
-        $sparepartCabang = SparepartCabang::orderBy('stokSisa_sparepart')->get();
-        dd($sparepartCabang);
-        $response = $this->generateCollection($sparepartCabang);
-        return $this->sendResponse($response,201);
-    }
-    public function sortByHargaAsc(){
-        $sparepartCabang = SparepartCabang::orderBy('hargaJual_sparepart')->get();
+    public function sortByStokSisaAsc($id){
+        $sparepartCabang = SparepartCabang::orderBy('stokSisa_sparepart','asc')->where('id_cabang_fk',$id)->get();
         $response = $this->generateCollection($sparepartCabang);
         return $this->sendResponse($response,201);
     }
 
+    public function sortByHargaAsc($id){
+        $sparepartCabang = SparepartCabang::orderBy('hargaJual_sparepart','asc')->where('id_cabang_fk',$id)->get();
+        $response = $this->generateCollection($sparepartCabang);
+        return $this->sendResponse($response,201);
+    }
+
+    public function sortByHargaDesc($id){
+        $sparepartCabang = SparepartCabang::orderBy('hargaJual_sparepart','desc')->where('id_cabang_fk',$id)->get();
+        $response = $this->generateCollection($sparepartCabang);
+        return $this->sendResponse($response,201);
+    }
+    
     public function showStokKurang(){
         $sparepartCabang = SparepartCabang::whereColumn('stokSisa_sparepart','<=','stokMin_sparepart')->get();
         $response=$this->generateCollection($sparepartCabang);
