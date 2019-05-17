@@ -141,3 +141,5 @@ Route::get('detilSparepart/transaksi/{id}','DetilTransaksiSparepartController@sh
 Route::post('detilSparepart','DetilTransaksiSparepartController@create');
 //Route::put('detilSparepart/{id}','DetilTransaksiSparepartController@update');
 Route::delete('detilSparepart/{id}','DetilTransaksiSparepartController@delete');
+//report
+Route::get('spk/{id}','ReportController@cetakSuratPerintahKerjaDesktop');
