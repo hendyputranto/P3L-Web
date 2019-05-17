@@ -94,9 +94,10 @@ Route::get('sparepartCabang/stokKurangByCabang/{id}','SparepartCabangController@
 Route::get('sparepartCabang/showByCabang/{id}','SparepartCabangController@showByCabang');
 Route::get('sparepartCabang/showByTipe/{id}','SparepartCabangController@showByTipeSparepart');
  
-Route::get('sparepartCabang/sortByStokSisaAsc','SparepartCabangController@sortByStokSisaAsc'); //gabisa
-Route::get('sparepartCabang/sortByHargaAsc','SparepartCabangController@sortByHargaAsc'); //gabisa
-
+Route::get('sparepartCabang/sortByStokSisaAsc/{id}','SparepartCabangController@sortByStokSisaAsc');
+Route::get('sparepartCabang/sortByStokSisaDesc/{id}','SparepartCabangController@sortByStokSisaDesc');
+Route::get('sparepartCabang/sortByHargaAsc/{id}','SparepartCabangController@sortByHargaAsc');
+Route::get('sparepartCabang/sortByHargaDesc/{id}','SparepartCabangController@sortByHargaDesc');
 Route::get('sparepartCabang/sort','SparepartCabangController@testsort');
 
 //Pengadaan Sparepart
