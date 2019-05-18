@@ -74,7 +74,7 @@ class TransaksiPenjualanController extends RestController
             $transaksiPenjualan->tgl_transaksi = date("Y-m-d").' '.date('H:i:s');
             $transaksiPenjualan->diskon = $request->diskon;
             $transaksiPenjualan->total_transaksi = $request->total_transaksi;
-            $transaksiPenjualan->status_transaksi = $request->status_transaksi;
+            $transaksiPenjualan->status_transaksi = "Belum Lunas";
             
             $transaksiPenjualan->save();
             $transaksiPenjualan = DB::transaction(function()use($transaksiPenjualan,$detil){

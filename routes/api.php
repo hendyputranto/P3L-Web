@@ -40,6 +40,7 @@ Route::delete('jasaService/{id}','JasaServiceController@delete');
 //Konsumen
 Route::get('konsumen','KonsumenController@show');
 Route::get('konsumen/{id}','KonsumenController@showById');
+Route::get('konsumen/showByName/{nama_konsumen}','KonsumenController@showByName');
 Route::post('konsumen','KonsumenController@create');
 Route::put('konsumen/{id}','KonsumenController@update');
 Route::delete('konsumen/{id}','KonsumenController@delete');

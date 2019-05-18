@@ -68,7 +68,8 @@ class SparepartCabangController extends RestController
         $response = $this->generateCollection($sparepart);
         return $this->sendResponse($response,201);
     }
-    public function showByTipeSparepart(request $request, $id_cabang)
+    
+    public function showTipeByIdCabang(request $request, $id_cabang)
     {
         $sparepart_cabang = SparepartCabang::where('id_cabang_fk',$id_cabang)->get();
 
