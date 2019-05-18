@@ -51,7 +51,7 @@
     let tableSparepart = document.querySelector('#tableSparepart');
     let col = ['kode_sparepart', 'nama_sparepart', 'merk_sparepart', 'tipe_sparepart','gambar_sparepart'];
     let col1 = ['hargaJual_sparepart'];
-    axios.get('http://10.53.8.60:8000/api/sparepart')
+    axios.get('http://10.53.1.47:8000/api/sparepart')
     .then((result) => {
         console.log(result.data);
             Sparepart = result.data.data;

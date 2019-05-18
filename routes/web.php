@@ -140,6 +140,10 @@ Route::get('laporan/pendapatan', function() {
 
     return view('pendapatanpertahun');
 });
+Route::get('laporan/pendapatanBulanan', function() {
+
+    return view('laporanPendapatanBulanan');
+});
 
 Route::get('laporan/pengeluaran', 'ReportController@LaporanPengeluaranBulanan');
 
