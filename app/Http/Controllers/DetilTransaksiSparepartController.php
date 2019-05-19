@@ -39,8 +39,7 @@ class DetilTransaksiSparepartController extends RestController
     }
     //nambah data detil sinta
     public function createDetilTransaksiSparepart(Request $request){
-        try{
-            
+        try{        
             $detilTransaksiSparepart = new Detil_TransaksiSparepart;
             
             $detilTransaksiSparepart->id_transaksi_fk = $request->id_transaksi_fk;
@@ -48,7 +47,12 @@ class DetilTransaksiSparepartController extends RestController
             $detilTransaksiSparepart->id_konsumen_fk = $request->id_konsumen_fk;
             $detilTransaksiSparepart->jumlahBeli_sparepart  = $request->jumlahBeli_sparepart;    
             $detilTransaksiSparepart->subTotal_sparepart  = $request->subTotal_sparepart;
+            
+            $tempSparepart = SparepartCabang::find($request->id_sparepartCabang_fk);
+            $tempSparepart->stokSisa_sparepart -= $request->jumlahBeli_sparepart;    
             $detilTransaksiSparepart->save();
+            $tempSparepart->save();
+            
             $response = $this->generateItem($detilTransaksiSparepart, new DetilTransaksiSparepartTransformer);
             return $this->sendResponse($response, 201);
         }catch(\Exception $e){

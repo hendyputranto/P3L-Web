@@ -28,7 +28,7 @@ class TransaksiPenjualanController extends RestController
     //Buatan sintaa
     public function update_status_transaksi_sinta($id)
     {
-        $status_transaksi = "Sudah Selesai";
+        $status_transaksi = "Sudah Lunas";
         try {
             $transaksi = TransaksiPenjualan::find($id);
             $transaksi->status_transaksi = $status_transaksi;
@@ -41,13 +41,40 @@ class TransaksiPenjualanController extends RestController
     }
     public function update_sinta(Request $request, $id)
     {
-        $diskon = $request->diskon;
-        $total_transaksi = $request->total_transaksi;
         try {
             $transaksi = TransaksiPenjualan::find($id);
-            $transaksi->diskon = $diskon;
-            $transaksi->total_transaksi = $total_transaksi;
+            $transaksi->diskon = $request->diskon;
+            $transaksi->total_transaksi = $request->total_transaksi;
             
+            $detilServices = Detil_TransaksiService::where('id_transaksi_fk',$id)->get();
+            foreach($detilServices as $detilService)
+            {  
+                $delDetilService = $detilService->delete();
+            }
+            $detilSpareparts = Detil_TransaksiSparepart::where('id_transaksi_fk',$id)->get();
+            foreach($detilSpareparts as $detilSparepart)
+            {  
+                $dataSparepart = SparepartCabang::where('id_sparepartCabang',$detilSparepart->id_sparepartCabang_fk)->first();
+                $dataSparepart->stokSisa_sparepart += $detilSparepart->jumlahBeli_sparepart;
+                $dataSparepart->save();
+                $delDetilSparepart = $detilSparepart->delete();
+            }
+            if($request->has('detil_sparepart'))
+            {
+                $detil = $request->detil_sparepart;
+                $transaksiPenjualan = DB::transaction(function()use($transaksiPenjualan,$detil){
+                $transaksiPenjualan->detil_transaksi_sparepart()->createMany($detil);
+                return $transaksiPenjualan;
+                });
+            }
+            if($request->has('detil_service'))
+            {
+                $detil = $request->detil_service;
+                $transaksiPenjualan = DB::transaction(function()use($transaksiPenjualan,$detil){
+                $transaksiPenjualan->detil_transaksi_service()->createMany($detil);
+                return $transaksiPenjualan;
+                });
+            }
             $transaksi->save();
             $response = $this->generateItem($transaksi);
             return $this->sendResponse($response, 201);
