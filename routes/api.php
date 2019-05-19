@@ -135,7 +135,7 @@ Route::get('detilJasa/{id}','DetilTransaksiServiceController@showById');
 Route::post('detilJasa','DetilTransaksiServiceController@create');
 //Route::put('detilJasa/{id}','DetilTransaksiServiceController@update');
 Route::delete('detilJasa/{id}','DetilTransaksiServiceController@delete');
-
+Route::post('createDetilTransaksiService','DetilTransaksiServiceController@createDetilTransaksiService');
 //Detil Transaksi Sparepart
 Route::get('detilSparepart','DetilTransaksiSparepartController@show');
 Route::get('detilSparepart/{id}','DetilTransaksiSparepartController@showById');

@@ -72,7 +72,7 @@ class TransaksiPenjualanController extends RestController
             $transaksiPenjualan->id_cabang_fk=$request->id_cabang_fk;
             $transaksiPenjualan->kode_transaksi='SP'.'-'.date("d").date("m").date("y").'-'.$no;
             $transaksiPenjualan->tgl_transaksi = date("Y-m-d").' '.date('H:i:s');
-            $transaksiPenjualan->diskon = $request->diskon;
+            $transaksiPenjualan->diskon =0;
             $transaksiPenjualan->total_transaksi = $request->total_transaksi;
             $transaksiPenjualan->status_transaksi = "Belum Lunas";
             
