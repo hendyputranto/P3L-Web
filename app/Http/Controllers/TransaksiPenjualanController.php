@@ -42,9 +42,15 @@ class TransaksiPenjualanController extends RestController
     public function update_sinta(Request $request, $id)
     {
         try {
-            $transaksi = TransaksiPenjualan::find($id);
-            $transaksi->diskon = $request->diskon;
-            $transaksi->total_transaksi = $request->total_transaksi;
+            $transaksiPenjualan = TransaksiPenjualan::find($id);
+            if(!is_null($request->diskon))
+            {
+                $transaksiPenjualan->diskon = $request->diskon;
+            }
+            if(!is_null($request->total_transaksi))
+            {
+                $transaksiPenjualan->total_transaksi = $request->total_transaksi;
+            }
             
             $detilServices = Detil_TransaksiService::where('id_transaksi_fk',$id)->get();
             foreach($detilServices as $detilService)
@@ -75,8 +81,8 @@ class TransaksiPenjualanController extends RestController
                 return $transaksiPenjualan;
                 });
             }
-            $transaksi->save();
-            $response = $this->generateItem($transaksi);
+            $transaksiPenjualan->save();
+            $response = $this->generateItem($transaksiPenjualan);
             return $this->sendResponse($response, 201);
         } catch (\Exception $e) {
             return $this->sendIseResponse($e->getMessage());
