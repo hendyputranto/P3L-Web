@@ -18,6 +18,7 @@ class DetilPengadaanSparepartController extends RestController
         return $this->sendResponse($response);
     }
     public function createDetilPengadaan(Request $request){
+       // dd($request);
         try{
             
             $detilPengadaanSparepart = new DetilPengadaanSparepart;
@@ -27,6 +28,7 @@ class DetilPengadaanSparepartController extends RestController
             $detilPengadaanSparepart->satuan_pengadaan = $request->satuan_pengadaan;
             $detilPengadaanSparepart->sub_total_sparepart = $request->sub_total_sparepart;    
             $detilPengadaanSparepart->totalBarang_datang = 0;
+            
             $detilPengadaanSparepart->save();
             $response = $this->generateItem($detilPengadaanSparepart, new DetilPengadaanSparepartTransformer);
             return $this->sendResponse($response, 201);

@@ -32,6 +32,25 @@ class DetilTransaksiServiceController extends RestController
         $response = $this->generateItem($detilJasa);
         return $this->sendResponse($response);
     }
+
+    //nambah data sinta
+    public function createDetilTransaksiService(Request $request){
+        try{
+            
+            $detilTransaksiService = new Detil_TransaksiService;
+            
+            $detilTransaksiService->id_transaksi_fk = $request->id_transaksi_fk;
+            $detilTransaksiService->id_jasaService_fk = $request->id_jasaService_fk;
+            $detilTransaksiService->id_motorKonsumen_fk = $request->id_motorKonsumen_fk;
+            $detilTransaksiService->subTotal_service = $request->subTotal_service;    
+            $detilTransaksiService->status_service = "Belum Selesai";
+            $detilTransaksiService->save();
+            $response = $this->generateItem($detilTransaksiService, new DetilTransaksiServiceTransformer);
+            return $this->sendResponse($response, 201);
+        }catch(\Exception $e){
+            return $this->sendIseResponse($e->getMessage());
+        }
+    }
     //nambah data
     public function create(request $request){
         

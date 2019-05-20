@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\TransaksiPenjualan;
+use App\Detil_TransaksiSparepart;
+use App\Detil_TransaksiService;
+use App\SparepartCabang;
+use App\Pegawai_OnDuty;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
@@ -24,7 +28,7 @@ class TransaksiPenjualanController extends RestController
     //Buatan sintaa
     public function update_status_transaksi_sinta($id)
     {
-        $status_transaksi = "Sudah Selesai";
+        $status_transaksi = "Sudah Lunas";
         try {
             $transaksi = TransaksiPenjualan::find($id);
             $transaksi->status_transaksi = $status_transaksi;
@@ -37,28 +41,61 @@ class TransaksiPenjualanController extends RestController
     }
     public function update_sinta(Request $request, $id)
     {
-        $diskon = $request->diskon;
-        $total_transaksi = $request->total_transaksi;
         try {
-            $transaksi = TransaksiPenjualan::find($id);
-            $transaksi->diskon = $diskon;
-            $transaksi->total_transaksi = $total_transaksi;
+            $transaksiPenjualan = TransaksiPenjualan::find($id);
+            if(!is_null($request->diskon))
+            {
+                $transaksiPenjualan->diskon = $request->diskon;
+            }
+            if(!is_null($request->total_transaksi))
+            {
+                $transaksiPenjualan->total_transaksi = $request->total_transaksi;
+            }
             
-            $transaksi->save();
-            $response = $this->generateItem($transaksi);
+            $detilServices = Detil_TransaksiService::where('id_transaksi_fk',$id)->get();
+            foreach($detilServices as $detilService)
+            {  
+                $delDetilService = $detilService->delete();
+            }
+            $detilSpareparts = Detil_TransaksiSparepart::where('id_transaksi_fk',$id)->get();
+            foreach($detilSpareparts as $detilSparepart)
+            {  
+                $dataSparepart = SparepartCabang::where('id_sparepartCabang',$detilSparepart->id_sparepartCabang_fk)->first();
+                $dataSparepart->stokSisa_sparepart += $detilSparepart->jumlahBeli_sparepart;
+                $dataSparepart->save();
+                $delDetilSparepart = $detilSparepart->delete();
+            }
+            if($request->has('detil_sparepart'))
+            {
+                $detil = $request->detil_sparepart;
+                $transaksiPenjualan = DB::transaction(function()use($transaksiPenjualan,$detil){
+                $transaksiPenjualan->detil_transaksi_sparepart()->createMany($detil);
+                return $transaksiPenjualan;
+                });
+            }
+            if($request->has('detil_service'))
+            {
+                $detil = $request->detil_service;
+                $transaksiPenjualan = DB::transaction(function()use($transaksiPenjualan,$detil){
+                $transaksiPenjualan->detil_transaksi_service()->createMany($detil);
+                return $transaksiPenjualan;
+                });
+            }
+            $transaksiPenjualan->save();
+            $response = $this->generateItem($transaksiPenjualan);
             return $this->sendResponse($response, 201);
         } catch (\Exception $e) {
             return $this->sendIseResponse($e->getMessage());
         }
     }
-    public function createTransaksiPenjualan_sinta(request $request)
+    
+    public function createTransaksiPenjualan_sinta(Request $request)
     {
         try{
             date_default_timezone_set('Asia/Jakarta');
             $transaksiPenjualan = new TransaksiPenjualan;
-            $detil = $request->detil;
 
-            $transaksiPenjualan->id_cabang_fk = $request->id_cabang_fk;
+           
             $id = array();
             
             $id = DB::select('select kode_transaksi from transaksi_penjualans order by substring(kode_transaksi, 11) + 0 desc limit 1');
@@ -69,20 +106,46 @@ class TransaksiPenjualanController extends RestController
                 $no = ++$no_str;
             }
             
-            $transaksiPenjualan->id_cabang_fk=$request->id_cabang_fk;
-            $transaksiPenjualan->kode_transaksi='SP'.'-'.date("d").date("m").date("y").'-'.$no;
             $transaksiPenjualan->tgl_transaksi = date("Y-m-d").' '.date('H:i:s');
-            $transaksiPenjualan->diskon = $request->diskon;
+            $transaksiPenjualan->diskon = 0;
+            $transaksiPenjualan->status_transaksi = "Belum Lunas";
+
+            $transaksiPenjualan->kode_transaksi=$request->tipe_transaksi.'-'.date("d").date("m").date("y").'-'.$no;
+            $transaksiPenjualan->id_cabang_fk=$request->id_cabang_fk;
             $transaksiPenjualan->total_transaksi = $request->total_transaksi;
-            $transaksiPenjualan->status_transaksi = $request->status_transaksi;
+            
             
             $transaksiPenjualan->save();
-            $transaksiPenjualan = DB::transaction(function()use($transaksiPenjualan,$detil){
+            if($request->has('detil_sparepart'))
+            {
+                $detil = $request->detil_sparepart;
+                $transaksiPenjualan = DB::transaction(function()use($transaksiPenjualan,$detil){
                 $transaksiPenjualan->detil_transaksi_sparepart()->createMany($detil);
                 return $transaksiPenjualan;
-                //input data dalam bentuk array 2d, meskipun datanya cuma 1. 
-            });
+                    //input data dalam bentuk array 2d, meskipun datanya cuma 1. 
+                });
+            }
+            if($request->has('detil_service'))
+            {
+                $detil = $request->detil_service;
+                $transaksiPenjualan = DB::transaction(function()use($transaksiPenjualan,$detil){
+                $transaksiPenjualan->detil_transaksi_service()->createMany($detil);
+                return $transaksiPenjualan;
+                    //input data dalam bentuk array 2d, meskipun datanya cuma 1. 
+                });
+            }
 
+            if($request->has('id_montir'))
+            {
+                $pegawai_on_duty[0]['id_pegawai_fk'] = $request->id_montir;
+                $pegawai_on_duty[1]['id_pegawai_fk'] = $request->id_cs;
+                $transaksiPenjualan = DB::transaction(function()use($transaksiPenjualan,$pegawai_on_duty){
+                    $transaksiPenjualan->pegawai_onduty()->createMany($pegawai_on_duty);
+                    return $transaksiPenjualan;
+                    //input data dalam bentuk array 2d, meskipun datanya cuma 1. 
+                });
+            }
+            
             $response = $this->generateItem($transaksiPenjualan);
 
             return $this->sendResponse($response, 201);
@@ -92,6 +155,37 @@ class TransaksiPenjualanController extends RestController
         }
     }
     
+    public function deleteTransaksiPenjualan($id)
+    {
+        try {
+            $detilServices = Detil_TransaksiService::where('id_transaksi_fk',$id)->get();
+            foreach($detilServices as $detilService)
+            {  
+                $delDetilService = $detilService->delete();
+            }
+            $detilSpareparts = Detil_TransaksiSparepart::where('id_transaksi_fk',$id)->get();
+            foreach($detilSpareparts as $detilSparepart)
+            {  
+                $dataSparepart = SparepartCabang::where('id_sparepartCabang',$detilSparepart->id_sparepartCabang_fk)->first();
+                $dataSparepart->stokSisa_sparepart += $detilSparepart->jumlahBeli_sparepart;
+                $dataSparepart->save();
+                $delDetilSparepart = $detilSparepart->delete();
+            }
+
+            $pegawaiOnDuties = Pegawai_OnDuty::where('id_transaksi_fk',$id)->get();
+            foreach($pegawaiOnDuties as $pegawaiOnDuty)
+            {
+                $delPegawaiOnDuty = $pegawaiOnDuty->delete();
+            }
+            $transaksi=TransaksiPenjualan::find($id);
+            $transaksi->delete();
+            return response()->json('Success',200);
+        } catch (ModelNotFoundException $e) {
+            return $this->sendNotFoundResponse('transaksi_not_found');
+        } catch (\Exception $e) {
+            return $this->sendIseResponse($e->getMessage());
+        }
+    }
     public function createSV(request $request)
     {
         try {

@@ -27,6 +27,12 @@ class KonsumenController extends RestController
         $response = $this->generateItem($konsumen);
         return $this->sendResponse($response);
     }
+    //tampil by nama konsumen
+    public function showByName($nama_konsumen){
+        $konsumen = Konsumen::where('nama_konsumen',$nama_konsumen)->first();
+        $response = $this->generateItem($konsumen);
+        return $this->sendResponse($response,201);
+    }
     //nambah data
     public function create(request $request){
         

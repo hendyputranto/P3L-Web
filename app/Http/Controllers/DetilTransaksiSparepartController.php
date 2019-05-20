@@ -37,7 +37,29 @@ class DetilTransaksiSparepartController extends RestController
         $response = $this->generateItem($detilSparepart);
         return $this->sendResponse($response);
     }
-    //nambah data
+    //nambah data detil sinta
+    public function createDetilTransaksiSparepart(Request $request){
+        try{        
+            $detilTransaksiSparepart = new Detil_TransaksiSparepart;
+            
+            $detilTransaksiSparepart->id_transaksi_fk = $request->id_transaksi_fk;
+            $detilTransaksiSparepart->id_sparepartCabang_fk = $request->id_sparepartCabang_fk;
+            $detilTransaksiSparepart->id_konsumen_fk = $request->id_konsumen_fk;
+            $detilTransaksiSparepart->jumlahBeli_sparepart  = $request->jumlahBeli_sparepart;    
+            $detilTransaksiSparepart->subTotal_sparepart  = $request->subTotal_sparepart;
+            
+            $tempSparepart = SparepartCabang::find($request->id_sparepartCabang_fk);
+            $tempSparepart->stokSisa_sparepart -= $request->jumlahBeli_sparepart;    
+            $detilTransaksiSparepart->save();
+            $tempSparepart->save();
+            
+            $response = $this->generateItem($detilTransaksiSparepart, new DetilTransaksiSparepartTransformer);
+            return $this->sendResponse($response, 201);
+        }catch(\Exception $e){
+            return $this->sendIseResponse($e->getMessage());
+        }
+    }
+    //nambah data, ini punya hendy
     public function create(request $request){
         
         $datas = array();
@@ -51,7 +73,6 @@ class DetilTransaksiSparepartController extends RestController
                 $detilSparepart->id_sparepartCabang_fk = $data->id_sparepartCabang_fk;
                 $detilSparepart->id_konsumen_fk = $data->id_konsumen_fk;
                 $detilSparepart->jumlahBeli_sparepart = $data->jumlahBeli_sparepart;
-                
                 $detilSparepart->subTotal_sparepart = $data->subTotal_sparepart;
 
                 //$sparepart = SparepartCabang::find($data->id_sparepartCabang_fk);

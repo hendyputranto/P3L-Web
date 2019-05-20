@@ -9,6 +9,14 @@ class Detil_TransaksiService extends Model
     protected $table = 'detil_transaksi_services';      //mendefine tabel yang digunakan
     protected $primaryKey = 'id_detilTransaksiService';
 
+    protected $fillable = [
+        'id_detilTransaksiService',
+        'id_transaksi_fk',
+        'id_jasaService_fk',
+        'id_motorKonsumen_fk',
+        'subTotal_service',
+        'status_service'
+    ];
     public function jasa_service(){
         return $this->belongsTo('App\JasaService');
     }
