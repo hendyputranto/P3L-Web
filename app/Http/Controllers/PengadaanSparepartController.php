@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\PengadaanSparepart;
+use App\SparepartCabang;
 use App\DetilPengadaanSparepart;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Input;
@@ -16,7 +17,8 @@ use App\Transformers\PengadaanSparepartTransformer;
 class PengadaanSparepartController extends RestController
 {
     protected $transformer = PengadaanSparepartTransformer::class;
-     //menampilkan data
+     
+    //menampilkan data
      public function show(){
         $pengadaanSparepart = PengadaanSparepart::all();
         $response = $this->generateCollection($pengadaanSparepart);
@@ -30,42 +32,7 @@ class PengadaanSparepartController extends RestController
         return $this->sendResponse($response);
     }
     //nambah data
-    public function create(Request $request){
-        // $this->validate($request,[
-        //     'id_supplier_fk' => 'required',
-        //     'id_sparepartCabang_fk' => 'required',
-        //     'status_pengadaan' => 'required',
-        //     'satuan_pengadaan' => 'required',
-        //     'totalHarga_pengadaan' => 'required',
-        //     'totalBarang_datang' => 'required',
-        //     'tgl_pengadaan' => 'required',
-        //     'tgl_barangDatang' => 'required',
-        //     'statusCetak_pengadaan' => 'required',
-        // ]);
-        
-        // try{
-        //     date_default_timezone_set('Asia/Jakarta');
-        //     $pengadaanSparepart = new PengadaanSparepart;
-        
-        //     $pengadaanSparepart->id_supplier_fk = $request->id_supplier_fk;
-        //     $pengadaanSparepart->id_sparepartCabang_fk = $request->id_sparepartCabang_fk;
-        //     $pengadaanSparepart->status_pengadaan = "Belum Selesai";
-        //     $pengadaanSparepart->satuan_pengadaan = $request->satuan_pengadaan;
-        //     $pengadaanSparepart->totalHarga_pengadaan = $request->totalHarga_pengadaan;
-        //     $pengadaanSparepart->totalBarang_datang = 0;
-        //     $pengadaanSparepart->tgl_pengadaan = date("Y-m-d").' '.date('H:i:s');
-        //     $pengadaanSparepart->tgl_barangDatang = date("Y-m-d").' '.date('H:i:s');
-        //     $pengadaanSparepart->statusCetak_pengadaan = "Belum Cetak";
-            
-        //     $pengadaanSparepart->save();
-
-        //     $response = $this->generateItem($pengadaanSparepart);
-
-        //     return $this->sendResponse($response, 201);
-        // }catch(\Exception $e){
-        //     return $this->sendIseResponse($e->getMessage());
-        // }
-        
+    public function createPengadaanSparepart(Request $request){
         try{
             date_default_timezone_set('Asia/Jakarta');
             $pengadaanSparepart = new PengadaanSparepart;
@@ -73,14 +40,15 @@ class PengadaanSparepartController extends RestController
             {
                 $detil = $request->detil;
             }
-            $pengadaanSparepart->id_supplier_fk = $request->id_supplier_fk;
-            $pengadaanSparepart->id_cabang_fk = $request->id_cabang_fk;
             $pengadaanSparepart->statusCetak_pengadaan = "Belum Cetak";
-            $pengadaanSparepart->status_pengadaan = "Belum Selesai";            
-            $pengadaanSparepart->totalHarga_pengadaan = $request->totalHarga_pengadaan;
+            $pengadaanSparepart->status_pengadaan = "Belum Selesai";
             $pengadaanSparepart->tgl_pengadaan = date("Y-m-d").' '.date('H:i:s');
             $pengadaanSparepart->tgl_barangDatang = null;
       
+            $pengadaanSparepart->id_supplier_fk = $request->id_supplier_fk;
+            $pengadaanSparepart->id_cabang_fk = $request->id_cabang_fk;
+            $pengadaanSparepart->totalHarga_pengadaan = $request->totalHarga_pengadaan;
+           
             $pengadaanSparepart->save();
 
             if($request->has('detil'))
@@ -91,7 +59,6 @@ class PengadaanSparepartController extends RestController
                     //input data dalam bentuk array 2d, meskipun datanya cuma 1. 
                 });
             }
-            
             $response = $this->generateItem($pengadaanSparepart);
 
             return $this->sendResponse($response, 201);
@@ -100,6 +67,74 @@ class PengadaanSparepartController extends RestController
         }
     }
    
+
+    //update sinta
+    public function verifikasi_pengadaan($id)
+    {
+        try
+        {
+            date_default_timezone_set('Asia/Jakarta');
+            $pengadaanSparepart = PengadaanSparepart::find($id);
+            $pengadaanSparepart->status_pengadaan ='Sudah Selesai';
+
+            $pengadaanSparepart->tgl_barangDatang=date("Y-m-d").' '.date('H:i:s');
+            $detil=DetilPengadaanSparepart::where('id_pengadaan_fk',$id)->get();
+            $countdetil = count($detil);
+            for($i=0;$i<$countdetil;$i++)
+            {
+                $detil[$i]->totalBarang_datang = $detil[$i]->satuan_pengadaan;
+                $sparepart=SparepartCabang::find($detil[$i]->id_sparepartCabang_fk);
+                $sparepart->stokSisa_sparepart+=$detil[$i]->totalBarang_datang;
+                $detil[$i]->save();    
+                $sparepart->save();
+            }
+            
+            $pengadaanSparepart->save();
+            $response = $this->generateItem($pengadaanSparepart);
+            return $this->sendResponse($response, 201);
+        }
+        catch (\Exception $e)
+        {
+            return $this->sendIseResponse($e->getMessage());
+        }
+    }
+    public function update_mobile(Request $request, $id)
+    {
+        try
+        {
+            $pengadaanSparepart = PengadaanSparepart::find($id);
+            if(!is_null($request->id_supplier_fk))
+            {
+                $pengadaanSparepart->id_supplier_fk = $request->id_supplier_fk;
+            }
+            if(!is_null($request->id_cabang_fk))
+            {
+                $pengadaanSparepart->id_cabang_fk = $request->id_cabang_fk;
+            }
+            
+            $detilPengadaans = DetilPengadaanSparepart::where('id_pengadaan_fk',$id)->get();
+            foreach($detilPengadaans as $detilPengadaan)
+            {  
+                $delDetilPengadaan = $detilPengadaan->delete();
+            }
+
+            if($request->has('detil_pengadaan'))
+            {
+                $detil = $request->detil_pengadaan;
+                $pengadaanSparepart = DB::transaction(function()use($pengadaanSparepart,$detil){
+                $pengadaanSparepart->detil_pengadaansparepart()->createMany($detil);
+                return $pengadaanSparepart;
+                });
+            }
+            $pengadaanSparepart->save();
+            $response = $this->generateItem($pengadaanSparepart);
+            return $this->sendResponse($response, 201);
+        }
+        catch (\Exception $e)
+        {
+            return $this->sendIseResponse($e->getMessage());
+        }
+    }
     //update data
     public function update(request $request, $id_pengadaan){
         $id_supplier_fk = $request->id_supplier_fk;
@@ -139,16 +174,20 @@ class PengadaanSparepartController extends RestController
 
     //hapus data
     public function delete($id_pengadaan){
-        try{
-            $pengadaanSparepart = PengadaanSparepart::find($id_pengadaan);
+        try {
+            $detilPengadaanSpareparts = DetilPengadaanSparepart::where('id_pengadaan_fk',$id_pengadaan)->get();
+            foreach($detilPengadaanSpareparts as $detilPengadaanSparepart)
+            {  
+                $delDetilPengadaan = $detilPengadaanSparepart->delete();
+            }
+            $pengadaanSparepart=PengadaanSparepart::find($id_pengadaan);
             $pengadaanSparepart->delete();
 
-            return response()->json('Successs', 201);
-        }catch (ModelNotFoundException $e) {
-            return $this->sendNotFoundResponse('pengadaan_tidak_ditemukan');
-        }catch(\Exception $e){
+            return response()->json('Success',200);
+        } catch (ModelNotFoundException $e) {
+            return $this->sendNotFoundResponse('pengadaan_not_found');
+        } catch (\Exception $e) {
             return $this->sendIseResponse($e->getMessage());
         }
-        
     }
 }

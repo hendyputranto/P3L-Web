@@ -59,7 +59,7 @@ class DetilTransaksiSparepartController extends RestController
             return $this->sendIseResponse($e->getMessage());
         }
     }
-    //nambah data
+    //nambah data, ini punya hendy
     public function create(request $request){
         
         $datas = array();

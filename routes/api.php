@@ -104,14 +104,16 @@ Route::get('sparepartCabang/sort','SparepartCabangController@testsort');
 //Pengadaan Sparepart
 Route::get('pengadaanSparepart','PengadaanSparepartController@show');
 Route::get('pengadaanSparepart/{id}','PengadaanSparepartController@showById');
-Route::post('pengadaanSparepart','PengadaanSparepartController@create');
-Route::put('pengadaanSparepart/{id}','PengadaanSparepartController@update');
+Route::post('pengadaanSparepart/createPengadaanSparepart','PengadaanSparepartController@createPengadaanSparepart');
+Route::put('pengadaanSparepart/{id}','PengadaanSparepartController@update_mobile');
+Route::put('pengadaanSparepart/verifikasi_pengadaan/{id}','PengadaanSparepartController@verifikasi_pengadaan');
 Route::delete('pengadaanSparepart/{id}','PengadaanSparepartController@delete');
 
 //Detil Pengadaan Sparepart
 Route::get('detilPengadaanSparepart','DetilPengadaanSparepartController@show');
 Route::get('detilPengadaanSparepart/showByIdPengadaan/{id}','DetilPengadaanSparepartController@showByIdPengadaan');
 Route::post('detilPengadaanSparepart/createDetilPengadaan','DetilPengadaanSparepartController@createDetilPengadaan');
+
 
 
 //Transaksi Penjualan
