@@ -136,13 +136,23 @@ Route::get('/homeKonsumen', function () {
     return view('page.homeKonsumen');
 });
 
+
+
 Route::get('laporan/pendapatan', function() {
 
     return view('pendapatanpertahun');
 });
+Route::get('laporan/penjualanJasa', function() {
+
+    return view('laporanpenjualanjasa');
+});
 Route::get('laporan/pendapatanBulanan', function() {
 
     return view('laporanPendapatanBulanan');
+});
+Route::get('laporan/sparepartTerlaris', function() {
+
+    return view('laporanSparepartTerlarisBulanan');
 });
 
 Route::get('laporan/pengeluaran', 'ReportController@LaporanPengeluaranBulanan');
