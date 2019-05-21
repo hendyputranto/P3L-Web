@@ -111,6 +111,10 @@ class PengadaanSparepartController extends RestController
             {
                 $pengadaanSparepart->id_cabang_fk = $request->id_cabang_fk;
             }
+            if(!is_null($request->totalHarga_pengadaan))
+            {
+                $pengadaanSparepart->totalHarga_pengadaan = $request->totalHarga_pengadaan;
+            }
             
             $detilPengadaans = DetilPengadaanSparepart::where('id_pengadaan_fk',$id)->get();
             foreach($detilPengadaans as $detilPengadaan)

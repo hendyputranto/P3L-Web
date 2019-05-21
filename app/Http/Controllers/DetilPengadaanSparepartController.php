@@ -46,9 +46,9 @@ class DetilPengadaanSparepartController extends RestController
     }
 
     //tampil by id
-    public function showByIdPengadaan(request $request, $id_pengadaan_fk){
-        $detilPengadaanSparepart = DetilPengadaanSparepart::find($id_pengadaan_fk);
-        $response = $this->generateItem($detilPengadaanSparepart, new DetilPengadaanSparepartTransformer);
-        return $this->sendResponse($response);
+    public function showByIdPengadaan($id_pengadaan_fk){
+        $detilPengadaanSparepart = DetilPengadaanSparepart::where('id_pengadaan_fk',$id_pengadaan_fk)->get();
+        $response = $this->generateCollection($detilPengadaanSparepart, new DetilPengadaanSparepartTransformer);
+        return $this->sendResponse($response,201);
     }
 }
