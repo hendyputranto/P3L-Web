@@ -151,3 +151,5 @@ Route::post('createDetilTransaksiSparepart','DetilTransaksiSparepartController@c
 Route::delete('detilSparepart/{id}','DetilTransaksiSparepartController@delete');
 //report
 Route::get('spk/{id}','ReportController@cetakSuratPerintahKerjaDesktop');
+Route::get('sparepartTerlaris','ReportController@sparepartTerlaris');
+Route::get('pendapatanBulanan','ReportController@pendapatanBulanan');

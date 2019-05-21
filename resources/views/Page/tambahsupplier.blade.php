@@ -52,7 +52,7 @@
             <div class="form-group">
             <div class="col-sm-offset-10 col-sm-20">
                 <button type="button" class="btn btn-danger" onclick="batal()">BATAL</button>
-                <button type="submit" value="Submit" class="btn btn-success">SIMPAN</button>
+                <button id="btnSimpan" type="submit" value="Submit" class="btn btn-success">SIMPAN</button>
             </div>
             </div>
         </form>
@@ -63,7 +63,7 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
     function batal(obj){
-            location.href = "{{ route('dsupplier') }}";
+        location.href = "{{ url('/supplier')}}";
     }
     function simpan(){
         let nama_supplier = document.querySelector('#nama_supplier').value;
@@ -84,7 +84,7 @@
         .catch((error) =>{
             console.log(error.response);
         });
-        location.href = "{{ route('dsupplier') }}";
+        location.href = "{{ url('/supplier')}}";
         return false;
     }
 </script>

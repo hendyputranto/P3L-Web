@@ -74,7 +74,7 @@
         console.log(error);
     });
     function batal(obj){
-            location.href = "{{ route('dcabang') }}";
+        location.href = "{{ url('/cabang')}}";
     }
 
     function simpan(){
@@ -94,7 +94,7 @@
                 }).catch((err) => {
                     console.log(err);
                 });
-        location.href = "{{ route('dcabang') }}";
+                location.href = "{{ url('/cabang')}}";
     }
 </script>
 @endsection

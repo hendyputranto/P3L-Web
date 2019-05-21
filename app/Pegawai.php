@@ -11,7 +11,7 @@ class Pegawai extends Model
     protected $primaryKey = 'id_pegawai';
 
     public function role(){
-        return $this->belongsTo('App\Role');
+        return $this->belongsTo('App\Role', 'id_role_fk', 'id_role');
     }
     public function cabang(){
         return $this->belongsTo('App\Cabang');

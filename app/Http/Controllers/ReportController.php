@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\PengadaanSparepart;
 use DB;
 
+
 class ReportController extends Controller
 {
     public function LaporanPengeluaranBulanan()
@@ -57,6 +58,44 @@ class ReportController extends Controller
 
     }
         
+    public function sparepartTerlaris() {
+        $data =DB::select(
+            "SELECT MONTHNAME(STR_TO_DATE((m.bulan), '%m')) as Bulan,COALESCE(s.nama_sparepart,'') as Nama,COALESCE(s.tipe_sparepart,'') as Tipe,COALESCE(SUM(d.jumlahBeli_saprepart),'') as Total 
+            FROM (SELECT '01' AS
+            bulan
+            UNION SELECT '02' AS
+            bulan
+            UNION SELECT '03' AS
+            bulan
+            UNION SELECT '04' AS
+            bulan
+            UNION SELECT '05' AS
+            bulan
+            UNION SELECT '06' AS
+            bulan
+            UNION SELECT '07'AS
+            bulan
+            UNION SELECT '08'AS
+            bulan
+            UNION SELECT '09' AS
+            bulan
+            UNION SELECT '10' AS
+            bulan
+            UNION SELECT '11' AS
+            bulan
+            UNION SELECT '12' AS
+            bulan
+            ) AS m LEFT JOIN transaksi_penjualans t ON MONTHNAME(t.tgl_transaksi) = MONTHNAME(STR_TO_DATE((m.bulan), '%m')) LEFT JOIN detil_transaksi_spareparts d ON 		t.id_transaksi=d.id_transaksi_fk
+            LEFT JOIN sparepart_cabangs sp ON d.id_sparepartCabang_fk = sp.id_sparepartCabang
+            LEFT JOIN spareparts s ON sp.kode_sparepart_fk = s.kode_sparepart
+            where YEAR(t.tgl_transaksi)='2019' or YEAR(t.tgl_transaksi) is null OR t.status_transaksi = 'Sudah Lunas'
+            GROUP BY m.bulan, YEAR(t.tgl_transaksi)");
+
+        // $pdf = PDF::loadView('laporanSparepartTerlarisBulanan', compact('report', 'no', 'date', 'year', 'type'))->setPaper('a4', 'portrait');
+        // return $pdf->stream();
+        return response()->json($data, 200);
+    }
+
     public function cetakSuratPerintahKerjaDesktop($id)
     {
         $data1 = DB::select("SELECT t.id_transaksi as id_transaksi, s.kode_sparepart as Kode, s.nama_sparepart as Nama, s.merk_sparepart as Merk, sc.letak_sparepart as Rak, d.jumlahBeli_sparepart as Jumlah
@@ -114,5 +153,87 @@ class ReportController extends Controller
             'data7' => $data7,
             'message' => $data1 ? 'Success' : 'Error',
         ]);
+    }
+
+    public function pendapatanBulanan() {
+        // $data = DB::select(
+        //     "SELECT
+        //     MONTHNAME(t.tgl_transaksi) as bulan,
+        //     COALESCE(SUM(d.subTotal_sparepart),0) as Spareparts,
+        //     COALESCE(SUM(ds.subTotal_service),0) as Services,
+        //     COALESCE(SUM(t.total_transaksi),0) as Total
+        //     FROM
+        //         transaksi_penjualans as t
+        //     LEFT JOIN detil_transaksi_spareparts as d ON t.id_transaksi=d.id_transaksi_fk 
+        //     LEFT JOIN detil_transaksi_services as ds ON t.id_transaksi=ds.id_transaksi_fk
+        //     WHERE
+        //         YEAR(t.tgl_transaksi)='2019' or YEAR(t.tgl_transaksi) is null or t.status_transaksi = 'Sudah Lunas'
+        //     GROUP BY
+        //         bulan, YEAR(t.tgl_transaksi)
+        //     ORDER BY bulan DESC");
+
+        $data = DB::select(
+            "SELECT MONTHNAME(STR_TO_DATE((m.bulan), '%m')) as Bulan,COALESCE(SUM(d.subTotal_sparepart),0) as Sparepart,COALESCE(SUM(e.subTotal_service),0) as Service,COALESCE(SUM(p.total_transaksi),0) as Total 
+            FROM (SELECT '01' AS
+            bulan
+            UNION SELECT '02' AS
+            bulan
+            UNION SELECT '03' AS
+            bulan
+            UNION SELECT '04' AS
+            bulan
+            UNION SELECT '05' AS
+            bulan
+            UNION SELECT '06' AS
+            bulan
+            UNION SELECT '07'AS
+            bulan
+            UNION SELECT '08'AS
+            bulan
+            UNION SELECT '09' AS
+            bulan
+            UNION SELECT '10' AS
+            bulan
+            UNION SELECT '11' AS
+            bulan
+            UNION SELECT '12' AS
+            bulan
+            ) AS m LEFT JOIN transaksi_penjualans p ON MONTHNAME(p.tgl_transaksi) = MONTHNAME(STR_TO_DATE((m.bulan), '%m')) LEFT JOIN detil_transaksi_spareparts d ON p.id_transaksi=d.id_transaksi_fk
+            LEFT JOIN detil_transaksi_services e ON p.id_transaksi=e.id_transaksi_fk
+            where YEAR(p.tgl_transaksi)='2019' or YEAR(p.tgl_transaksi) is null 
+            GROUP BY m.bulan, YEAR(p.tgl_transaksi)");
+
+        // $data = DB::select(
+        //     'SELECT
+        //     bulan,
+        //     SUM(service) "service",
+        //     SUM(sparepart) "sparepart",
+        //     SUM(service) + SUM(sparepart) "total"
+        //     FROM
+        //         (
+        //         SELECT
+        //             MONTH(tgl_transaksi) "bulan",
+        //             subTotal_service "service",
+        //             0 "sparepart"
+        //         FROM
+        //             transaksi_penjualans
+        //         JOIN detil_transaksi_services USING(id_transaksi)
+        //         WHERE
+        //             status_transaksi = "Sudah Lunas"
+        //         UNION ALL
+        //         SELECT
+        //             MONTH(tgl_transaksi) "bulan",
+        //             0 "service",
+        //             subTotal_sparepart "sparepart"
+        //         FROM
+        //             transaksi_penjualans
+        //         JOIN detil_transaksi_spareparts USING(id_transaksi)
+        //         WHERE
+        //             status_transaksi = "Sudah Lunas"
+        //     ) 
+        //     GROUP BY
+        //         bulan');
+
+            return response()->json($data, 200);
     }
 }

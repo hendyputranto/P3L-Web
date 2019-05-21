@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Laporan Pendapatan Bulanan</title>
+    <title>Laporan Sparepart Terlaris</title>
 </head>
 <body>
     <div id="fullcontainer">
@@ -20,22 +20,22 @@
 
             <hr>
 
-            <p style="text-align: center"><strong>LAPORAN PENDAPATAN BULANAN</strong></p>
+            <p style="text-align: center"><strong>LAPORAN SPAREPART TERLARIS</strong></p>
         
             <table id="tableBulan">
                 <thead>
                     <tr>
                         <th style="width: 50px; text-align: center">No</th>
                         <th style="width: 150px; text-align: center">Bulan</th>
-                        <th style="width: 250px; text-align: center">Sparepart</th>
-                        <th style="width: 250px; text-align: center">Service</th>
-                        <th style="width: 200px; text-align: center">Total</th>
+                        <th style="width: 250px; text-align: center">Nama Barang</th>
+                        <th style="width: 250px; text-align: center">Tipe Barang</th>
+                        <th style="width: 200px; text-align: center">Jumlah Penjualan</th>
                     </tr>
                 </thead>
                 <tbody>
                 </tbody>
             </table>
-            <p id = "judultotal"><strong>TOTAL <span id="total"><span></strong></p>
+            
             <br>
             <p id="dicetak" style="text-align: right">dicetak tanggal <span id="datetime"></span></p>
             <script>
@@ -57,9 +57,9 @@
         </div>
         <br>
         <br>
-        <div id="container2">
+        <!-- <div id="container2">
             <canvas id="myChart"></canvas>
-        </div>
+        </div> -->
     </div>
 
 </body>
@@ -117,34 +117,33 @@ img {
     let bul = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September"
                 , "Oktober", "November", "Desember"];
 
-    const urlParams = new URLSearchParams(window.location.search);    
+    const urlParams = new URLSearchParams(window.location.search);   
 
     let table = document.querySelector('#tableBulan tbody');
 
     let total1 = 0;
     let bulan = [];
-    let service = [];
-    let sparepart = [];
-    let total = [];
+    let nama = [];
+    let tipe = [];
+    let jumlah = [];
     let datas = [];
 
     let ct = [];
     
 
-    axios.get('/api/pendapatanBulanan')
+    axios.get('/api/sparepartTerlaris')
     .then((result) => {
         let temp = result.data;
         console.log(temp);
 
         for(let i = 0 ; i < temp.length; i++) {
             //bul[i] = temp[i].bulan;
-            service[i] = temp[i].Service;
-            sparepart[i] = temp[i].Sparepart;
-            total[i] = temp[i].Total;
+            nama[i] = temp[i].Nama;
+            tipe[i] = temp[i].Tipe;
+            jumlah[i] = temp[i].Total;
         }
 
         for(let j = 0; j < temp.length; j++) {
-            total1 += temp[j].Total;
         
             let tr = table.insertRow(-1);
             let td = document.createElement('td');      
@@ -155,61 +154,59 @@ img {
                 else if (k == 1) {
                     td.innerHTML = bul[j];
                 } else if (k == 2) {
-                    td.innerHTML = sparepart[j];
+                    td.innerHTML = nama[j];
                 } else if (k == 3) {
-                    td.innerHTML = service[j];
+                    td.innerHTML = tipe[j];
                 } else if (k == 4)
-                    td.innerHTML = total[j];
+                    td.innerHTML = jumlah[j];
             } 
             
         }
 
         console.log(ct);
 
-        document.querySelector('#total').innerHTML = total1;
+        // var ctx = document.getElementById("myChart").getContext('2d');
 
-        var ctx = document.getElementById("myChart").getContext('2d');
+        // var myChart = new Chart(ctx, {
+        //     type: 'bar',
+        //     data: {
+        //         labels: bul,
+        //         datasets: [{
+        //             label: "Service",
+        //             backgroundColor: "blue",
+        //             data: service
+        //         }, {
+        //             label: "Spareparts",
+        //             backgroundColor: "red",
+        //             data: sparepart,
+        //         }, {
+        //             label: "Total",
+        //             backgroundColor: "grey",
+        //             data: total
+        //         }]
+        //     },
+        //     options: {
+        //         legend: {
+        //             position: 'right'
+        //         },
+        //         scales: {
+        //             yAxes: [{
+        //                 ticks: {
+        //                 beginAtZero: true
+        //                 }
+        //             }]
+        //         }
+        //     }
+        // });
 
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: bul,
-                datasets: [{
-                    label: "Service",
-                    backgroundColor: "blue",
-                    data: service
-                }, {
-                    label: "Spareparts",
-                    backgroundColor: "red",
-                    data: sparepart,
-                }, {
-                    label: "Total",
-                    backgroundColor: "grey",
-                    data: total
-                }]
-            },
-            options: {
-                legend: {
-                    position: 'right'
-                },
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                        beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
-
-        datas.forEach(function(data){
-            myChart.data.spareparts.push({
-                label: data.Bulan,
-                backgroundColor: '#' + (Math.random().toString(16) + "000000").substring(2,8),
-                data: data.Spareparts
-            });
-            myChart.update();
-        })
+        // datas.forEach(function(data){
+        //     myChart.data.spareparts.push({
+        //         label: data.Bulan,
+        //         backgroundColor: '#' + (Math.random().toString(16) + "000000").substring(2,8),
+        //         data: data.Spareparts
+        //     });
+        //     myChart.update();
+        // })
     
         if(jenis === 'cetak')
             setTimeout(printDong, 500);
