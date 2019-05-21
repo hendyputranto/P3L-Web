@@ -52,7 +52,7 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
     function batal(obj){
-            location.href = "{{ route('dcabang') }}";
+        location.href = "{{ url('/cabang')}}";
     }
     function simpan(){
         let nama_cabang = document.querySelector('#nama_cabang').value;
@@ -69,7 +69,7 @@
         .catch((error) =>{
             console.log(error.response);
         });
-        location.href = "{{ route('dcabang') }}";
+        location.href = "{{ url('/cabang')}}";
         return false;
     }
 </script>

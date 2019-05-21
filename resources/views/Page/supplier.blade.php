@@ -24,7 +24,7 @@
                 <span style="float: left">
                     <div class="form-group">
                     <div class="col-sm-offset-0 col-sm-20">
-                        <button type="button" class="btn btn-success" onclick="tambah()">TAMBAH</button>
+                        <button id="btnTambah" type="button" class="btn btn-success" onclick="tambah()">TAMBAH</button>
                     </div>
                     </div>
                 </span>
@@ -78,6 +78,7 @@
                     let buttonUbah = document.createElement('input');
                     buttonUbah.setAttribute('type','button');
                     buttonUbah.setAttribute('value','ubah');
+                    buttonUbah.setAttribute('id','ubah');
                     buttonUbah.setAttribute('class','btn btn-primary');
                     buttonUbah.setAttribute('onclick','ubah(this)');
                     td.appendChild(buttonUbah);
@@ -85,6 +86,7 @@
                     let buttonHapus = document.createElement('input');
                     buttonHapus.setAttribute('type','button');
                     buttonHapus.setAttribute('value','hapus');
+                    buttonHapus.setAttribute('id','hapus');
                     buttonHapus.setAttribute('class','btn');
                     buttonHapus.setAttribute('class','btn btn-danger');
                     buttonHapus.setAttribute('onclick','hapus(this)');
@@ -110,9 +112,9 @@
 
     function hapus(obj) {
         console.log(obj.parentNode.parentNode.cells[0].innerHMTL);
-        axios.delete('http://127.0.0.1:8001/api/supplier/'+obj.parentNode.parentNode.cells[0].innerHTML)
+        axios.delete('http://127.0.0.1:8000/api/supplier/'+obj.parentNode.parentNode.cells[0].innerHTML)
         .then((result) => {
-            supplier.splice(obj.parentNode.parentNode.rowIndex-1, 1);
+            Supplier.splice(obj.parentNode.parentNode.rowIndex-1, 1);
             tableSupplier.deleteRow(obj.parentNode.parentNode.rowIndex);
         }).catch((error) => { 
             console.log(error);
@@ -127,7 +129,7 @@
         table = document.getElementById("tableSupplier");
         tr = table.getElementsByTagName("tr");
         for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[2];
+            td = tr[i].getElementsByTagName("td")[1];
             if (td) {
                 txtValue = td.textContent || td.innerText;
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {

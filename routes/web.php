@@ -38,40 +38,43 @@ Route::get('/ukonsumen', function () {
 Route::get('/konsumen', function () {
     return view('page.konsumen');
 });
-Route::group(['prefix'=>'keloladata'],function(){
+// Route::group(['prefix'=>'keloladata'],function(){
 
-    Route::get('/dcabang', function () {
+//     Route::get('/dcabang', function () {
         
-        return view('page.cabang');
+//         return view('page.cabang');
 
-    })->name('dcabang');
+//     })->name('dcabang');
 
-    Route::get('/dpegawai', function () {
+//     Route::get('/dpegawai', function () {
         
-        return view('page.pegawai');
+//         return view('page.pegawai');
 
-    })->name('dpegawai');
+//     })->name('dpegawai');
 
-    Route::get('/dsupplier', function () {
+//     Route::get('/dsupplier', function () {
         
-        return view('page.supplier');
+//         return view('page.supplier');
 
-    })->name('dsupplier');
+//     })->name('dsupplier');
 
-    Route::get('/dsparepart', function () {
+//     Route::get('/dsparepart', function () {
         
-        return view('page.sparepart');
+//         return view('page.sparepart');
 
-    })->name('dsparepart');
+//     })->name('dsparepart');
 
-    Route::get('/djasaService', function () {
+//     Route::get('/djasaService', function () {
         
-        return view('page.jasaservice');
+//         return view('page.jasaservice');
 
-    })->name('djasaService');
+//     })->name('djasaService');
 
+// });
+
+Route::get('/cabang', function () {
+    return view('page.cabang');
 });
-
 Route::get('/tcabang', function () {
     return view('page.tambahcabang');
 });
@@ -80,6 +83,9 @@ Route::get('/ucabang', function () {
     return view('page.ubahcabang');
 });
 
+Route::get('/pegawai', function () {
+    return view('page.pegawai');
+});
 Route::get('/tpegawai', function () {
     return view('page.tambahpegawai');
 });
@@ -88,6 +94,9 @@ Route::get('/upegawai', function () {
     return view('page.ubahpegawai');
 });
 
+Route::get('/jasaservice', function () {
+    return view('page.tambahjasaservice');
+});
 Route::get('/tjasaservice', function () {
     return view('page.tambahjasaservice');
 });
@@ -96,6 +105,9 @@ Route::get('/ujasaservice', function () {
     return view('page.ubahjasaservice');
 });
 
+Route::get('/supplier', function () {
+    return view('page.supplier');
+});
 Route::get('/tsupplier', function () {
     return view('page.tambahsupplier');
 });
@@ -104,6 +116,9 @@ Route::get('/usupplier', function () {
     return view('page.ubahsupplier');
 });
 
+Route::get('/sparepart', function () {
+    return view('page.tambahsparepart');
+});
 Route::get('/tsparepart', function () {
     return view('page.tambahsparepart');
 });

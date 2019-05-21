@@ -15,6 +15,7 @@ class PegawaiTransformer extends TransformerAbstract
         return [
             'id_pegawai' => $pegawai->id_pegawai,
             'id_role_fk' => $pegawai->id_role_fk,
+            'nama_role' => $pegawai->role->nama_role,
             'id_cabang_fk' => $pegawai->id_cabang_fk,
             'nama_pegawai' => $pegawai->nama_pegawai,
             'alamat_pegawai' => $pegawai->alamat_pegawai,
