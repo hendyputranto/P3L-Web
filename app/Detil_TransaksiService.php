@@ -18,7 +18,7 @@ class Detil_TransaksiService extends Model
         'status_service'
     ];
     public function jasa_service(){
-        return $this->belongsTo('App\JasaService');
+        return $this->belongsTo('App\JasaService', 'id_jasaService_fk', 'id_jasaService');
     }
     public function transaksi_penjualan(){
         return $this->belongsTo('App\TransaksiPenjualan', 'id_transaksi_fk','id_transaksi');

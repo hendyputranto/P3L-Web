@@ -10,6 +10,6 @@ class JasaService extends Model
     protected $primaryKey = 'id_jasaService';
 
     public function detil_transaksi_service(){
-        return $this->hasMany('App\Detil_TransaksiService', 'id_jasaService');
+        return $this->hasMany('App\Detil_TransaksiService', 'id_jasaService_fk', 'id_jasaService');
     }
 }

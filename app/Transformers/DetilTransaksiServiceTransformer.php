@@ -16,6 +16,8 @@ class DetilTransaksiServiceTransformer extends TransformerAbstract
             'id_detilTransaksiService' => $dt_service->id_detilTransaksiService,
             'id_transaksi_fk' => $dt_service->id_transaksi_fk,
             'id_jasaService_fk' => $dt_service->id_jasaService_fk,
+            'nama_jasaService' => $dt_service->jasa_service->nama_jasaService,
+            'harga_jasaService' => $dt_service->jasa_service->harga_jasaService,
             'id_motorKonsumen_fk' => $dt_service->id_motorKonsumen_fk,
             'subTotal_service' => $dt_service->subTotal_service,
             'status_service' => $dt_service->status_service,
