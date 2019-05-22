@@ -67,7 +67,8 @@ Route::put('pegawai/{id}','PegawaiController@update');
 Route::delete('pegawai/{id}','PegawaiController@delete');
 Route::POST('/pegawai/mobileauthenticate','PegawaiController@mobileauthenticate');
 
-
+//Pegawai On Duty
+Route::get('pegawaionduty','PegawaiOnDutyController@show');
 //Supplier
 Route::get('supplier','SupplierController@show');
 Route::get('supplier/{id}','SupplierController@showById');
@@ -131,6 +132,8 @@ Route::delete('deleteTransaksiPenjualan/{id}','TransaksiPenjualanController@dele
 
 Route::put('transaksiPenjualan/payment/{id}','TransaksiPenjualanController@payment');
 Route::delete('transaksiPenjualan/{id}','TransaksiPenjualanController@delete');
+
+Route::get('transaksiPenjualan/showByPlatKonsumen{id}','TransaksiPenjualanController@showByPlatKonsumen');
 
 //Detil Transaksi Service
 Route::get('detilJasa','DetilTransaksiServiceController@show');

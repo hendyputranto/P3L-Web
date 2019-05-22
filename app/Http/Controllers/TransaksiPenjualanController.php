@@ -25,6 +25,14 @@ class TransaksiPenjualanController extends RestController
         $response = $this->generateCollection($transaksi);
         return $this->sendResponse($response);
     }
+    // public function showByPlatKonsumen($id)
+    // {
+    //     $transaksi = TransaksiPenjualan::where('id_transaksi_fk',$id)->get();
+    //     $response = $this->generateCollection($transaksi);
+    //     return $this->sendResponse($response,201);
+    // }
+
+    
     //Buatan sintaa
     public function update_status_transaksi_sinta($id)
     {
@@ -114,7 +122,6 @@ class TransaksiPenjualanController extends RestController
             $transaksiPenjualan->id_cabang_fk=$request->id_cabang_fk;
             $transaksiPenjualan->total_transaksi = $request->total_transaksi;
             
-            
             $transaksiPenjualan->save();
             if($request->has('detil_sparepart'))
             {
@@ -135,10 +142,14 @@ class TransaksiPenjualanController extends RestController
                 });
             }
 
-            if($request->has('id_montir'))
+            if($request->has('id_cs'))
             {
-                $pegawai_on_duty[0]['id_pegawai_fk'] = $request->id_montir;
-                $pegawai_on_duty[1]['id_pegawai_fk'] = $request->id_cs;
+                $pegawai_on_duty[0]['id_pegawai_fk'] = $request->id_cs;
+                if($request->id_montir !== null)
+                {
+                    $pegawai_on_duty[1]['id_pegawai_fk'] = $request->id_montir;
+                }
+                    
                 $transaksiPenjualan = DB::transaction(function()use($transaksiPenjualan,$pegawai_on_duty){
                     $transaksiPenjualan->pegawai_onduty()->createMany($pegawai_on_duty);
                     return $transaksiPenjualan;
