@@ -20,12 +20,17 @@ class MotorKonsumenController extends RestController
         $response = $this->generateCollection($motorKonsumen);
         return $this->sendResponse($response);
     }
-
-    //tampil by id
-    public function showById(request $request, $id_motorKonsumen){
-        $motorKonsumen = MotorKonsumen::find($id_motorKonsumen);
+    //tampil by nama konsumen
+    public function showByPlat($plat_motorKonsumen){
+        $motorKonsumen = MotorKonsumen::where('plat_motorKonsumen',$plat_motorKonsumen)->first();
         $response = $this->generateItem($motorKonsumen);
-        return $this->sendResponse($response);
+        return $this->sendResponse($response,201);
+    }
+    //tampil by id
+    public function showById($id_konsumen_fk){
+        $motorKonsumen = MotorKonsumen::where('id_konsumen_fk',$id_konsumen_fk)->get();
+        $response = $this->generateCollection($motorKonsumen);
+        return $this->sendResponse($response,201);
     }
     //nambah data
     public function create(request $request){

@@ -25,6 +25,14 @@ class TransaksiPenjualanController extends RestController
         $response = $this->generateCollection($transaksi);
         return $this->sendResponse($response);
     }
+    // public function showByPlatKonsumen($id)
+    // {
+    //     $transaksi = TransaksiPenjualan::where('id_transaksi_fk',$id)->get();
+    //     $response = $this->generateCollection($transaksi);
+    //     return $this->sendResponse($response,201);
+    // }
+
+    
     //Buatan sintaa
     public function update_status_transaksi_sinta($id)
     {
@@ -98,14 +106,19 @@ class TransaksiPenjualanController extends RestController
            
             $id = array();
             
-            $id = DB::select('select kode_transaksi from transaksi_penjualans order by substring(kode_transaksi, 11) + 0 desc limit 1');
+            // $id = DB::select('select kode_transaksi from transaksi_penjualans order by substring(kode_transaksi, 11) + 0 desc limit 1');
+            // $id = TransaksiPenjualan::orderBy('id_transaksi',DESC)->where('')
+            $id = TransaksiPenjualan::orderBy('id_transaksi','DESC')->where('kode_transaksi','like',$request->tipe_transaksi.'%')->first();
+            // return $id;
             if(!$id)
                 $no = 1;
             else {
-                $no_str = substr($id[0]->kode_transaksi, 10);
-                $no = ++$no_str;
+                $no_str = explode('-',$id->kode_transaksi);
+                $no = ++$no_str[2];
+                // $no_str = substr($id[0]->kode_transaksi, 10);
+                // $no = ++$no_str;
             }
-            
+
             $transaksiPenjualan->tgl_transaksi = date("Y-m-d").' '.date('H:i:s');
             $transaksiPenjualan->diskon = 0;
             $transaksiPenjualan->status_transaksi = "Belum Lunas";
@@ -113,7 +126,6 @@ class TransaksiPenjualanController extends RestController
             $transaksiPenjualan->kode_transaksi=$request->tipe_transaksi.'-'.date("d").date("m").date("y").'-'.$no;
             $transaksiPenjualan->id_cabang_fk=$request->id_cabang_fk;
             $transaksiPenjualan->total_transaksi = $request->total_transaksi;
-            
             
             $transaksiPenjualan->save();
             if($request->has('detil_sparepart'))
@@ -135,10 +147,14 @@ class TransaksiPenjualanController extends RestController
                 });
             }
 
-            if($request->has('id_montir'))
+            if($request->has('id_cs'))
             {
-                $pegawai_on_duty[0]['id_pegawai_fk'] = $request->id_montir;
-                $pegawai_on_duty[1]['id_pegawai_fk'] = $request->id_cs;
+                $pegawai_on_duty[0]['id_pegawai_fk'] = $request->id_cs;
+                if($request->id_montir !== null)
+                {
+                    $pegawai_on_duty[1]['id_pegawai_fk'] = $request->id_montir;
+                }
+                    
                 $transaksiPenjualan = DB::transaction(function()use($transaksiPenjualan,$pegawai_on_duty){
                     $transaksiPenjualan->pegawai_onduty()->createMany($pegawai_on_duty);
                     return $transaksiPenjualan;
