@@ -214,6 +214,7 @@ class TransaksiPenjualanController extends RestController
             
             $transaksi->save();
 
+            
             // $transaksi = DB::transaction(function () use ($transaksi,$pegawai) {
             //     $transaksi->pegawai_onduty()->attach($pegawai);
             //     return $transaction;
@@ -301,14 +302,14 @@ class TransaksiPenjualanController extends RestController
             $transaksi->tgl_transaksi=date("Y-m-d").' '.date('H:i:s');
             $transaksi->diskon=$request->diskon;
             $transaksi->total_transaksi=$request->total_transaksi;
-            $transaksi->status_transaksi=$request->status_transaksi;
+            $transaksi->status_transaksi="Belum Lunas";
             
             $transaksi->save();
 
-            $transaction = DB::transaction(function () use ($transaksi,$pegawai) {
-                $transaction->employees()->attach($pegawai);
-                return $transaction;
-            });
+            // $transaction = DB::transaction(function () use ($transaksi,$pegawai) {
+            //     $transaction->employees()->attach($pegawai);
+            //     return $transaction;
+            // });
 
             // $transaksi = DB::transaction(function () use ($transaksi,$service) {
             //     $transaksi->detil_transaksi_service()->createMany($service);
@@ -338,15 +339,20 @@ class TransaksiPenjualanController extends RestController
         }
     }
 
+    //gabisa
     public function showSudahLunas()
     {
         $sudahLunas = "Sudah Lunas";
-        $transaksi = TransaksiPenjualan::where('status_transaksi',$sudahLunas)->get();
-        $response = $this->generateCollection($transaksi);
-        return $this->sendResponse($response);
+        $transaksi1 = TransaksiPenjualan::where('status_transaksi',$sudahLunas)->get();
+        $response = $this->generateCollection($transaksi1);
+        return $this->sendResponse($response,201);
+
+        // $sparepart = SparepartCabang::where('id_cabang_fk',$id)->get();
+        // $response = $this->generateCollection($sparepart);
+        // return $this->sendResponse($response,201);
     }
 
-    //tcp 3
+    //tcp 3 belom bisa
     public function update(request $request, $id_transaksi)
     {
         try {
@@ -404,6 +410,11 @@ class TransaksiPenjualanController extends RestController
             $transaksi->status_transaksi="Sudah Lunas";
             $transaksi->diskon=$request->get('diskon');;
             $transaksi->total_transaksi=$request->get('total_transaksi');
+
+            $tempSparepart = SparepartCabang::find($request->id_sparepartCabang_fk);
+            $tempSparepart->stokSisa_sparepart -= $request->jumlahBeli_sparepart;
+
+            $tempSparepart->save();
             $transaksi->save();
             $response = $this->generateItem($transaksi);
             return $this->sendResponse($response, 201);

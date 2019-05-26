@@ -77,7 +77,7 @@
         formData.append('alamat_supplier', alamat_supplier);
         formData.append('nama_sales', nama_sales);
         formData.append('noTelp_sales', noTelp_sales);
-        axios.post('http://127.0.0.1:8000/api/supplier', formData)
+        axios.post('http://10.53.3.189:8000/api/supplier', formData)
         .then((result) =>{
             console.log(result);
         })

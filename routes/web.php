@@ -134,6 +134,9 @@ Route::get('/transaksiSV', function () {
 Route::get('/transaksiSP', function () {
     return view('page.transaksiPenjualanSparepart');
 });
+Route::get('/transaksiSS', function () {
+    return view('page.transaksiPenjualanSS');
+});
 
 Route::get('/ttransaksi', function () {
     return view('page.tampilTransaksi');

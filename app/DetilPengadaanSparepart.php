@@ -17,9 +17,9 @@ class DetilPengadaanSparepart extends Model
     ];
 
     public function sparepart_cabang(){
-        return $this->belongsTo('App\SparepartCabang','id_sparepartCabang_fk','id_sparepartCabang');
+        return $this->belongsTo('App\SparepartCabang','id_sparepartCabang','id_sparepartCabang_fk');
     }
     public function pengadaan_sparepart(){
-        return $this->belongsTo('App\PengadaanSparepart','id_pengadaan_fk ','id_pengadaan');
+        return $this->belongsTo('App\PengadaanSparepart','id_pengadaan_fk','id_pengadaan');
     }
 }
