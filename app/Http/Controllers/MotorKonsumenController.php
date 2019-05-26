@@ -27,10 +27,10 @@ class MotorKonsumenController extends RestController
         return $this->sendResponse($response,201);
     }
     //tampil by id
-    public function showById(request $request, $id_motorKonsumen){
-        $motorKonsumen = MotorKonsumen::find($id_motorKonsumen);
-        $response = $this->generateItem($motorKonsumen);
-        return $this->sendResponse($response);
+    public function showById($id_konsumen_fk){
+        $motorKonsumen = MotorKonsumen::where('id_konsumen_fk',$id_konsumen_fk)->get();
+        $response = $this->generateCollection($motorKonsumen);
+        return $this->sendResponse($response,201);
     }
     //nambah data
     public function create(request $request){

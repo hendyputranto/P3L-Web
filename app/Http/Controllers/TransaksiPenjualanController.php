@@ -106,14 +106,19 @@ class TransaksiPenjualanController extends RestController
            
             $id = array();
             
-            $id = DB::select('select kode_transaksi from transaksi_penjualans order by substring(kode_transaksi, 11) + 0 desc limit 1');
+            // $id = DB::select('select kode_transaksi from transaksi_penjualans order by substring(kode_transaksi, 11) + 0 desc limit 1');
+            // $id = TransaksiPenjualan::orderBy('id_transaksi',DESC)->where('')
+            $id = TransaksiPenjualan::orderBy('id_transaksi','DESC')->where('kode_transaksi','like',$request->tipe_transaksi.'%')->first();
+            // return $id;
             if(!$id)
                 $no = 1;
             else {
-                $no_str = substr($id[0]->kode_transaksi, 10);
-                $no = ++$no_str;
+                $no_str = explode('-',$id->kode_transaksi);
+                $no = ++$no_str[2];
+                // $no_str = substr($id[0]->kode_transaksi, 10);
+                // $no = ++$no_str;
             }
-            
+
             $transaksiPenjualan->tgl_transaksi = date("Y-m-d").' '.date('H:i:s');
             $transaksiPenjualan->diskon = 0;
             $transaksiPenjualan->status_transaksi = "Belum Lunas";
