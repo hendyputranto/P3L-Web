@@ -1,4 +1,4 @@
-@extends('master.layout')
+@extends('master.layoutKonsumen')
 @section('content')
 <style>
     .kotak {

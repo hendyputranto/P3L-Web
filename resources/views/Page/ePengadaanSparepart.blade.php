@@ -8,7 +8,15 @@
             margin: 0;
             background-color:lightgrey;
         }
-
+        .btn-circle {
+            width: 30px;
+            height: 30px;
+            padding: 6px 0px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 12px;
+            line-height: 1.42857;
+        }
         th {
             text-align:center;
         }
@@ -84,10 +92,25 @@
                     </div>
                     <div class="form-group">
                     <label class="control-label col-sm-4" for="satuan_pengadaan">SATUAN</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" id="satuan_pengadaan" placeholder="Satuan Pengadaan" name="satuan_pengadaan" onkeypress="return hanyaAngka(event)" onkeyup="hitungTotal()">
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="satuan_pengadaan" placeholder="Satuan Pengadaan" name="satuan_pengadaan" onkeypress="return hanyaAngka(event)">
                     </div>
+                    <button type="button" class="btn btn-info btn-circle" onclick = "return tambah()">+</button>
                     </div>
+
+                    <table id= "tableDetailPengadaan" class="table table-bordered text-center">
+                    <thead>
+                        <tr>
+                            <!-- <th scope="col">Tipe Sparepart</th> -->
+                            <th scope="col">Kode Sparepart</th>
+                            <th scope="col">Jumlah Beli</th>
+                            <th scope="col">Harga Satuan</th>
+                            <th scope="col">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
 
                     <div class="form-group">
                     <label class="control-label col-sm-4" for="total_harga">TOTAL HARGA</label>
@@ -97,11 +120,11 @@
                     </div>
 
 
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                     <div class="col-sm-offset-10 ">
                         <button type="button" class="btn btn-info" onclick="tampil()">TAMPIL PENGADAAN</button>
                     </div>
-                    </div>
+                    </div> -->
 
                     <div class="form-group">
                     <div class="col-sm-offset-10 col-sm-20">
@@ -118,33 +141,96 @@
     </div>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>     
+    if (!localStorage.getItem("aksescode")) {
+        alert("Silahkan Login Dahulu !");
+        location.href = "{{ url('/login')}}";
+    } 
         let sparepartKurang;
         let harga1;
+        let edited = false;
+        let total = 0;
+        console.log(total);
+        let detailPengadaan = [];
         let id_sparepartCabang,id_supplier_fk, totalBarang_datang, tgl_pengadaan, tgl_barangDatang, statusCetak_pengadaan;
         let select1 = document.querySelector('#id_supplier');
         let select2 = document.querySelector('#id_cabang');
         let select3 = document.querySelector('#kode_sparepart');
         let select4 = document.querySelector('#hargaBeli_sparepart');
         let tableSparepartKurang = document.querySelector('#tableSparepartKurang');
+        let tableDetailPengadaan = document.querySelector('#tableDetailPengadaan');
         let col = ['kode_sparepart_fk','stokSisa_sparepart'];
+        let col2 = ['kode_sparepart_fk','satuan_pengadaan', 'sub_total_sparepart'];
         let b = localStorage.getItem("id_pengadaan");
         let data;
+
+        ////// edit
+        const urlParams = new URLSearchParams(window.location.search);    
+        let myURL;
+        //let jenis_transaksi;
+        // if(urlParams.get('id_pengadaan') !== null) {
+        //     myURL = urlParams.get('id_pengadaan');
+        //     //jenis_transaksi = myURL.substring(0, 2);
+        //     edited = true;
+        //     console.log(myURL);
+        // }
+        // if(edited) {
+        //    // tampilPenjualan();
+        //     tampilDetil();
+        //    // tampilKendaraanCustomer();
+        // }
+
+        function cekDetail() {
+        if(document.querySelector('#id_supplier').value == '' 
+        || document.querySelector('#satuan_pengadaan').value == '' 
+        || document.querySelector('#kode_sparepart').value == '') {
+            alert('Data Detail Pemesanan Tidak Boleh Kosong...');
+            return false;
+        }else
+            return true;
+        }
+            axios.get('http://127.0.0.1:8000/api/detilPengadaanSparepart/showByIdPengadaan/' + b)
+            .then((result) => {
+                detailPengadaan = result.data.data;
+                console.log(detailPengadaan);
+                for(let i = 0; i < detailPengadaan.length; i++) {
+                let tr = tableDetailPengadaan.insertRow(-1);
+                let td = document.createElement('td');      
+                for(j = 0; j <= col2.length; j++){
+                    td = tr.insertCell();  
+                    if(j == col2.length) {
+                        let buttonHapus = document.createElement('input');
+                        buttonHapus.setAttribute('type', 'button');
+                        buttonHapus.setAttribute('value', 'Hapus');
+                        buttonHapus.setAttribute('class', 'btn');
+                        buttonHapus.setAttribute('class', 'btn btn-danger');
+                        buttonHapus.setAttribute('onclick', 'hapusDetail(this)');
+                        td.appendChild(buttonHapus);
+                    }else {
+                        td.innerHTML = detailPengadaan[i][col2[j]];
+                        }
+                    }  
+                }
+            }).catch((err) => {
+                
+            });
         
+
         //get data ke field
         console.log(b);
-        axios.get('http://10.53.0.225:8000/api/pengadaanSparepart/'+b)
+        axios.get('http://127.0.0.1:8000/api/pengadaanSparepart/'+b)
         .then(function (response) {
             // handle success
             data = response.data.data;
-            let col = ['id_pengadaan','id_supplier_fk','id_sparepartCabang_fk','status_pengadaan','satuan_pengadaan','totalHarga_pengadaan','totalBarang_datang','tgl_barangDatang','statusCetak_pengadaan'];
+            let col = ['id_pengadaan','id_supplier_fk','id_cabang_fk','statusCetak_pengadaan','status_pengadaan','totalHarga_pengadaan'];
             id_supplier_fk = data[col[1]];
-            id_sparepartCabang = data[col[2]];
-            document.getElementById("status_pengadaan").value = data[col[3]];
-            document.getElementById("satuan_pengadaan").value = data[col[4]];
+            //id_sparepartCabang = data[col[2]];
+            document.getElementById("status_pengadaan").value = data[col[4]];
+            //document.getElementById("satuan_pengadaan").value = data[col[4]];
             document.getElementById("total_harga").value = data[col[5]];
-            totalBarang_datang = data[col[6]];
-            tgl_barangDatang = data[col[7]];
-            statusCetak_pengadaan = data[col[8]];
+            total = parseFloat(document.getElementById("total_harga").value);
+            //totalBarang_datang = data[col[6]];
+            //tgl_barangDatang = data[col[7]];
+            statusCetak_pengadaan = data[col[3]];
             //console.log(statusCetak_pengadaan);
             console.log(data[col[1]]);
             console.log(data);
@@ -155,7 +241,7 @@
         });
         //tabel sparepart kurang
         function tampilData(){
-            axios.get('http://10.53.0.225:8000/api/sparepartCabang')
+            axios.get('http://127.0.0.1:8000/api/sparepartCabang')
             .then((result) => {
                 sparepartKurang = result.data.data;
                 let cek = document.getElementById("id_cabang").value;
@@ -183,7 +269,7 @@
                 console.log(error);
             });
             //kode sprepart dropdown
-            axios.get('http://10.53.0.225:8000/api/sparepartCabang')
+            axios.get('http://127.0.0.1:8000/api/sparepartCabang')
             .then((result) => {
                 sparepart = result.data.data;
                 let cek = document.getElementById("id_cabang").value;
@@ -211,7 +297,7 @@
         
         
         //supplier dropdown
-        axios.get('http://10.53.0.225:8000/api/supplier')
+        axios.get('http://127.0.0.1:8000/api/supplier')
         .then((result) => {
             supplier = result.data.data;
             
@@ -236,7 +322,7 @@
         
         //harga sprepart dropdown
         function harga(){
-            axios.get('http://10.53.0.225:8000/api/sparepartCabang')
+            axios.get('http://127.0.0.1:8000/api/sparepartCabang')
             .then((result) => {
                 sparepart = result.data.data;
                 let cek = document.getElementById("kode_sparepart").value;
@@ -262,7 +348,7 @@
         
 
         //cabang dropdown
-        axios.get('http://10.53.0.225:8000/api/cabang')
+        axios.get('http://127.0.0.1:8000/api/cabang')
         .then((result) => {
             cabang = result.data.data;
             console.log(cabang);
@@ -280,19 +366,60 @@
             console.log(error);
         });
 
-        //hitung total harga
-        function hitungTotal() {
-            var input, harga;
-            input = document.getElementById("satuan_pengadaan").value;
-            //x= parseFloat(input);
-            harga = document.getElementById("hargaBeli_sparepart").value;
-            //y= parseFloat(harga);
-            total = parseFloat(input * harga);
-            document.getElementById("total_harga").value = total;
-            //return total;
-            
+        function hapusDetail(obj) {
+            detailPengadaan.splice(obj.parentNode.parentNode.rowIndex-1, 1);
+            tableDetailPengadaan.deleteRow(obj.parentNode.parentNode.rowIndex);
+            // let cek = det[obj.parentNode.parentNode.rowIndex].nama_service;
+            // console.log(cek);
         }
-        
+        //hitung total harga
+        // function hitungTotal() {
+        //     var input, harga;
+        //     input = document.getElementById("satuan_pengadaan").value;
+        //     //x= parseFloat(input);
+        //     harga = document.getElementById("hargaBeli_sparepart").value;
+        //     //y= parseFloat(harga);
+        //     total = parseFloat(input * harga);
+        //     document.getElementById("total_harga").value = total;
+        //     //return total;
+            
+        // }
+        function tambah(){
+            let det = {};
+            if(cekDetail() == false)
+                return false;
+
+            det.kode_sparepart_fk = document.querySelector('#kode_sparepart').value;
+            det.sub_total_sparepart = document.querySelector('#hargaBeli_sparepart').value;
+            det.satuan_pengadaan = document.querySelector('#satuan_pengadaan').value;
+            det.id_sparepartCabang_fk = id_sparepartCabang;
+            //det.id_motorKonsumen_fk = id_motor_fk;
+            total += det.sub_total_sparepart * det.satuan_pengadaan;
+
+            detailPengadaan.push(det);
+            document.getElementById("total_harga").value = total;
+            let tr = tableDetailPengadaan.insertRow(-1);
+            let td = document.createElement('td'); 
+            for(j = 0; j <= 3; j++){
+                td = tr.insertCell();  
+                if(j == 3) {
+                    let buttonHapus = document.createElement('input');
+                    buttonHapus.setAttribute('type', 'button');
+                    buttonHapus.setAttribute('value', 'Hapus');
+                    buttonHapus.setAttribute('class', 'btn');
+                    buttonHapus.setAttribute('class', 'btn btn-danger');
+                    buttonHapus.setAttribute('onclick', 'hapusDetail(this)');
+                    td.appendChild(buttonHapus);
+                }else {
+                    td.innerHTML = det[col2[j]];
+                }
+            } 
+
+            console.log(detailPengadaan);
+            
+            return false;
+        }
+
         //hanya angka
         function hanyaAngka(evt) {
         var charCode = (evt.which) ? evt.which : event.keyCode
@@ -301,43 +428,62 @@
             return false;
         return true;
         }
-        //tampil
-        function tampil(){
-            location.href = "{{ url('/tPengadaan')}}";
+
+        function tambahDetail(detailPengadaan, id_pengadaan_fk) {
+            //console.log(detail);
+            detailPengadaan.map(dts => dts.id_pengadaan_fk = id_pengadaan_fk);
+            let formDataDetail = new FormData(); 
+            console.log(JSON.stringify(detailPengadaan));
+            formDataDetail.append('data', JSON.stringify(detailPengadaan));
+            
+            axios.post('http://127.0.0.1:8000/api/detilPengadaanSparepart/create', formDataDetail)
+            .then((result) => {
+                console.log(result);
+            }).catch((err) => {
+                //console.log(err.response);
+            });
         }
         //simpan
         function simpan(){
             let formData = new FormData; 
             let id_supplier_fk = document.querySelector('#id_supplier').value;
-            console.log(id_supplier_fk);
+            id_cabang = document.getElementById("id_cabang").value
+            //console.log(id_supplier_fk);
             //let id_sparepartCabang_fk = id_sparepartCabang;
-            let satuan_pengadaan = document.querySelector('#satuan_pengadaan').value;
-            console.log(satuan_pengadaan);
+            //let satuan_pengadaan = document.querySelector('#satuan_pengadaan').value;
+            //console.log(satuan_pengadaan);
             let totalHarga_pengadaan = document.querySelector('#total_harga').value;
-            console.log(totalHarga_pengadaan);
+            // console.log(totalHarga_pengadaan);
             let status_pengadaan = document.getElementById("status_pengadaan").value;
-            console.log(status_pengadaan);
-            console.log(id_sparepartCabang);
-            console.log(totalBarang_datang);
-            console.log(tgl_barangDatang);
-            console.log(statusCetak_pengadaan);
+            formData.append('id_cabang_fk', id_cabang);
+            // console.log(status_pengadaan);
+            // console.log(id_sparepartCabang);
+            // console.log(totalBarang_datang);
+            // console.log(tgl_barangDatang);
+            // console.log(statusCetak_pengadaan);
             formData.append('_method', 'PUT');
             formData.append('id_supplier_fk', id_supplier_fk);
-            formData.append('id_sparepartCabang_fk', id_sparepartCabang);
-            formData.append('satuan_pengadaan', satuan_pengadaan);
+            //formData.append('id_sparepartCabang_fk', id_sparepartCabang);
+            //formData.append('satuan_pengadaan', satuan_pengadaan);
             formData.append('totalHarga_pengadaan', totalHarga_pengadaan);
             formData.append('status_pengadaan', status_pengadaan);
-            formData.append('totalHarga_pengadaan', totalHarga_pengadaan);
-            formData.append('totalBarang_datang', totalBarang_datang);
+            // formData.append('totalHarga_pengadaan', totalHarga_pengadaan);
+            //formData.append('totalBarang_datang', totalBarang_datang);
             formData.append('tgl_barangDatang', tgl_barangDatang);
             formData.append('statusCetak_pengadaan', statusCetak_pengadaan);
             console.log(b);
-            axios.post('http://10.53.0.225:8000/api/pengadaanSparepart/' + b, formData)
+            axios.post('http://127.0.0.1:8000/api/pengadaanSparepart/' + b, formData)
                     .then((result) => {
                         console.log(result);
-                        location.href = "{{ url('/tPengadaan')}}";
-                        edited = false;
-                        alert("Data berhasil Di Update");
+                        for(let i = 0; i < detailPengadaan.length; i++)
+                            detailPengadaan[i].id_pengadaan_fk = result.data.data.id_pengadaan;
+                            console.log("tampung = ",detailPengadaan);
+                        //console.log(tes[i]);
+                    
+                            tambahDetail(detailPengadaan, result.data.data.id_pengadaan);
+                            alert("Data berhasil Di Update");
+                            location.href = "{{ url('/tPengadaan')}}";
+                        // edited = false;
                     }).catch((err) => {
                         console.log(err);
                     });

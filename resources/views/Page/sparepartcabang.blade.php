@@ -20,7 +20,7 @@
     <div class="container">          
         <div class="kotak">
             <div class="table-responsive">
-                <h2>Kelola Data Sparepart</h2>
+                <h2>Kelola Data Sparepart Cabang</h2>
                 <span style="float: left">
                     <div class="form-group">
                     <div class="col-sm-offset-0 col-sm-20">
@@ -31,18 +31,21 @@
                 <form action="/action_page.php">
                     <div class="col-sm-offset-0 col-sm-4">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Cari Nama Sparepart" name="cari_sparepart" id="cari_sparepart" onkeyup="myFunction()">
+                        <input type="text" class="form-control" placeholder="Cari Kode Sparepart Cabang" name="cari_sparepartCabang" id="cari_sparepartCabang" onkeyup="myFunction()">
                     </div>
                     </div>
                 </form>
-                <table class="table table-bordered text-center" id="tableSparepart">
+                <table class="table table-bordered text-center" id="tableSparepartCabang">
                     <thead>
                     <tr>
-                        <th>KODE</th>
-                        <th>NAMA</th>
-                        <th>MERK</th>
-                        <th>TIPE</th>
-                        <th>GAMBAR</th>
+                        <th>ID SPAREPART CABANG</th>
+                        <th>ID CABANG</th>
+                        <th>KODE SPAREPART</th>
+                        <th>HARGA BELI</th>
+                        <th>HARGA JUAL</th>
+                        <th>LETAK SPAREPART</th>
+                        <th>STOCK MINIMUM</th>
+                        <th>STOCK SISA SPAREPART</th>
                         <th>PILIHAN</th>
                     </tr>
                     </thead>
@@ -53,19 +56,19 @@
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
-    let Sparepart;
-    let tableSparepart = document.querySelector('#tableSparepart');
-    let col = ['kode_sparepart', 'nama_sparepart', 'merk_sparepart', 
-    'tipe_sparepart', 'gambar_sparepart'];
+    let SparepartCabang;
+    let tableSparepartCabang = document.querySelector('#tableSparepartCabang');
+    let col = ['id_sparepartCabang', 'id_cabang_fk', 'kode_sparepart_fk', 'hargaBeli_sparepart', 'hargaJual_sparepart', 'letak_sparepart', 
+    'stokMin_sparepart', 'stokSisa_sparepart'];
 
-    axios.get('http://127.0.0.1:8000/api/sparepart')
+    axios.get('http://10.53.0.175:8000/api/sparepartCabang/')
     .then((result) => {
-        console.log(result.data);
-        Sparepart = result.data.data;
-        console.log(Sparepart);
+        console.log(result.data.data);
+        SparepartCabang = result.data.data;
+        console.log(SparepartCabang);
 
-        for(let i=0; i<Sparepart.length; i++){
-            let tr = tableSparepart.insertRow(-1);
+        for(let i=0; i<SparepartCabang.length; i++){
+            let tr = tableSparepartCabang.insertRow(-1);
             let td = document.createElement('td');
             console.log(i);
 
@@ -88,17 +91,9 @@
                     buttonHapus.setAttribute('class','btn btn-danger');
                     buttonHapus.setAttribute('onclick','hapus(this)');
                     td.appendChild(buttonHapus);
-                }else if(j==4){
-                            let img = document.createElement('img');
-                            img.src = '/images/'+Sparepart[i][col[j]];
-                            img.width = 150;
-                            img.height = 150;
-                            td.appendChild(img);
-                }else if(j==8){
-                    td.innerHTML = '***';
                 }
                 else{
-                    td.innerHTML = Sparepart[i][col[j]];
+                    td.innerHTML = SparepartCabang[i][col[j]];
                 }
             }
         }
@@ -107,20 +102,20 @@
     });
 
     function tambah(obj){
-            location.href = "{{ url('/tsparepart')}}";
+            location.href = "{{ url('/tsparepartcabang')}}";
     }
 
     function ubah(obj){
-            localStorage.setItem("id_sparepart",obj.parentNode.parentNode.cells[0].innerHTML);
-            location.href = "{{ url('/usparepart')}}";
+            localStorage.setItem("id_sparepartCabang",obj.parentNode.parentNode.cells[0].innerHTML);
+            location.href = "{{ url('/usparepartcabang')}}";
     }
 
     function hapus(obj) {
         console.log(obj.parentNode.parentNode.cells[0].innerHMTL);
-        axios.delete('http://127.0.0.1:8000/api/sparepart/'+obj.parentNode.parentNode.cells[0].innerHTML)
+        axios.delete('http://10.53.0.175:8000/api/sparepartCabang/'+obj.parentNode.parentNode.cells[0].innerHTML)
         .then((result) => {
-            sparepart.splice(obj.parentNode.parentNode.rowIndex-1, 1);
-            tableSparepart.deleteRow(obj.parentNode.parentNode.rowIndex);
+            sparepartCabang.splice(obj.parentNode.parentNode.rowIndex-1, 1);
+            tableSparepartCabang.deleteRow(obj.parentNode.parentNode.rowIndex);
         }).catch((error) => { 
             console.log(error);
         });
@@ -129,12 +124,12 @@
      //search data
      function myFunction() {
         var input, sfilter, table, tr, td, i, txtValue;
-        input = document.getElementById("cari_sparepart");
+        input = document.getElementById("cari_sparepartCabang");
         filter = input.value.toUpperCase();
-        table = document.getElementById("tableSparepart");
+        table = document.getElementById("tableSparepartCabang");
         tr = table.getElementsByTagName("tr");
         for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[2];
+            td = tr[i].getElementsByTagName("td")[3];
             if (td) {
                 txtValue = td.textContent || td.innerText;
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {

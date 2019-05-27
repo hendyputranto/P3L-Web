@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+	
     <title>Struk Pengadaan Sparepart</title>
 </head>
 <body>
@@ -20,6 +21,7 @@
 
 			<hr>
             <p style="text-align: center"><strong>SURAT PEMESANAN</strong></p>
+			<div class="description-section">
 			<div class="date-section">
 				<table>
 					<tbody>
@@ -29,18 +31,24 @@
 						</tr>
 						<tr>
 							<th>Tanggal:</th>
-							
+							<td><span id="datetime"></span></td>
+							<script>
+							var dt = new Date();
+							var options = { year: 'numeric', month: 'long', day: 'numeric' };
+							document.getElementById("datetime").innerHTML = dt.toLocaleDateString('en-GB', options);
+							</script>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 
+
       <div class="consignee-section">
 				Kepada Yth:
-				<div>PT. Adi Jaya</div>
-				<div>Jalan Kemangi No 21</div>
-				<div>Jakarta Pusat</div>
-				<div>(021)(451245)</div>
+				<p class="nama_supplier"></p>
+				<p class="alamat_supplier"></p>
+				<p class="noTelp_supplier"></p>
+				
 			</div>
     </div>
 
@@ -58,14 +66,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<!-- <tr>
-						<td>1</td>
-						<td>Busi</td>
-						<td>Yamaha</td>
-						<td>Kebusian</td>
-						<td>5000</td>
-						<td>5</td>
-					</tr> -->
+					
 				</tbody>
 			</table>
 		</div>
@@ -110,20 +111,11 @@ img {
     margin-right: -70px;
 }
 
-
-
 #header {
     margin: auto;
     text-align: center;
 }
-	.header-section .image {
-		float: left;
-		height: 125px;
-	}
-	.header-section .title {
-		text-align: center;
-		line-height: 20px;
-	}
+
 	.description-section h3 {
 		text-align: center;
 	}
@@ -168,7 +160,7 @@ img {
                 , "Oktober", "November", "Desember"];
 
     const urlParams = new URLSearchParams(window.location.search);    
-
+	let b = localStorage.getItem("id_pengadaan");
     let table = document.querySelector('#tableData tbody');
 
     let total1 = 0;
@@ -183,11 +175,13 @@ img {
     let ct = [];
     
 
-    axios.get('/api/cetakSuratPemesanan')
+    axios.get('/api/cetakSuratPemesanan/' + b)
     .then((result) => {
         let temp = result.data;
         console.log(temp);
-
+		document.querySelector('.nama_supplier').innerHTML = temp[0].Nama_Supplier;
+		document.querySelector('.alamat_supplier').innerHTML = temp[0].Alamat;
+		document.querySelector('.noTelp_supplier').innerHTML = temp[0].NoTelp;
         for(let i = 0 ; i < temp.length; i++) {
             //bul[i] = temp[i].bulan;
             nama[i] = temp[i].Nama_Barang;

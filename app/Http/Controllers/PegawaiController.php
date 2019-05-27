@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Transformers\PegawaiTransformer;
+use Hash;
 
 class PegawaiController extends RestController
 {
@@ -142,5 +143,19 @@ class PegawaiController extends RestController
         } catch (\Exception $e) {
             throw $e;
         }
+    }
+
+    //login untuk website
+    public function login(Request $request)
+    {
+        $pegawai = Pegawai::where('username_pegawai',$request->username_pegawai)->first();
+
+
+        if (!Hash::check($request->password_pegawai,$pegawai->password_pegawai)) {
+            
+            return response()->json('Fail Login', 500);
+        }
+        else
+            return response()->json($pegawai,200);
     }
 }
