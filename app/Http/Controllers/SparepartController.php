@@ -88,6 +88,7 @@ class SparepartController extends RestController
             return $this->sendNotFoundResponse('sparepart_tidak_ditemukan');
         }
     }
+    
     //update data
     public function updateImageMobile(Request $request, $kode)
     {

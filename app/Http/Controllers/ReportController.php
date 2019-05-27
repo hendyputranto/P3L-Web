@@ -237,6 +237,27 @@ class ReportController extends Controller
             'message' => $datas ? 'Success' : 'Error',
         ]);
     }
+    public function cetakSuratPemesanan($id)
+    {
+        $pengadaan = PengadaanSparepart::find($id);
+        $pengadaan->statusCetak_pengadaan = 'Sudah Cetak';
+        $pengadaan->save();
+
+        $datas  = DB::select("SELECT sup.nama_supplier as Nama_Supplier, sup.alamat_supplier as Alamat, sup.noTelp_supplier as NoTelp, 	s.nama_sparepart as Nama_Barang,
+                                s.merk_sparepart as Merk, s.tipe_sparepart as Tipe, d.satuan_pengadaan as Satuan, 		d.sub_total_sparepart as Jumlah
+                                FROM pengadaan_spareparts 
+                                LEFT JOIN detil_pengadaan_spareparts as d 
+                                ON pengadaan_spareparts.id_pengadaan = d.id_pengadaan_fk 
+                                LEFT JOIN suppliers as sup
+                                ON pengadaan_spareparts.id_supplier_fk = sup.id_supplier
+                                LEFT JOIN sparepart_cabangs as sc
+                                ON d.id_sparepartCabang_fk = sc.id_sparepartCabang
+                                LEFT JOIN spareparts as s
+                                ON sc.kode_sparepart_fk = s.kode_sparepart
+                                WHERE pengadaan_spareparts.id_Pengadaan = $id");
+                    
+        return response()->json($datas, 200);
+    }
     public function pendapatanBulanan() {
         // $data = DB::select(
         //     "SELECT

@@ -451,4 +451,12 @@ class TransaksiPenjualanController extends RestController
             return $this->sendIseResponse($e->getMessage());
         }
     }
+
+    //dari jaya
+    function tampilRiwayat() {
+        $transaksi = DB::select('select id_transaksi, tgl_transaksi, plat_motorKonsumen, status_service, 
+        status_transaksi from transaksi_penjualans join detil_transaksi_services ON transaksi_penjualans.id_transaksi=detil_transaksi_services.id_transaksi_fk 
+        join motor_konsumens ON motor_konsumens.id_motorKonsumen=detil_transaksi_services.id_motorKonsumen_fk');
+        return response()->json($transaksi, 200);
+    }
 }

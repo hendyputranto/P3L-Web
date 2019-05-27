@@ -335,7 +335,7 @@
             location.href = "{{ url('/transaksiSV')}}";
         })
         .catch((error) =>{
-            //console.log(error);
+            console.log(error);
         });
         
         return false;

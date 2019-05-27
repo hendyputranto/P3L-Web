@@ -36,6 +36,32 @@ class DetilPengadaanSparepartController extends RestController
             return $this->sendIseResponse($e->getMessage());
         }
     }
+
+    public function create(request $request){
+        
+        $datas = array();
+        $datas = json_decode($request->data);
+        
+        try{
+            foreach($datas as $data){
+                $detilPengadaanSparepart = new DetilPengadaanSparepart;
+                
+                $detilPengadaanSparepart->id_pengadaan_fk = $data->id_pengadaan_fk;
+                $detilPengadaanSparepart->id_sparepartCabang_fk = $data->id_sparepartCabang_fk;
+                $detilPengadaanSparepart->satuan_pengadaan = $data->satuan_pengadaan;
+                $detilPengadaanSparepart->sub_total_sparepart = $data->sub_total_sparepart;    
+                $detilPengadaanSparepart->totalBarang_datang = 0;
+                
+                $detilPengadaanSparepart->save();
+               
+            }
+            return response()->json(['status' => 'success creating detail pengadaan sparepart', 'detil_pengadaan_sparepart' => $detilPengadaanSparepart], 200);
+            
+        }catch(\Exception $e){
+            return $this->sendIseResponse($e->getMessage());
+        }
+        
+    }
     //menampilkan data
     public function show(){
         $detilPengadaanSparepart = DetilPengadaanSparepart::all();

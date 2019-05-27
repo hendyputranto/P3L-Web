@@ -80,6 +80,7 @@ Route::delete('supplier/{id}','SupplierController@delete');
 Route::get('sparepart','SparepartController@show');
 Route::get('sparepart/{kode}','SparepartController@showById');
 Route::post('sparepart/store','SparepartController@create');
+//Route::put('sparepart/update/{kode}','SparepartController@updateDesktop');
 Route::post('sparepart/{kode}','SparepartController@update');
 Route::post('sparepart/updateImageMobile/{kode}','SparepartController@updateImageMobile');
 Route::delete('sparepart/{kode}','SparepartController@delete');
@@ -106,6 +107,7 @@ Route::get('sparepartCabang/sort','SparepartCabangController@testsort');
 Route::get('pengadaanSparepart','PengadaanSparepartController@show');
 Route::get('pengadaanSparepart/{id}','PengadaanSparepartController@showById');
 Route::post('pengadaanSparepart/createPengadaanSparepart','PengadaanSparepartController@createPengadaanSparepart');
+Route::post('pengadaanSparepart/create','PengadaanSparepartController@create');
 Route::put('pengadaanSparepart/{id}','PengadaanSparepartController@update_mobile');
 Route::put('pengadaanSparepart/verifikasi_pengadaan/{id}','PengadaanSparepartController@verifikasi_pengadaan');
 Route::delete('pengadaanSparepart/{id}','PengadaanSparepartController@delete');
@@ -114,6 +116,7 @@ Route::delete('pengadaanSparepart/{id}','PengadaanSparepartController@delete');
 Route::get('detilPengadaanSparepart','DetilPengadaanSparepartController@show');
 Route::get('detilPengadaanSparepart/showByIdPengadaan/{id}','DetilPengadaanSparepartController@showByIdPengadaan');
 Route::post('detilPengadaanSparepart/createDetilPengadaan','DetilPengadaanSparepartController@createDetilPengadaan');
+Route::post('detilPengadaanSparepart/create','DetilPengadaanSparepartController@create');
 
 
 
@@ -155,7 +158,7 @@ Route::post('createDetilTransaksiSparepart','DetilTransaksiSparepartController@c
 Route::delete('detilSparepart/{id}','DetilTransaksiSparepartController@delete');
 //report
 Route::get('spkDesktop/{id}','ReportController@cetakSuratPerintahKerjaDesktop');
-Route::get('suratPemesananDesktop/{id}','ReportController@cetakSuratPemesananDesktop');
 Route::get('notaPembayaranDesktop/{id}','ReportController@cetakNotaPembayaranDesktop');
+Route::get('cetakSuratPemesanan/{id}','ReportController@cetakSuratPemesanan');
 Route::get('sparepartTerlaris','ReportController@sparepartTerlaris');
 Route::get('pendapatanBulanan','ReportController@pendapatanBulanan');

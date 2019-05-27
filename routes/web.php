@@ -172,6 +172,10 @@ Route::get('laporan/sparepartTerlaris', function() {
 
     return view('laporanSparepartTerlarisBulanan');
 });
+Route::get('cetakPemesanan', function() {
+
+    return view('cetakSuratPemesanan');
+});
 
 Route::get('laporan/pengeluaran', 'ReportController@LaporanPengeluaranBulanan');
 
