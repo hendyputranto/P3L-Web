@@ -25,12 +25,35 @@ class TransaksiPenjualanController extends RestController
         $response = $this->generateCollection($transaksi);
         return $this->sendResponse($response);
     }
-    // public function showByPlatKonsumen($id)
-    // {
-    //     $transaksi = TransaksiPenjualan::where('id_transaksi_fk',$id)->get();
-    //     $response = $this->generateCollection($transaksi);
-    //     return $this->sendResponse($response,201);
-    // }
+    public function showByStatusTransaksi($status)
+    {
+        if($status==0)
+        {
+            $transaksi = TransaksiPenjualan::where('status_transaksi','Belum Lunas')->get();
+        }
+        else if($status==1)
+        {
+            $transaksi = TransaksiPenjualan::where('status_transaksi','Sudah Lunas')->get();
+        }
+        $response = $this->generateCollection($transaksi);
+        return $this->sendResponse($response);
+    }
+    public function showByPlatKonsumen($id)
+    {
+        //cari konsumen
+        //penjualannya aku cari
+        //terus aku bikin array untuk nampung id transaksi yang detil jasanya sesuai dengan motornya tadi
+        //penjualannya terus aku pecah 1 -1 
+        //penjualannya tipenya apa? kalo SS / SV , dia bakal nyari detil jasa yang id transaksinya sama kayak yg td yg uda di for each
+        //detil jasa nyambung ke motor konsumen, nah itu di cek sama apa ndak.
+        //kalo sama nanti pake array push
+        //kalo sesuai, id transaksi nanti dimasukin.
+        //kalo uda keluar dari for each, nanti bakal cari transaksi penjualan yang sesuai dengan tadi.
+
+        $transaksi = TransaksiPenjualan::where('id_transaksi_fk',$id)->get();
+        $response = $this->generateCollection($transaksi);
+        return $this->sendResponse($response,201);
+    }
 
     
     //Buatan sintaa

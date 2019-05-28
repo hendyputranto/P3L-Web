@@ -74,7 +74,7 @@
             <div class="form-group">
             <label class="control-label col-sm-2" for="password_pegawai">PASSWORD</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="password_pegawai" placeholder="password pegawai" name="password_pegawai">
+                <input type="password" class="form-control" id="password_pegawai" placeholder="password pegawai" name="password_pegawai">
             </div>
             </div>
 
