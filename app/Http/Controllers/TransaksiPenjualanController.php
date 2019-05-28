@@ -27,7 +27,14 @@ class TransaksiPenjualanController extends RestController
     }
     public function showByStatusTransaksi($status)
     {
-        $transaksi = TransaksiPenjualan::where('status_transaksi',$status)->get();
+        if($status==0)
+        {
+            $transaksi = TransaksiPenjualan::where('status_transaksi','Belum Lunas')->get();
+        }
+        else if($status==1)
+        {
+            $transaksi = TransaksiPenjualan::where('status_transaksi','Sudah Lunas')->get();
+        }
         $response = $this->generateCollection($transaksi);
         return $this->sendResponse($response);
     }
