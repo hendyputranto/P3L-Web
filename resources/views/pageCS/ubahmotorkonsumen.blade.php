@@ -78,7 +78,7 @@
     let b = localStorage.getItem("id_motorKonsumen");
     let data;
 
-    axios.get('http://10.53.0.175:8000/api/motor/')
+    axios.get('http://192.168.19.140/P3L_L_1/api/motor/')
     .then((result) => {
         for(let i = 0; i<result.data.data.length; i++) {
             let option = document.createElement('option');
@@ -90,7 +90,7 @@
     }).catch((err) => {
         console.log(err);
     });
-    axios.get('http://10.53.0.175:8000/api/konsumen/')
+    axios.get('http://192.168.19.140/P3L_L_1/api/konsumen/')
     .then((result) => {
         for(let i = 0; i<result.data.data.length; i++) {
             let option = document.createElement('option');
@@ -103,7 +103,7 @@
         console.log(err);
     });
 
-    axios.get('http://10.53.0.175:8000/api/motorKonsumen/'+b)
+    axios.get('http://192.168.19.140/P3L_L_1/api/motorKonsumen/'+b)
     .then(function (response) {
         // handle success
         data = response.data.data;
@@ -140,7 +140,7 @@
             formData.append('id_konsumen_fk', id_konsumen_fk);
             formData.append('plat_motorKonsumen', plat_motorKonsumen);
             console.log(plat_motorKonsumen);
-            axios.post('http://10.53.0.175:8000/api/motorKonsumen/' + b, formData)
+            axios.post('http://192.168.19.140/P3L_L_1/api/motorKonsumen/' + b, formData)
                     .then((result) => {
                         console.log(result);
                         edited = false;

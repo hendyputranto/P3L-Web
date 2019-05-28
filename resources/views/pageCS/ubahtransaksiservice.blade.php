@@ -188,7 +188,7 @@
 
 
             //montir dropdown
-            axios.get('http://10.53.0.175:8000/api/pegawai')
+            axios.get('http://192.168.19.140/P3L_L_1/api/pegawai')
             .then((result) => {
                 pegawai = result.data.data;
                 let cek = document.getElementById("id_montir").value;
@@ -214,7 +214,7 @@
         
         
         //jenis service dropdown
-        axios.get('http://10.53.0.175:8000/api/jasaService')
+        axios.get('http://192.168.19.140/P3L_L_1/api/jasaService')
         .then((result) => {
             service = result.data.data;
             
@@ -234,7 +234,7 @@
         });
 
         function harga(){
-            axios.get('http://10.53.0.175:8000/api/jasaService')
+            axios.get('http://192.168.19.140/P3L_L_1/api/jasaService')
             .then((result) => {
                 service = result.data.data;
                 let cek = document.getElementById("jenis_service").value;
@@ -267,7 +267,7 @@
        
         //cari
         function cari(){
-            axios.get('http://10.53.0.175:8000/api/motorKonsumen')
+            axios.get('http://192.168.19.140/P3L_L_1/api/motorKonsumen')
             .then((result) => {
                 motorK = result.data.data;
                 let cek = document.getElementById("cari_plat").value;
@@ -298,7 +298,7 @@
             // formDataDetail.append('jumlah_pemesanan', jumlah_pemesanan);
             // formDataDetail.append('harga_beli', harga_beli);
             // formDataDetail.append('satuan', satuan);
-            axios.post('http://10.53.0.175:8000/api/detilJasa', formDataDetail)
+            axios.post('http://192.168.19.140/P3L_L_1/api/detilJasa', formDataDetail)
             .then((result) => {
                 console.log(result);
             }).catch((err) => {
@@ -314,7 +314,7 @@
         formData.append('diskon', 0);
         formData.append('total_transaksi', total);
         console.log(formData);
-        axios.post('http://10.53.0.175:8000/api/transaksiPenjualanSV', formData)
+        axios.post('http://192.168.19.140/P3L_L_1/api/transaksiPenjualanSV', formData)
         .then((result) =>{
             console.log(result);
             //let tes = result.data.transaksiPenjualanSV;

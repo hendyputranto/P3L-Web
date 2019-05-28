@@ -43,9 +43,11 @@
           <li class="divider"></li>
           <li class="{{Request::is('keloladataCS/dmotorkonsumen') ? 'active' : null}}"><a href="{{ route('dmotorkonsumen') }}">Motor Konsumen</a></li>
           <li class="divider"></li>
-          <li class="{{Request::is('keloladataCS/dtransaksiPenjualan') ? 'active' : null}}"><a href="{{ route('dtransaksiPenjualan') }}">Transaksi Penjualan</a></li>
+          <li class="{{Request::is('keloladataCS/dtransaksiPenjualan') ? 'active' : null}}"><a href="{{ route('dtransaksiPenjualan') }}">Transaksi Penjualan Service</a></li>
           <li class="divider"></li>
           <li class="{{Request::is('keloladataCS/dtransaksiPenjualanSparepart') ? 'active' : null}}"><a href="{{ route('dtransaksiPenjualanSparepart') }}">Transaksi Penjualan Sparepart</a></li>
+          <li class="divider"></li>
+          <li class="{{Request::is('keloladataCS/dtransaksiPenjualanSS') ? 'active' : null}}"><a href="{{ route('dtransaksiPenjualanSS') }}">Transaksi Penjualan Sparepart & Service</a></li>
           <li class="divider"></li>
           <li class="{{Request::is('keloladataCS/dtampilTransaksi') ? 'active' : null}}"><a href="{{ route('dtampilTransaksi') }}">Tampil Transaksi Penjualan</a></li>
           <li class="divider"></li>

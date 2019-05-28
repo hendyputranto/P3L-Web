@@ -58,7 +58,7 @@
     let col = ['kode_sparepart', 'nama_sparepart', 'merk_sparepart', 
     'tipe_sparepart', 'gambar_sparepart'];
 
-    axios.get('http://127.0.0.1:8000/api/sparepart')
+    axios.get('http://192.168.19.140/P3L_L_1/api/sparepart')
     .then((result) => {
         console.log(result.data);
         Sparepart = result.data.data;
@@ -117,7 +117,7 @@
 
     function hapus(obj) {
         console.log(obj.parentNode.parentNode.cells[0].innerHMTL);
-        axios.delete('http://127.0.0.1:8000/api/sparepart/'+obj.parentNode.parentNode.cells[0].innerHTML)
+        axios.delete('http://192.168.19.140/P3L_L_1/api/sparepart/'+obj.parentNode.parentNode.cells[0].innerHTML)
         .then((result) => {
             sparepart.splice(obj.parentNode.parentNode.rowIndex-1, 1);
             tableSparepart.deleteRow(obj.parentNode.parentNode.rowIndex);

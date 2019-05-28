@@ -53,7 +53,7 @@
         let formData = new FormData();
         formData.append('nama_jasaService', nama_jasaService);
         formData.append('harga_jasaService', harga_jasaService);
-        axios.post('http://127.0.0.1:8000/api/jasaService', formData)
+        axios.post('http://192.168.19.140/P3L_L_1/api/jasaService', formData)
         .then((result) =>{
             console.log(result);
         })

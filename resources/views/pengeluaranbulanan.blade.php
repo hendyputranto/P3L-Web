@@ -33,22 +33,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                @foreach($query as $q)
-                <tr>
-                    <td style="text-align: center"> {{ ++$no }} </td>
-                    <td style="text-align: center"> {{ date("F", mktime(0, 0, 0, $q->Bulan, 1)) }} </td>
-                    <td style="text-align: center"> {{ $q->Pengeluaran }} </td>
-                </tr>
-                @endforeach
+                
                 </tbody>
             </table>
-            <p id = "judultotal"><strong>TOTAL       {{ $total}} <span id="total"><span></strong></p>
+            <p id = "judultotal"><strong>TOTAL<span id="total"><span></strong></p>
             <br>
             
             <p id="dicetak" style="text-align: right">dicetak tanggal <span id="datetime"></span></p>
             <script>
             var dt = new Date();
-            document.getElementById("datetime").innerHTML = dt.toLocaleDateString('en-GB');
+            var options = { year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById("datetime").innerHTML = dt.toLocaleDateString('en-GB', options);
             </script>
 
             <div align="center">
@@ -126,122 +121,74 @@ img {
                 , "Oktober", "November", "Desember"];
 
     const urlParams = new URLSearchParams(window.location.search);    
-    let jenis = null;
-    if(urlParams.get('jenis') !== null) {
-        jenis = urlParams.get('jenis');
-    }
-
-    if(jenis === 'cetak') {
-        document.querySelector('#dicetak').style.display = 'block';
-        let date = new Date().getDate();
-        let month = new Date().getMonth();
-        let year = new Date().getFullYear();
-
-        let bulan = bul[month];
-
-        document.querySelector('#tanggal').innerHTML = date + ' ' + bulan + ' ' + year;
-        
-    } 
 
     let table = document.querySelector('#tableBulan tbody');
 
     let total1 = 0;
-    let tahun = [];
-    let cabang = [];
-
+    let jumlahPengeluaran = [];
+    let total = [];
     let datas = [];
-    let temp2;
 
     let ct = [];
     
 
-    axios.get('/api/pendapatantahunan')
+    axios.get('/api/pengeluaranBulanan')
     .then((result) => {
         let temp = result.data;
-        let temp2 = result.data;
         console.log(temp);
 
-        for(let j = 0; j < temp.length; j++) {
-            total1 += temp[j].total;
+        for(let i = 0 ; i < temp.length; i++) {
+            //bul[i] = temp[i].bulan;
+            jumlahPengeluaran[i] = temp[i].Jumlah_Pengeluaran;
+            total1 += temp[i].Jumlah_Pengeluaran;
+        }
 
-            if(!tahun.includes(temp[j].tahun))
-                tahun.push(temp[j].tahun);
+        for(let j = 0; j < temp.length; j++) {
+            
         
             let tr = table.insertRow(-1);
             let td = document.createElement('td');      
-            for(let k = 0; k < 4; k++){
+            for(let k = 0; k < 3; k++){
                 td = tr.insertCell();  
                 if (k == 0)
                     td.innerHTML = j+1;
                 else if (k == 1) {
-                    td.innerHTML = temp[j].tahun;
+                    td.innerHTML = bul[j];
                 } else if (k == 2) {
-                    td.innerHTML = temp[j].cabang;
-                } else if (k == 3)
-                    td.innerHTML = temp[j].total;
+                    td.innerHTML = jumlahPengeluaran[j];
+                } 
             } 
-
-            if(!cabang.includes(temp[j].cabang)) {
-                let data = {};
-                cabang.push(temp[j].cabang);
-                data.cabang = temp[j].cabang;
-                data.total = [];
-                data.total.push(temp[j].total);
-                datas.push(data);
-            }
             
         }
 
-        for(let i = 0; i < cabang.length; i++) {
-            for(let b = 0; b < tahun.length; b++) {
-                let data = {};
-                data.cabang = cabang[i];
-                data.tahun = tahun[b];
-                ct.push(data);
-            }
-        }
-
         console.log(ct);
-
-        for(let h = 0; h < ct.length; h++) {
-            for(let a = 0; a < temp2.length; a++) {
-                if(ct[h].cabang == temp2[a].cabang && ct[h].tahun == temp2[a].tahun) {
-                    // console.log("ketemu"+temp2[a].total);
-                    for(let z = 0; z < datas.length; z++) {
-                        if(datas[z].cabang == temp2[a].cabang)
-                        {
-                            
-                            console.log(temp2[a].total)
-                            datas[z].total.push(temp2[a].total);
-                            break;
-                        }
-                            // 
-                    }
-                }
-                // } else if (ct[h].cabang == temp2[a].cabang && ct[h].tahun != temp2[a].tahun) {
-                //     console.log("nggak ketemu");
-                //     for(let z = 0; z < datas.length; z++) {
-                //         if(datas[z].cabang == ct[h].cabang)
-                //             datas[z].total.push(0);
-                //     }
-                // }
-            }
-                
-        }
-        
-        console.log(cabang);
-        console.log(datas);
-        console.log(tahun);
 
         document.querySelector('#total').innerHTML = total1;
 
         var ctx = document.getElementById("myChart").getContext('2d');
 
         var myChart = new Chart(ctx, {
-            type: 'bar',
+            type: 'pie',
             data: {
-                labels: tahun,
-                datasets: []
+                labels: bul,
+                datasets: [{
+                    label: "Jumlah Pengeluaran",
+                    backgroundColor: [
+                        "#5daf3a",
+                        "#bc6631",
+                        "#95a5a6",
+                        "#9b59b6",
+                        "#f1c40f",
+                        "#e74c3c",
+                        "#34495e",
+						"#f4e542",
+						"#ff00a5",
+						"#00ffa1",
+						"#ff0000",
+						"#ffaa00"
+                    ],
+                    data: jumlahPengeluaran
+                }]
             },
             options: {
                 legend: {
@@ -258,10 +205,10 @@ img {
         });
 
         datas.forEach(function(data){
-            myChart.data.datasets.push({
-                label: data.cabang,
+            myChart.data.jumlahPengeluaran.push({
+                label: data.Bulan,
                 backgroundColor: '#' + (Math.random().toString(16) + "000000").substring(2,8),
-                data: data.total
+                data: data.Jumlah_Pengeluaran
             });
             myChart.update();
         })

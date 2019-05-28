@@ -36,7 +36,22 @@
             </table>
             <p id = "judultotal"><strong>TOTAL <span id="total"><span></strong></p>
             <br>
-            <p id="dicetak" align="right" style="display: none">dicetak tanggal <span id="tanggal"></span></p>
+
+            <p id="dicetak" style="text-align: right">dicetak tanggal <span id="datetime"></span></p>
+            <script>
+            var dt = new Date();
+            var options = { year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById("datetime").innerHTML = dt.toLocaleDateString('en-GB', options);
+            </script>
+            <div align="center">
+                <input type="button" value="Cetak" class="button" onClick="PrintDoc()"/>
+            </div>
+            
+            <script type="text/javascript">
+            function PrintDoc(){
+            window.print();
+            }
+            </script>
         </div>
         <br>
         <br>
@@ -123,24 +138,24 @@ img {
     let total1 = 0;
     let tahun = [];
     let cabang = [];
-
+    let total = [];
     let datas = [];
     let temp2;
 
     let ct = [];
     
 
-    axios.get('/api/pendapatantahunan')
+    axios.get('/api/pendapatanTahunan')
     .then((result) => {
         let temp = result.data;
         let temp2 = result.data;
         console.log(temp);
 
         for(let j = 0; j < temp.length; j++) {
-            total1 += temp[j].total;
+            total1 += temp[j].TOTAL;
 
-            if(!tahun.includes(temp[j].tahun))
-                tahun.push(temp[j].tahun);
+            if(!tahun.includes(temp[j].TAHUN))
+            tahun.push(temp[j].TAHUN);
         
             let tr = table.insertRow(-1);
             let td = document.createElement('td');      
@@ -149,19 +164,19 @@ img {
                 if (k == 0)
                     td.innerHTML = j+1;
                 else if (k == 1) {
-                    td.innerHTML = temp[j].tahun;
+                    td.innerHTML = temp[j].TAHUN;
                 } else if (k == 2) {
-                    td.innerHTML = temp[j].cabang;
+                    td.innerHTML = temp[j].Cabang;
                 } else if (k == 3)
-                    td.innerHTML = temp[j].total;
+                    td.innerHTML = temp[j].TOTAL;
             } 
 
-            if(!cabang.includes(temp[j].cabang)) {
+            if(!cabang.includes(temp[j].Cabang)) {
                 let data = {};
-                cabang.push(temp[j].cabang);
-                data.cabang = temp[j].cabang;
+                cabang.push(temp[j].Cabang);
+                data.cabang = temp[j].Cabang;
                 data.total = [];
-                data.total.push(temp[j].total);
+                data.total.push(temp[j].TOTAL);
                 datas.push(data);
             }
             
@@ -180,14 +195,14 @@ img {
 
         for(let h = 0; h < ct.length; h++) {
             for(let a = 0; a < temp2.length; a++) {
-                if(ct[h].cabang == temp2[a].cabang && ct[h].tahun == temp2[a].tahun) {
+                if(ct[h].cabang == temp2[a].Cabang && ct[h].tahun == temp2[a].TAHUN) {
                     // console.log("ketemu"+temp2[a].total);
                     for(let z = 0; z < datas.length; z++) {
-                        if(datas[z].cabang == temp2[a].cabang)
+                        if(datas[z].cabang == temp2[a].Cabang)
                         {
                             
-                            console.log(temp2[a].total)
-                            datas[z].total.push(temp2[a].total);
+                            console.log(temp2[a].TOTAL)
+                            datas[z].total.push(temp2[a].TOTAL);
                             break;
                         }
                             // 
@@ -203,7 +218,7 @@ img {
             }
                 
         }
-        
+    
         console.log(cabang);
         console.log(datas);
         console.log(tahun);

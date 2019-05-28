@@ -1,4 +1,4 @@
-@extends('master.layout')
+@extends('master.layoutCS')
 @section('content')
 <style>
     .kotak {
@@ -63,7 +63,7 @@
         formData.append('nama_konsumen', nama_konsumen);
         formData.append('alamat_konsumen', alamat_konsumen);
         formData.append('noTelp_konsumen', noTelp_konsumen);
-        axios.post('http://192.168.0.176:8000/api/konsumen', formData)
+        axios.post('http://192.168.19.140/P3L_L_1/api/konsumen', formData)
         .then((result) =>{
             console.log(result);
             location.href = "{{ url('/konsumen')}}";

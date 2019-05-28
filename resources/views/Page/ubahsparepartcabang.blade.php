@@ -107,7 +107,7 @@
     let b = localStorage.getItem("id_sparepartCabang");
     let data;
 
-    axios.get('http://10.53.0.175:8000/api/cabang/')
+    axios.get('http://192.168.19.140/P3L_L_1/api/cabang/')
     .then((result) => {
         for(let i = 0; i<result.data.data.length; i++) {
             let option = document.createElement('option');
@@ -119,7 +119,7 @@
     }).catch((err) => {
         console.log(err);
     });
-    axios.get('http://10.53.0.175:8000/api/sparepart/')
+    axios.get('http://192.168.19.140/P3L_L_1/api/sparepart/')
     .then((result) => {
         for(let i = 0; i<result.data.data.length; i++) {
             let option = document.createElement('option');
@@ -132,7 +132,7 @@
         console.log(err);
     });
 
-    axios.get('http://10.53.0.175:8000/api/sparepartCabang/'+b)
+    axios.get('http://192.168.19.140/P3L_L_1/api/sparepartCabang/'+b)
     .then(function (response) {
         // handle success
         data = response.data.data
@@ -182,7 +182,7 @@
             formData.append('stokMin_sparepart', stokMin_sparepart);
             formData.append('stokSisa_sparepart', stokSisa_sparepart);
             console.log(hargaBeli_sparepart);
-            axios.post('http://10.53.0.175:8000/api/sparepartCabang/' + b, formData)
+            axios.post('http://192.168.19.140/P3L_L_1/api/sparepartCabang/' + b, formData)
                     .then((result) => {
                         console.log(result);
                         edited = false;

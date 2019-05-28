@@ -76,7 +76,7 @@
         formData.append('merk_sparepart', merk_sparepart);
         formData.append('tipe_sparepart', tipe_sparepart);
         formData.append('gambar_sparepart', gambar_sparepart);
-        axios.post('http://127.0.0.1:8000/api/sparepart', formData)
+        axios.post('http://192.168.19.140/P3L_L_1/api/sparepart/store', formData)
         .then((result) =>{
             console.log(result);
         })

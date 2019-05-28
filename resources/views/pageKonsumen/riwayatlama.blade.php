@@ -83,7 +83,7 @@
 
         function hapus(obj) {
             console.log(obj.parentNode.parentNode.cells[0].innerHMTL);
-            axios.delete('http://127.0.0.1:8000/api/transaksiPenjualan/'+obj.parentNode.parentNode.cells[0].innerHTML)
+            axios.delete('http://192.168.19.140/P3L_L_1/api/transaksiPenjualan/'+obj.parentNode.parentNode.cells[0].innerHTML)
             .then((result) => {
                 transaksi.splice(obj.parentNode.parentNode.rowIndex-1, 1);
                 tableTransaksi.deleteRow(obj.parentNode.parentNode.rowIndex);

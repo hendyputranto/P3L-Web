@@ -56,7 +56,7 @@
         let tableCabang = document.querySelector('#tableCabang');
         let col = ['id_cabang', 'nama_cabang', 'alamat_cabang', 'noTelp_cabang'];
 
-        axios.get('http://127.0.0.1:8000/api/cabang')
+        axios.get('http://192.168.19.140/P3L_L_1/api/cabang')
         .then((result) => {
             console.log(result.data);
             Cabang = result.data.data;
@@ -107,7 +107,7 @@
 
         function hapus(obj) {
             console.log(obj.parentNode.parentNode.cells[0].innerHMTL);
-            axios.delete('http://127.0.0.1:8000/api/cabang/'+obj.parentNode.parentNode.cells[0].innerHTML)
+            axios.delete('http://192.168.19.140/P3L_L_1/api/cabang/'+obj.parentNode.parentNode.cells[0].innerHTML)
             .then((result) => {
                 Cabang.splice(obj.parentNode.parentNode.rowIndex-1, 1);
                 tableCabang.deleteRow(obj.parentNode.parentNode.rowIndex);

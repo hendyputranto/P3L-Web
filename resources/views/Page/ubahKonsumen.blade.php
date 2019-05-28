@@ -1,4 +1,4 @@
-@extends('master.layout')
+@extends('master.layoutCS')
 @section('content')
 <style>
     .kotak {
@@ -58,7 +58,7 @@
     let b = localStorage.getItem("id_konsumen");
     let data;
 
-    axios.get('http://192.168.0.176:8000/api/konsumen/'+b)
+    axios.get('http://192.168.19.140/P3L_L_1/api/konsumen/'+b)
     .then(function (response) {
         // handle success
         data = response.data.data;
@@ -86,7 +86,7 @@
         formData.append('nama_konsumen', nama);
         formData.append('alamat_konsumen', alamat);
         formData.append('noTelp_konsumen', notelp);
-        axios.post('http://192.168.0.176:8000/api/konsumen/' + b, formData)
+        axios.post('http://192.168.19.140/P3L_L_1/api/konsumen/' + b, formData)
                 .then((result) => {
                     console.log(result);
                     location.href = "{{ url('/konsumen')}}";

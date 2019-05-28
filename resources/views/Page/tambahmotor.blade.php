@@ -65,7 +65,7 @@
         // formData.append('kode_sparepart_fk', kode_sparepart_fk);
         formData.append('merk_motor', merk_motor);
         formData.append('tipe_motor', tipe_motor);
-        axios.post('http://10.53.0.175:8000/api/motor/', formData)
+        axios.post('http://192.168.19.140/P3L_L_1/api/motor/', formData)
         .then((result) =>{
             console.log(result);
         })

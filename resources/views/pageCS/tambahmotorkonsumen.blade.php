@@ -69,7 +69,7 @@
         formData.append('id_motor_fk', id_motor_fk);
         formData.append('id_konsumen_fk', id_konsumen_fk);
         formData.append('plat_motorKonsumen', plat_motorKonsumen);
-        axios.post('http://10.53.0.175:8000/api/motorKonsumen/', formData)
+        axios.post('http://192.168.19.140/P3L_L_1/api/motorKonsumen/', formData)
         .then((result) =>{
             console.log(result);
             location.href = "{{ route('dmotorkonsumen') }}";
@@ -83,7 +83,7 @@
     let select = document.querySelector('#id_motor_fk');
     let select2 = document.querySelector('#id_konsumen_fk');
 
-    axios.get('http://10.53.0.175:8000/api/motor/')
+    axios.get('http://192.168.19.140/P3L_L_1/api/motor/')
     .then((result) => {
         for(let i = 0; i<result.data.data.length; i++) {
             let option = document.createElement('option');
@@ -96,7 +96,7 @@
         console.log(err);
     });
 
-    axios.get('http://10.53.0.175:8000/api/konsumen/')
+    axios.get('http://192.168.19.140/P3L_L_1/api/konsumen/')
     .then((result) => {
         for(let i = 0; i<result.data.data.length; i++) {
             let option = document.createElement('option');

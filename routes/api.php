@@ -87,6 +87,7 @@ Route::post('sparepart/updateImageMobile/{kode}','SparepartController@updateImag
 Route::delete('sparepart/{kode}','SparepartController@delete');
 Route::get('/penjualan/tampilriwayat', 'TransaksiPenjualanController@tampilRiwayat');
 Route::get('/spareparts/tampilstokkurang', 'SparepartsController@tampilstokkurang');
+
 //Sparepart Cabang
 Route::post('sparepartCabang','SparepartCabangController@create');
 Route::get('sparepartCabang','SparepartCabangController@show');
@@ -136,6 +137,7 @@ Route::put('transaksiPenjualan/update_status_transaksi_sinta/{id}','TransaksiPen
 Route::delete('deleteTransaksiPenjualan/{id}','TransaksiPenjualanController@deleteTransaksiPenjualan');
 
 Route::put('transaksiPenjualan/payment/{id}','TransaksiPenjualanController@payment');
+Route::put('transaksiPenjualan/paymentDesktop/{id}','TransaksiPenjualanController@paymentDesktop');
 Route::delete('transaksiPenjualan/{id}','TransaksiPenjualanController@delete');
 
 Route::get('transaksiPenjualan/showByPlatKonsumen{id}','TransaksiPenjualanController@showByPlatKonsumen');
@@ -159,12 +161,23 @@ Route::post('createDetilTransaksiSparepart','DetilTransaksiSparepartController@c
 
 //Route::put('detilSparepart/{id}','DetilTransaksiSparepartController@update');
 Route::delete('detilSparepart/{id}','DetilTransaksiSparepartController@delete');
+
 //report
 Route::get('spkDesktop/{id}','ReportController@cetakSuratPerintahKerjaDesktop');
 Route::get('notaPembayaranDesktop/{id}','ReportController@cetakNotaPembayaranDesktop');
 Route::get('cetakSuratPemesanan/{id}','ReportController@cetakSuratPemesanan');
 Route::get('sparepartTerlaris','ReportController@sparepartTerlaris');
 Route::get('pendapatanBulanan','ReportController@pendapatanBulanan');
+Route::get('pendapatanBulananDesktop/{tahun}','ReportController@pendapatanBulananDesktop');
+Route::get('pendapatanPertahunDesktop','ReportController@pendapatanPertahunDesktop');
+Route::get('pengeluaranBulananDesktop/{tahun}','ReportController@pengeluaranBulananDesktop');
+Route::get('penjualanJasaDesktop/{tahun}/{bulan}','ReportController@penjualanJasaDesktop');
+Route::get('sisaStokDesktop/{tahun}/{tipeSparepart}','ReportController@sisaStokDesktop');
+Route::get('sparepartTerlarisDesktop/{tahun}','ReportController@sparepartTerlarisDesktop');
+Route::get('pendapatanTahunan','ReportController@pendapatanTahunan');
+Route::get('penjualanJasa','ReportController@penjualanJasa');
+Route::get('pengeluaranBulanan','ReportController@pengeluaranBulanan');
+Route::get('sisaStok','ReportController@sisaStok');
 
 //NOTA CONTROLLER
 Route::get('getpenjualan/{id}', 'NotaController@getPenjualan');

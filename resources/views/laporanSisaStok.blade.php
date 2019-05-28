@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Laporan Penjualan Jasa</title>
+    <title>Laporan Sisa Stok</title>
 </head>
 <body>
     <div id="fullcontainer">
@@ -20,25 +20,23 @@
 
             <hr>
 
-            <p style="text-align: center"><strong>LAPORAN PENJUALAN JASA</strong></p>
+            <p style="text-align: center"><strong>LAPORAN SISA STOK</strong></p>
             <p style="text-align: left">Tahun : 2019 </p>
-            <p style="text-align: left">Bulan : Mei </p>
+        
         
             <table id="tableBulan">
                 <thead>
                     <tr>
                         <th style="width: 50px; text-align: center">No</th>
-                        <th style="width: 150px; text-align: center">Merk</th>
-                        <th style="width: 250px; text-align: center">Tipe Motor</th>
-                        <th style="width: 250px; text-align: center">Nama Service</th>
-                        <th style="width: 250px; text-align: center">Jumlah Penjualan</th>
+                        <th style="width: 150px; text-align: center">Bulan</th>
+                        <th style="width: 250px; text-align: center">Sisa Stok</th>
                     </tr>
                 </thead>
                 <tbody>
+                
                 </tbody>
             </table>
-            <br>
-            
+
             <p id="dicetak" style="text-align: right">dicetak tanggal <span id="datetime"></span></p>
             <script>
             var dt = new Date();
@@ -59,6 +57,9 @@
         
         <br>
         <br>
+        <div id="container2">
+            <canvas id="myChart"></canvas>
+        </div>
     </div>
     
 
@@ -118,77 +119,56 @@ img {
                 , "Oktober", "November", "Desember"];
 
     const urlParams = new URLSearchParams(window.location.search);    
-    let jenis = null;
-    if(urlParams.get('jenis') !== null) {
-        jenis = urlParams.get('jenis');
-    }
-
-    if(jenis === 'cetak') {
-        document.querySelector('#dicetak').style.display = 'block';
-        let date = new Date().getDate();
-        let month = new Date().getMonth();
-        let year = new Date().getFullYear();
-
-        let bulan = bul[month];
-
-        document.querySelector('#tanggal').innerHTML = date + ' ' + bulan + ' ' + year;
-        
-    } 
 
     let table = document.querySelector('#tableBulan tbody');
 
-    let total1 = 0;
-    let merk = [];
-    let tipemotor = [];
-    let namaservice = [];
-    let jumlah = [];
-
+    let sisaStok = [];
     let datas = [];
 
     let ct = [];
     
 
-    axios.get('/api/penjualanJasa')
+    axios.get('/api/sisaStok')
     .then((result) => {
         let temp = result.data;
         console.log(temp);
 
         for(let i = 0 ; i < temp.length; i++) {
-            //bul[i] = temp[i].bulan;
-            merk[i] = temp[i].Merk;
-            tipemotor[i] = temp[i].Tipe;
-            namaservice[i] = temp[i].Nama_service;
-            jumlah[i] = temp[i].Jumlah_service;
+            sisaStok[i] = temp[i].SisaStok;
         }
 
         for(let j = 0; j < temp.length; j++) {
+            
+        
             let tr = table.insertRow(-1);
             let td = document.createElement('td');      
-            for(let k = 0; k < 5; k++){
+            for(let k = 0; k < 3; k++){
                 td = tr.insertCell();  
-                if (k == 0){
+                if (k == 0)
                     td.innerHTML = j+1;
-                } else if (k == 1) {
-                    td.innerHTML = merk[j];
+                else if (k == 1) {
+                    td.innerHTML = bul[j];
                 } else if (k == 2) {
-                    td.innerHTML = tipemotor[j];
-                } else if (k == 3){
-                    td.innerHTML = namaservice[j];
-                } else if (k == 4)
-                    td.innerHTML = jumlah[j];
+                    td.innerHTML = sisaStok[j];
+                } 
             } 
             
-        }    
+        }
 
-        document.querySelector('#total').innerHTML = total1;
+        console.log(ct);
 
         var ctx = document.getElementById("myChart").getContext('2d');
 
         var myChart = new Chart(ctx, {
-            type: 'bar',
+            type: 'line',
             data: {
-                labels: tahun,
-                datasets: []
+                labels: bul,
+                datasets: [{
+                    label: "Sisa Stok",
+                    fill: false,
+                    borderColor: "blue",
+                    data: sisaStok
+                }]
             },
             options: {
                 legend: {
@@ -205,10 +185,10 @@ img {
         });
 
         datas.forEach(function(data){
-            myChart.data.datasets.push({
-                label: data.cabang,
+            myChart.data.sisaStok.push({
+                label: data.Bulan,
                 backgroundColor: '#' + (Math.random().toString(16) + "000000").substring(2,8),
-                data: data.total
+                data: data.sisaStok
             });
             myChart.update();
         })

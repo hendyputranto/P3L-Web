@@ -149,7 +149,7 @@ button:hover {
 
           console.log(document.getElementById("username").value);
           console.log(document.getElementById("password").value);
-          axios.post('http://127.0.0.1:8000/api/pegawai/login', {
+          axios.post('http://192.168.19.140/P3L_L_1/api/pegawai/login', {
             username_pegawai : document.getElementById("username").value,
             password_pegawai : document.getElementById("password").value
           })
@@ -162,7 +162,7 @@ button:hover {
               alert("Login Berhasil");
               location.href = "{{ url('/')}}";
             } else if(cekId=="2"){
-              console.log("Customer Service");
+              console.log("CS");
             //   location.href = "{{ url('/dkonsumen')}}";
               location.href = "{{ route('dkonsumen') }}";
               alert("Login Berhasil");
@@ -184,7 +184,7 @@ button:hover {
 
   function batalbtn()
     {
-      location.href="{{ url('/homekonsumen')}}";
+      location.href="{{ url('/homeKonsumen')}}";
     }
 
 </script>

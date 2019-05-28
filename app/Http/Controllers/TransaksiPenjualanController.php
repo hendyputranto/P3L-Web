@@ -461,6 +461,25 @@ class TransaksiPenjualanController extends RestController
             return $this->sendIseResponse($e->getMessage());
         }
     }
+    public function paymentDesktop(request $request, $id_transaksi)
+    {
+        try {
+            $transaksi = TransaksiPenjualan::find($id_transaksi);
+            $transaksi->status_transaksi="Sudah Lunas";
+            $transaksi->diskon=$request->get('diskon');;
+            $transaksi->total_transaksi=$request->get('total_transaksi');
+
+            // $tempSparepart = SparepartCabang::find($request->id_sparepartCabang_fk);
+            // $tempSparepart->stokSisa_sparepart -= $request->jumlahBeli_sparepart;
+
+            //$tempSparepart->save();
+            $transaksi->save();
+            $response = $this->generateItem($transaksi);
+            return $this->sendResponse($response, 201);
+        } catch (\Exception $e) {
+            return $this->sendIseResponse($e->getMessage());
+        }
+    }
 
     public function delete($id_transaksi)
     {

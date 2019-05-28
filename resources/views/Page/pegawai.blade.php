@@ -39,12 +39,14 @@
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>NAMA</th>
+                        <th>NAMA CABANG</th>
+                        <th>NAMA ROLE</th>
+                        <th>NAMA PEGAWAI</th>
                         <th>ALAMAT</th>
                         <th>NO TELP</th>
                         <th>GAJI</th>
                         <th>USERNAME</th>
-                        <!-- <th>PASSWORD</th> -->
+                        <th>PASSWORD</th>
                         <th>PILIHAN</th>
                     </tr>
                     </thead>
@@ -57,12 +59,12 @@
     <script>
     let Pegawai;
     let tablePegawai = document.querySelector('#tablePegawai');
-    let col = ['id_pegawai', 'nama_pegawai', 'alamat_pegawai', 'noTelp_pegawai', 
-    'gaji_pegawai', 'username_pegawai'];
+    let col = ['id_pegawai', 'id_cabang_fk', 'id_role_fk', 'nama_pegawai', 'alamat_pegawai', 'noTelp_pegawai', 
+    'gaji_pegawai', 'username_pegawai', 'password_pegawai'];
 
-    axios.get('http://127.0.0.1:8000/api/pegawai/')
+    axios.get('http://192.168.19.140/P3L_L_1/api/pegawai/')
     .then((result) => {
-        console.log(result.data);
+        console.log(result.data.data);
         Pegawai = result.data.data;
         console.log(Pegawai);
 
@@ -113,7 +115,7 @@
 
     function hapus(obj) {
         console.log(obj.parentNode.parentNode.cells[0].innerHMTL);
-        axios.delete('http://127.0.0.1:8000/api/pegawai/'+obj.parentNode.parentNode.cells[0].innerHTML)
+        axios.delete('http://192.168.19.140/P3L_L_1/api/pegawai/'+obj.parentNode.parentNode.cells[0].innerHTML)
         .then((result) => {
             pegawai.splice(obj.parentNode.parentNode.rowIndex-1, 1);
             tablePegawai.deleteRow(obj.parentNode.parentNode.rowIndex);
@@ -130,7 +132,7 @@
         table = document.getElementById("tablePegawai");
         tr = table.getElementsByTagName("tr");
         for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[2];
+            td = tr[i].getElementsByTagName("td")[3];
             if (td) {
                 txtValue = td.textContent || td.innerText;
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {

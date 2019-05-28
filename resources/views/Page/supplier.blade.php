@@ -59,7 +59,7 @@
     let col = ['id_supplier', 'nama_supplier', 'noTelp_supplier', 'alamat_supplier' ,
     'nama_sales', 'noTelp_sales'];
 
-    axios.get('http://10.53.3.189:8000/api/supplier')
+    axios.get('http://192.168.19.140/P3L_L_1/api/supplier')
     .then((result) => {
         console.log(result.data.data);
         Supplier = result.data.data;
@@ -112,7 +112,7 @@
 
     function hapus(obj) {
         console.log(obj.parentNode.parentNode.cells[0].innerHMTL);
-        axios.delete('http://10.53.3.189:8000/api/supplier/'+obj.parentNode.parentNode.cells[0].innerHTML)
+        axios.delete('http://192.168.19.140/P3L_L_1/api/supplier/'+obj.parentNode.parentNode.cells[0].innerHTML)
         .then((result) => {
             Supplier.splice(obj.parentNode.parentNode.rowIndex-1, 1);
             tableSupplier.deleteRow(obj.parentNode.parentNode.rowIndex);
