@@ -25,6 +25,12 @@ class TransaksiPenjualanController extends RestController
         $response = $this->generateCollection($transaksi);
         return $this->sendResponse($response);
     }
+    public function showByStatusTransaksi($status)
+    {
+        $transaksi = TransaksiPenjualan::where('status_transaksi',$status)->get();
+        $response = $this->generateCollection($transaksi);
+        return $this->sendResponse($response);
+    }
     public function showByPlatKonsumen($id)
     {
         //cari konsumen
