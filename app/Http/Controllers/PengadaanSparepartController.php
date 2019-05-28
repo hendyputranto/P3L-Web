@@ -22,7 +22,7 @@ class PengadaanSparepartController extends RestController
      public function show(){
         $pengadaanSparepart = PengadaanSparepart::all();
         $response = $this->generateCollection($pengadaanSparepart);
-        return $this->sendResponse($response);
+        return $this->sendResponse($response,201);
     }
 
     //tampil by id
