@@ -122,7 +122,16 @@ class SparepartCabangController extends RestController
             $sparepartCabang->kode_sparepart_fk = $request->kode_sparepart_fk;
             $sparepartCabang->hargaBeli_sparepart = $request->hargaBeli_sparepart;
             $sparepartCabang->hargaJual_sparepart = $request->hargaJual_sparepart;
-            $sparepartCabang->letak_sparepart = $request->letak_sparepart;
+            
+            $id = array();
+            $id = SparepartCabang::orderBy('id_sparepartCabang','DESC')->where('letak_sparepart','like',$request->letak_sparepart.'%')->first();
+            if(!$id)
+                $no = 1;
+            else {
+                $no_str = explode('-',$id->letak_sparepart);
+                $no = ++$no_str[2];
+            }
+            $sparepartCabang->letak_sparepart = $request->letak_sparepart.'-'.$no;
             $sparepartCabang->stokMin_sparepart = $request->stokMin_sparepart;
             $sparepartCabang->stokSisa_sparepart = $request->stokSisa_sparepart;
             
@@ -137,15 +146,25 @@ class SparepartCabangController extends RestController
     }
     //update data
     public function update(request $request, $id_sparepartCabang){
+
+        $id = array();
+            $id = SparepartCabang::orderBy('id_sparepartCabang','DESC')->where('letak_sparepart','like',$request->letak_sparepart.'%')->first();
+            if(!$id)
+                $no = 1;
+            else {
+                $no_str = explode('-',$id->letak_sparepart);
+                $no = ++$no_str[2];
+            }
+        $letak_sparepart = $request->letak_sparepart.'-'.$no;
         $id_cabang_fk = $request->id_cabang_fk;
         $kode_sparepart_fk = $request->kode_sparepart_fk;
         $hargaBeli_sparepart = $request->hargaBeli_sparepart;
         $hargaJual_sparepart = $request->hargaJual_sparepart;
-        $letak_sparepart = $request->letak_sparepart;
         $stokMin_sparepart = $request->stokMin_sparepart;
         $stokSisa_sparepart = $request->stokSisa_sparepart;
 
         try{
+            
             $sparepartCabang = SparepartCabang::find($id_sparepartCabang);
             $sparepartCabang->id_cabang_fk = $id_cabang_fk;
             $sparepartCabang->kode_sparepart_fk = $kode_sparepart_fk;
