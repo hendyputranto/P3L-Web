@@ -88,6 +88,12 @@
                     buttonHapus.setAttribute('class','btn btn-danger');
                     buttonHapus.setAttribute('onclick','hapus(this)');
                     td.appendChild(buttonHapus);
+                }else if(j==4){
+                            let img = document.createElement('img');
+                            img.src = '/images/'+Sparepart[i][col[j]];
+                            img.width = 150;
+                            img.height = 150;
+                            td.appendChild(img);
                 }else if(j==8){
                     td.innerHTML = '***';
                 }

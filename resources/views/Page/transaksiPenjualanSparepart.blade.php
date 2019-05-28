@@ -295,13 +295,14 @@
                 console.log(konsumen);
                 for(let i=0; i<konsumen.length; i++){
                     // console.log("test3");
-                    if(konsumen[i].nama_konsumen == cek)
+                    if(konsumen[i].nama_konsumen != cek)
                     {
+                        alert("Nama Konsumen Tidak ditemukan");
+                    }else{
+                        
                         document.getElementById("nama_konsumen").value = konsumen[i].nama_konsumen;
                         id_konsumen_fk = konsumen[i].id_konsumen;
                         console.log(id_konsumen_fk);
-                    }else{
-                        alert("Nama Konsumen Tidak ditemukan");
                     }
                     
                 }

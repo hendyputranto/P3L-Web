@@ -36,6 +36,7 @@
                         <th>NAMA</th>
                         <th>MERK</th>
                         <th>TIPE</th>
+                        <th>HARGA</th>
                         <th>GAMBAR</th>
                     </tr>
                     </thead>
@@ -49,9 +50,9 @@
     let Sparepart;
     
     let tableSparepart = document.querySelector('#tableSparepart');
-    let col = ['kode_sparepart', 'nama_sparepart', 'merk_sparepart', 'tipe_sparepart','gambar_sparepart'];
+    let col = ['kode_sparepart_fk', 'nama_sparepart', 'merk_sparepart', 'tipe_sparepart','hargaJual_sparepart','gambar_sparepart'];
     let col1 = ['hargaJual_sparepart'];
-    axios.get('http://10.53.1.47:8000/api/sparepart')
+    axios.get('http://127.0.0.1:8000/api/sparepartCabang')
     .then((result) => {
         console.log(result.data);
             Sparepart = result.data.data;
@@ -66,7 +67,7 @@
                 for(j=0;j<col.length;j++){
                     td = tr.insertCell();
                     console.log(j);
-                    if(j==4){
+                    if(j==5){
                         let img = document.createElement('img');
                         img.src = '/images/'+Sparepart[i][col[j]];
                         img.width = 150;

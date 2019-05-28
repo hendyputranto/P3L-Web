@@ -60,7 +60,7 @@ class ReportController extends Controller
         
     public function sparepartTerlaris() {
         $data =DB::select(
-            "SELECT MONTHNAME(STR_TO_DATE((m.bulan), '%m')) as Bulan,COALESCE(s.nama_sparepart,'') as Nama,COALESCE(s.tipe_sparepart,'') as Tipe,COALESCE(SUM(d.jumlahBeli_saprepart),'') as Total 
+            "SELECT MONTHNAME(STR_TO_DATE((m.bulan), '%m')) as Bulan,COALESCE(s.nama_sparepart,'') as Nama,COALESCE(s.tipe_sparepart,'') as Tipe,COALESCE(SUM(d.jumlahBeli_sparepart),'') as Total 
             FROM (SELECT '01' AS
             bulan
             UNION SELECT '02' AS
@@ -154,7 +154,110 @@ class ReportController extends Controller
             'message' => $data1 ? 'Success' : 'Error',
         ]);
     }
+    public function cetakNotaPembayaranDesktop($id)
+    {
+        $data1 = DB::select("SELECT t.id_transaksi as id_transaksi, s.kode_sparepart as Kode, s.nama_sparepart as Nama, s.merk_sparepart as Merk,  d.jumlahBeli_saprepart as Jumlah, d.subTotal_sparepart as Subtotal
+        FROM transaksi_penjualans t 
+        INNER JOIN detil_transaksi_spareparts d ON d.id_transaksi_fk =  t.id_transaksi
+        INNER JOIN sparepart_cabangs sc ON sc.id_sparepartCabang = d.id_sparepartCabang_fk
+        INNER JOIN spareparts s ON s.kode_sparepart = sc.kode_sparepart_fk
+        WHERE t.id_transaksi = $id");
 
+        $data2 = DB::select("SELECT t.id_transaksi as Id_Transaksi, j2.id_jasaService as KodeJasa, j2.nama_jasaService as NamaJasa, j.subTotal_service as Subtotal
+        FROM transaksi_penjualans t 
+        INNER JOIN detil_transaksi_services j ON j.id_transaksi_fk = t.id_transaksi
+        INNER JOIN jasa_services j2 ON j2.id_jasaService = j.id_jasaService_fk
+        WHERE t.id_transaksi = $id");
+
+        $data3 = DB::select("SELECT t.created_at as created_at, t.id_transaksi as Id_Transaksi, k.nama_konsumen as Cust, k.noTelp_konsumen as Telepon
+        FROM transaksi_penjualans t 
+        INNER JOIN detil_transaksi_spareparts d ON d.id_transaksi_fk = t.id_transaksi
+        INNER JOIN konsumens k ON k.id_konsumen = d.id_konsumen_fk
+        WHERE t.id_transaksi = $id");
+
+        $data4 = DB::select("SELECT t.id_transaksi as Id_Transaksi, p.nama_pegawai as CS
+        FROM transaksi_penjualans t 
+        INNER JOIN pegawai__on_duties m ON m.id_transaksi_fk =  t.id_transaksi
+        INNER JOIN pegawais p ON p.id_pegawai = m.id_pegawai_fk
+        WHERE t.id_transaksi = $id");
+
+        $data5 = DB::select("SELECT t.id_transaksi as Id_Transaksi,  p.nama_pegawai as Montir
+        FROM transaksi_penjualans t 
+        INNER JOIN detil_transaksi_services j ON j.id_transaksi_fk = t.id_transaksi
+        INNER JOIN montir__on_duties m ON m.id_motorKonsumen_fk = j.id_motorKonsumen_fk
+        INNER JOIN pegawais p ON p.id_pegawai = m.id_pegawai_fk
+        WHERE t.id_transaksi = $id");
+
+        $data6 = DB::select("SELECT t.id_transaksi as Id_Transaksi, n.merk_motor as Merk, n.tipe_motor as Tipe, p.plat_motorKonsumen as Plat 
+        FROM transaksi_penjualans t 
+        INNER JOIN detil_transaksi_services d ON d.id_transaksi_fk =  t.id_transaksi
+        INNER JOIN montir__on_duties m ON m.id_motorKonsumen_fk = d.id_motorKonsumen_fk
+        INNER JOIN motor_konsumens p ON p.id_motorKonsumen = m.id_motorKonsumen_fk
+        INNER JOIN motors n ON n.id_motor = p.id_motor_fk
+        WHERE t.Id_Transaksi = $id");
+
+        $data7 = DB::select("SELECT t.id_transaksi as Id_Transaksi, t.kode_transaksi AS 'Kode_Transaksi'
+        FROM transaksi_penjualans t 
+        WHERE t.id_transaksi = $id");
+
+        return response()->json([
+            'status' => (bool) $data1,
+            'data1' => $data1,
+            'data2' => $data2,
+            'data3' => $data3,
+            'data4' => $data4,
+            'data5' => $data5,
+            'data6' => $data6,
+            'data7' => $data7,
+            'message' => $data1 ? 'Success' : 'Error',
+        ]);
+    }
+    public function cetakSuratPemesananDesktop($id)
+    {
+        $pengadaan = PengadaanSparepart::find($id);
+        $pengadaan->statusCetak_pengadaan = 'Sudah Cetak';
+        $pengadaan->save();
+
+        $datas  = DB::select("SELECT sup.nama_supplier as Nama_Supplier, sup.alamat_supplier as Alamat, sup.noTelp_supplier as NoTelp, 	s.nama_sparepart as Nama_Barang,
+                                s.merk_sparepart as Merk, s.tipe_sparepart as Tipe, d.satuan_pengadaan as Satuan, 		d.sub_total_sparepart as Jumlah
+                                FROM pengadaan_spareparts 
+                                LEFT JOIN detil_pengadaan_spareparts as d 
+                                ON pengadaan_spareparts.id_pengadaan = d.id_pengadaan_fk 
+                                LEFT JOIN suppliers as sup
+                                ON pengadaan_spareparts.id_supplier_fk = sup.id_supplier
+                                LEFT JOIN sparepart_cabangs as sc
+                                ON d.id_sparepartCabang_fk = sc.id_sparepartCabang
+                                LEFT JOIN spareparts as s
+                                ON sc.kode_sparepart_fk = s.kode_sparepart
+                                WHERE pengadaan_spareparts.id_Pengadaan = $id");
+                    
+        //return response()->json($datas, 200);
+        return response()->json([
+            'datas' => $datas,
+            'message' => $datas ? 'Success' : 'Error',
+        ]);
+    }
+    public function cetakSuratPemesanan($id)
+    {
+        $pengadaan = PengadaanSparepart::find($id);
+        $pengadaan->statusCetak_pengadaan = 'Sudah Cetak';
+        $pengadaan->save();
+
+        $datas  = DB::select("SELECT sup.nama_supplier as Nama_Supplier, sup.alamat_supplier as Alamat, sup.noTelp_supplier as NoTelp, 	s.nama_sparepart as Nama_Barang,
+                                s.merk_sparepart as Merk, s.tipe_sparepart as Tipe, d.satuan_pengadaan as Satuan, 		d.sub_total_sparepart as Jumlah
+                                FROM pengadaan_spareparts 
+                                LEFT JOIN detil_pengadaan_spareparts as d 
+                                ON pengadaan_spareparts.id_pengadaan = d.id_pengadaan_fk 
+                                LEFT JOIN suppliers as sup
+                                ON pengadaan_spareparts.id_supplier_fk = sup.id_supplier
+                                LEFT JOIN sparepart_cabangs as sc
+                                ON d.id_sparepartCabang_fk = sc.id_sparepartCabang
+                                LEFT JOIN spareparts as s
+                                ON sc.kode_sparepart_fk = s.kode_sparepart
+                                WHERE pengadaan_spareparts.id_Pengadaan = $id");
+                    
+        return response()->json($datas, 200);
+    }
     public function pendapatanBulanan() {
         // $data = DB::select(
         //     "SELECT

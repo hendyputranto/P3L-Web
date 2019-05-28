@@ -126,7 +126,7 @@
         
         let detail = [];
         let tampung;
-        let nama_service, id_motor_fk,id_cabang_fk;
+        let nama_service, id_motor_fk,id_cabang_fk, id_montir;
         let col2 = ['nama_service', 'subTotal_service'];
         let select1 = document.querySelector('#id_montir');
         let select2 = document.querySelector('#jenis_service');
@@ -199,7 +199,7 @@
                 console.log(pegawai);
                 for(let i=0; i<pegawai.length; i++){
                     // console.log("test3");
-                    if(pegawai[i].id_role_fk == 2)
+                    if(pegawai[i].id_role_fk == 4)
                     {
                         id_cabang_fk = pegawai[i].id_cabang_fk;
                         let option = document.createElement('option');
@@ -312,11 +312,13 @@
         //simpan
         function simpan(){
         //let tampung = detailService;
+        id_montir = document.getElementById("id_montir").value;
         let formData = new FormData();
         formData.append('id_cabang_fk', id_cabang_fk);
         // formData.append('kode_transaksi', kode_transaksi);
         formData.append('diskon', 0);
         formData.append('total_transaksi', total);
+        formData.append('id_pegawai_fk', id_montir);
         console.log(formData);
         axios.post('http://127.0.0.1:8000/api/transaksiPenjualanSV', formData)
         .then((result) =>{

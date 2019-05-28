@@ -66,7 +66,35 @@ class PengadaanSparepartController extends RestController
             return $this->sendIseResponse($e->getMessage());
         }
     }
-   
+   //hendy 
+   public function create(request $request)
+    {
+        try {
+            date_default_timezone_set('Asia/Jakarta');
+            $pengadaanSparepart = new PengadaanSparepart;
+            
+            $id = array();
+
+            
+            $pengadaanSparepart->statusCetak_pengadaan = "Belum Cetak";
+            $pengadaanSparepart->status_pengadaan = "Belum Selesai";
+            $pengadaanSparepart->tgl_pengadaan = date("Y-m-d").' '.date('H:i:s');
+            $pengadaanSparepart->tgl_barangDatang = null;
+      
+            $pengadaanSparepart->id_supplier_fk = $request->id_supplier_fk;
+            $pengadaanSparepart->id_cabang_fk = $request->id_cabang_fk;
+            $pengadaanSparepart->totalHarga_pengadaan = $request->totalHarga_pengadaan;
+            
+            $pengadaanSparepart->save();
+
+            
+            $response = $this->generateItem($pengadaanSparepart);
+            return $this->sendResponse($response, 201);
+        } catch (\Exception $e) {
+            return $this->sendIseResponse($e->getMessage());
+        }
+    }
+
 
     //update sinta
     public function verifikasi_pengadaan($id)

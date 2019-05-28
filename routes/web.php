@@ -20,6 +20,12 @@ Route::get('laporanpenjualanjasa','ReportController@LaporanPenjualanJasa');
 Route::get('/', function () {
     return view('page.home');
 });
+
+Route::get('/login', function () {
+    return view('master.login');
+});
+
+//bagian owner
 Route::get('/pengadaan', function () {
     return view('page.pengadaanSparepart');
 });
@@ -38,39 +44,57 @@ Route::get('/ukonsumen', function () {
 Route::get('/konsumen', function () {
     return view('page.konsumen');
 });
-// Route::group(['prefix'=>'keloladata'],function(){
+Route::group(['prefix'=>'keloladata'],function(){
 
-//     Route::get('/dcabang', function () {
+    Route::get('/dcabang', function () {
         
-//         return view('page.cabang');
+        return view('page.cabang');
 
-//     })->name('dcabang');
+    })->name('dcabang');
 
-//     Route::get('/dpegawai', function () {
+    Route::get('/dpegawai', function () {
         
-//         return view('page.pegawai');
+        return view('page.pegawai');
 
-//     })->name('dpegawai');
+    })->name('dpegawai');
 
-//     Route::get('/dsupplier', function () {
+    Route::get('/dsupplier', function () {
         
-//         return view('page.supplier');
+        return view('page.supplier');
 
-//     })->name('dsupplier');
+    })->name('dsupplier');
 
-//     Route::get('/dsparepart', function () {
+    Route::get('/dsparepart', function () {
         
-//         return view('page.sparepart');
+        return view('page.sparepart');
 
-//     })->name('dsparepart');
+    })->name('dsparepart');
 
-//     Route::get('/djasaService', function () {
+    Route::get('/djasaService', function () {
         
-//         return view('page.jasaservice');
+        return view('page.jasaservice');
 
-//     })->name('djasaService');
+    })->name('djasaService');
 
-// });
+    Route::get('/dmotor', function () {
+        
+        return view('page.motor');
+
+    })->name('dmotor');
+
+    Route::get('/dsparepartCabang', function () {
+        
+        return view('page.sparepartcabang');
+
+    })->name('dsparepartCabang');
+
+    Route::get('/dsisastoksparepart', function () {
+        
+        return view('page.sisastoksparepart');
+
+    })->name('dsisastoksparepart');
+    
+});
 
 Route::get('/cabang', function () {
     return view('page.cabang');
@@ -134,6 +158,9 @@ Route::get('/transaksiSV', function () {
 Route::get('/transaksiSP', function () {
     return view('page.transaksiPenjualanSparepart');
 });
+Route::get('/transaksiSS', function () {
+    return view('page.transaksiPenjualanSS');
+});
 
 Route::get('/ttransaksi', function () {
     return view('page.tampilTransaksi');
@@ -169,7 +196,112 @@ Route::get('laporan/sparepartTerlaris', function() {
 
     return view('laporanSparepartTerlarisBulanan');
 });
+Route::get('cetakPemesanan', function() {
 
+    return view('cetakSuratPemesanan');
+});
+
+Route::get('/nlaporansisastok', function () {
+    return view('page.laporansisastok');
+});
+
+Route::get('/npendapatanpertahun', function () {
+    return view('page.pendapatanpertahun');
+});
+
+Route::get('/nnotalunas', function () {
+    return view('page.notalunas');
+});
+
+Route::get('/nlaporan', function () {
+    return view('page.laporan');
+});
 Route::get('laporan/pengeluaran', 'ReportController@LaporanPengeluaranBulanan');
 
-//Route::resource('Konsumen','KonsumenController');
+//bagian CS
+Route::group(['prefix'=>'keloladataCS'],function(){
+
+    Route::get('/dkonsumen', function () {
+        
+        return view('pageCS.konsumen');
+
+    })->name('dkonsumen');
+
+    Route::get('/dmotorkonsumen', function () {
+        
+        return view('pageCS.motorkonsumen');
+
+    })->name('dmotorkonsumen');
+
+    Route::get('/dtransaksiPenjualan', function () {
+        
+        return view('pageCS.transaksiPenjualan');
+
+    })->name('dtransaksiPenjualan');
+
+    Route::get('/dtampilTransaksi', function () {
+        
+        return view('pageCS.tampilTransaksi');
+
+    })->name('dtampilTransaksi');
+
+    Route::get('/dtransaksiPenjualanSparepart', function () {
+        
+        return view('pageCS.transaksiPenjualanSparepart');
+
+    })->name('dtransaksiPenjualanSparepart');
+
+    Route::get('/dtampilTransaksi1', function () {
+        
+        return view('pageCS.tampilTransaksi1');
+
+    })->name('dtampilTransaksi1');
+});
+
+Route::get('/tkonsumen', function () {
+    return view('pageCS.tambahKonsumen');
+});
+Route::get('/ukonsumen', function () {
+    return view('pageCS.ubahKonsumen');
+});
+
+Route::get('/tmotorkonsumen', function () {
+    return view('pageCS.tambahmotorkonsumen');
+});
+
+Route::get('/umotorkonsumen', function () {
+    return view('pageCS.ubahmotorkonsumen');
+});
+
+Route::get('/utransaksiservice', function () {
+    return view('pageCS.ubahtransaksiservice');
+});
+
+Route::get('/notaspk', function () {
+    return view('pageCS.notaspk');
+});
+
+//bagian kosumen
+Route::get('/homeKonsumen', function () {
+    return view('pageKonsumen.homeKonsumen');
+});
+
+Route::get('/catalog', function () {
+    return view('pageKonsumen.catalog');
+});
+
+Route::get('/transaksiPenjualan', function () {
+    return view('pageKonsumen.transaksiPenjualan');
+});
+
+Route::get('/transaksiPenjualanSparepart', function () {
+    return view('pageKonsumen.transaksiPenjualanSparepart');
+});
+
+Route::get('/riwayatKonsumen', function () {
+    return view('pageKonsumen.riwayat');
+});
+
+Route::get('/cektransaksi', function () {
+    return view('pageKonsumen.cektransaksi');
+});

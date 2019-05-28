@@ -75,6 +75,7 @@ class DetilTransaksiSparepartController extends RestController
                 $detilSparepart->jumlahBeli_sparepart = $data->jumlahBeli_sparepart;
                 $detilSparepart->subTotal_sparepart = $data->subTotal_sparepart;
 
+                
                 //$sparepart = SparepartCabang::find($data->id_sparepartCabang_fk);
                 //$detilSparepart->subTotal_sparepart = $sparepart->hargaJual_sparepart;
                 $detilSparepart->save();
