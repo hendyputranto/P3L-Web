@@ -24,12 +24,13 @@
                 <select name="laporan" id="laporan" placeholder="Pilih Laporan" 
                     class="form-control input" onchange = "onChange(this)">
                     <option value="">--Pilih Laporan--</option>
-                    <option value="stok">Laporan Sisa Stok</option>
+                    <!-- <option value="stok">Laporan Sisa Stok</option> -->
                     <option value="pendapatan-tahunan">Laporan Pendapatan Tahunan</option>
                     <option value="pendapatan-bulanan">Laporan Pendapatan Perbulan</option>
                     <option value="pengeluaran-bulanan">Laporan Pengeluaran Perbulan</option>
                     <option value="sisaStok-sparepart">Laporan Sisa Stok Sparepart</option>
-                    <option value="jasa-terlaris">Laporan Penjualan Jasa Terlaris</option>
+                    <option value="jasa-terlaris">Laporan Penjualan Jasa</option>
+                    <option value="sparepart-terlaris">Laporan Sparepart Terlaris</option>
                 </select>
             </div>
             </div>
@@ -115,7 +116,27 @@
             window.open(url);
         }
         else if (selected === 'pendapatan-tahunan') {
-            let url = '/npendapatanpertahun?jenis=tampil';
+            let url = '/laporan/pendapatan?jenis=tampil';
+            window.open(url);
+        }
+        else if (selected === 'pendapatan-bulanan') {
+            let url = '/laporan/pendapatanBulanan?jenis=tampil';
+            window.open(url);
+        }
+        else if (selected === 'sparepart-terlaris') {
+            let url = '/laporan/sparepartTerlaris?jenis=tampil';
+            window.open(url);
+        }
+        else if (selected === 'jasa-terlaris') {
+            let url = '/laporan/penjualanJasa?jenis=tampil';
+            window.open(url);
+        }
+        else if (selected === 'pengeluaran-bulanan') {
+            let url = '/laporan/pengeluaranBulanan?jenis=tampil';
+            window.open(url);
+        }
+        else if (selected === 'sisaStok-sparepart') {
+            let url = '/laporan/sisastok?jenis=tampil';
             window.open(url);
         }
         return false;
@@ -139,6 +160,10 @@
         }
         else if (selected === 'pendapatan-tahunan') {
             let url = '/npendapatanpertahun?jenis=cetak';
+            window.open(url);
+        }
+        else if (selected === 'pendapatan-bulanan') {
+            let url = '/npendapatanperbulan?jenis=cetak';
             window.open(url);
         }
         return false;

@@ -62,7 +62,7 @@
         formData.append('nama_cabang', nama_cabang);
         formData.append('alamat_cabang', alamat_cabang);
         formData.append('noTelp_cabang', noTelp_cabang);
-        axios.post('http://127.0.0.1:8000/api/cabang', formData)
+        axios.post('http://192.168.19.140/P3L_L_1/api/cabang', formData)
         .then((result) =>{
             console.log(result);
         })

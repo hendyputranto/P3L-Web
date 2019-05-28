@@ -131,7 +131,7 @@ img {
     let ct = [];
     
 
-    axios.get('http://127.0.0.1:8000/api/pendapatantahunan')
+    axios.get('http://192.168.19.140/P3L_L_1/api/pendapatantahunan')
     .then((result) => {
         let temp = result.data;
         let temp2 = result.data;

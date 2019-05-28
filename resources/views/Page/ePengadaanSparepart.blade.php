@@ -188,7 +188,7 @@
         }else
             return true;
         }
-            axios.get('http://127.0.0.1:8000/api/detilPengadaanSparepart/showByIdPengadaan/' + b)
+            axios.get('http://192.168.19.140/P3L_L_1/api/detilPengadaanSparepart/showByIdPengadaan/' + b)
             .then((result) => {
                 detailPengadaan = result.data.data;
                 console.log(detailPengadaan);
@@ -217,7 +217,7 @@
 
         //get data ke field
         console.log(b);
-        axios.get('http://127.0.0.1:8000/api/pengadaanSparepart/'+b)
+        axios.get('http://192.168.19.140/P3L_L_1/api/pengadaanSparepart/'+b)
         .then(function (response) {
             // handle success
             data = response.data.data;
@@ -241,7 +241,7 @@
         });
         //tabel sparepart kurang
         function tampilData(){
-            axios.get('http://127.0.0.1:8000/api/sparepartCabang')
+            axios.get('http://192.168.19.140/P3L_L_1/api/sparepartCabang')
             .then((result) => {
                 sparepartKurang = result.data.data;
                 let cek = document.getElementById("id_cabang").value;
@@ -269,7 +269,7 @@
                 console.log(error);
             });
             //kode sprepart dropdown
-            axios.get('http://127.0.0.1:8000/api/sparepartCabang')
+            axios.get('http://192.168.19.140/P3L_L_1/api/sparepartCabang')
             .then((result) => {
                 sparepart = result.data.data;
                 let cek = document.getElementById("id_cabang").value;
@@ -297,7 +297,7 @@
         
         
         //supplier dropdown
-        axios.get('http://127.0.0.1:8000/api/supplier')
+        axios.get('http://192.168.19.140/P3L_L_1/api/supplier')
         .then((result) => {
             supplier = result.data.data;
             
@@ -322,7 +322,7 @@
         
         //harga sprepart dropdown
         function harga(){
-            axios.get('http://127.0.0.1:8000/api/sparepartCabang')
+            axios.get('http://192.168.19.140/P3L_L_1/api/sparepartCabang')
             .then((result) => {
                 sparepart = result.data.data;
                 let cek = document.getElementById("kode_sparepart").value;
@@ -348,7 +348,7 @@
         
 
         //cabang dropdown
-        axios.get('http://127.0.0.1:8000/api/cabang')
+        axios.get('http://192.168.19.140/P3L_L_1/api/cabang')
         .then((result) => {
             cabang = result.data.data;
             console.log(cabang);
@@ -436,7 +436,7 @@
             console.log(JSON.stringify(detailPengadaan));
             formDataDetail.append('data', JSON.stringify(detailPengadaan));
             
-            axios.post('http://127.0.0.1:8000/api/detilPengadaanSparepart/create', formDataDetail)
+            axios.post('http://192.168.19.140/P3L_L_1/api/detilPengadaanSparepart/create', formDataDetail)
             .then((result) => {
                 console.log(result);
             }).catch((err) => {
@@ -472,7 +472,7 @@
             formData.append('tgl_barangDatang', tgl_barangDatang);
             formData.append('statusCetak_pengadaan', statusCetak_pengadaan);
             console.log(b);
-            axios.post('http://127.0.0.1:8000/api/pengadaanSparepart/' + b, formData)
+            axios.post('http://192.168.19.140/P3L_L_1/api/pengadaanSparepart/' + b, formData)
                     .then((result) => {
                         console.log(result);
                         for(let i = 0; i < detailPengadaan.length; i++)

@@ -1,4 +1,4 @@
-@extends('master.layout')
+@extends('master.layoutCS')
 @section('content')
     <style>
         .kotak {
@@ -57,7 +57,7 @@
         let tableKonsumen = document.querySelector('#tableKonsumen');
         let col = ['id_konsumen','nama_konsumen', 'alamat_konsumen', 'noTelp_konsumen'];
 
-        axios.get('http://192.168.0.176:8000/api/konsumen')
+        axios.get('http://192.168.19.140/P3L_L_1/api/konsumen')
         .then((result) => {
             console.log(result.data.data);
             konsumen = result.data.data;
@@ -102,7 +102,7 @@
 
         function hapus(obj) {
             console.log(obj.parentNode.parentNode.cells[0].innerHMTL);
-            axios.delete('http://192.168.0.176:8000/api/konsumen/'+obj.parentNode.parentNode.cells[0].innerHTML)
+            axios.delete('http://192.168.19.140/P3L_L_1/api/konsumen/'+obj.parentNode.parentNode.cells[0].innerHTML)
             .then((result) => {
                 konsumen.splice(obj.parentNode.parentNode.rowIndex-1, 1);
                 tableKonsumen.deleteRow(obj.parentNode.parentNode.rowIndex);

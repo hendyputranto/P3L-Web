@@ -19,22 +19,20 @@
     <table>
         <form class="form-horizontal">
             <div class="form-group">
-            <label class="control-label col-sm-2" for="kode_cabang">Pilih Cabang</label>
+            <label class="control-label col-sm-2" for="id_cabang_fk">Pilih Cabang</label>
             <div class="col-sm-10">
-                <select class="form-control" id="kode_cabang" name="kode_cabang">
+                <select class="form-control" id="id_cabang_fk" name="id_cabang_fk">
                     <option>--Pilih Cabang--</option>
                 </select>
             </div>
             </div>
 
             <div class="form-group">
-            <label class="control-label col-sm-2" for="jabatan_pegawai">Jabatan</label>
+            <label class="control-label col-sm-2" for="id_role_fk">Role</label>
             <div class="col-sm-10">
-                <select class="form-control" id="jabatan_pegawai" name="jabatan_pegawai">
-                    <option value="">--Pilih Jabatan--</option>
-                    <option value="Montir">Montir</option>
-                    <option value="Customer Service">Customer Service</option>
-                    <option value="Kasir">Kasir</option>
+                <select class="form-control" id="id_role_fk" name="id_role_fk">
+                    <option value="">--Pilih Role--</option>
+                     
                 </select>
             </div>
             </div>
@@ -54,30 +52,16 @@
             </div>
 
             <div class="form-group">
-            <label class="control-label col-sm-2" for="notelp_pegawai">Nomor Telpon</label>
+            <label class="control-label col-sm-2" for="noTelp_pegawai">Nomor Telpon</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="notelp_pegawai" placeholder="nomor telpon pegawai" name="notelp_pegawai">
+                <input type="text" class="form-control" id="noTelp_pegawai" placeholder="nomor telpon pegawai" name="noTelp_pegawai">
             </div>
             </div>
 
             <div class="form-group">
-            <label class="control-label col-sm-2" for="gaji_per_minggu">Gaji Per Minggu</label>
+            <label class="control-label col-sm-2" for="gaji_pegawai">Gaji Per Minggu</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="gaji_per_minggu" placeholder="gaji pegawai" name="gaji_per_minggu">
-            </div>
-            </div>
-
-            <div class="form-group">
-            <label class="control-label col-sm-2" for="username">Nama Pengguna</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="username" placeholder="nama pengguna pegawai" name="username">
-            </div>
-            </div>
-
-            <div class="form-group">
-            <label class="control-label col-sm-2" for="password">Password</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="password" placeholder="password pegawai" name="password">
+                <input type="text" class="form-control" id="gaji_pegawai" placeholder="gaji pegawai" name="gaji_pegawai">
             </div>
             </div>
 
@@ -95,37 +79,63 @@
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
-    let select = document.querySelector('#kode_cabang');
-    let b = localStorage.getItem("kode_pegawai");
+    // function cekEmpty(){
+    //     if(document.getElementById("id_cabang_fk").selectedIndex == "0"||
+    //     document.getElementById("id_role_fk").selectedIndex == "0"||
+    //     document.getElementById("nama_pegawai").value == ""||
+    //     document.getElementById("alamat_pegawai").value == ""||
+    //     document.getElementById("notelp_pegawai").value == ""||
+    //     document.getElementById("gaji_pegawai").value == ""||
+    //     document.getElementById("username_pegawai").value == ""||
+    //     document.getElementById("password_pegawai").value == "")
+    //     {
+    //         return true;
+    //     }
+    //     else
+    //         return false;
+    // }
+
+    let select = document.querySelector('#id_cabang_fk');
+    let select2 = document.querySelector('#id_role_fk');
+    let b = localStorage.getItem("id_pegawai");
     let data;
 
-    axios.get('http://127.0.0.1:8000/api/cabang/')
+    axios.get('http://192.168.19.140/P3L_L_1/api/cabang/')
     .then((result) => {
-        for(let i = 0; i<result.data.length; i++) {
+        for(let i = 0; i<result.data.data.length; i++) {
             let option = document.createElement('option');
-            let txt = document.createTextNode(result.data[i].kode_cabang);
+            let txt = document.createTextNode(result.data.data[i].id_cabang+' ('+result.data.data[i].nama_cabang+')');
             option.appendChild(txt);
-            option.setAttribute('value', result.data[i].kode_cabang);
+            option.setAttribute('value', result.data.data[i].id_cabang);
             select.insertBefore(option, select.lastChild);
         }
     }).catch((err) => {
         console.log(err);
     });
+    axios.get('http://192.168.19.140/P3L_L_1/api/role/')
+    .then((result) => {
+        for(let i = 0; i<result.data.length; i++) {
+            let option = document.createElement('option');
+            let txt = document.createTextNode(result.data[i].id_role+' '+result.data[i].nama_role);
+            option.appendChild(txt);
+            option.setAttribute('value', result.data[i].id_role);
+            select2.insertBefore(option, select2.lastChild);
+        }
+    }).catch((err) => {
+        console.log(err);
+    });
 
-    axios.get('http://127.0.0.1:8000/api/pegawai/'+b)
+    axios.get('http://192.168.19.140/P3L_L_1/api/pegawai/'+b)
     .then(function (response) {
         // handle success
-        data = response.data;
-        let col = ['kode_cabang','nama_pegawai','alamat_pegawai','notelp_pegawai', 'gaji_per_minggu',
-        'jabatan_pegawai', 'username', 'password'];
-        document.getElementById("kode_cabang").value = data[col[0]];
-        document.getElementById("nama_pegawai").value = data[col[1]];
-        document.getElementById("alamat_pegawai").value = data[col[2]];
-        document.getElementById("notelp_pegawai").value = data[col[3]];
-        document.getElementById("gaji_per_minggu").value = data[col[4]];
-        document.getElementById("jabatan_pegawai").value = data[col[5]];
-        document.getElementById("username").value = data[col[6]];
-        document.getElementById("password").value = data[col[7]];
+        data = response.data.data;
+        let col = ['id_pegawai', 'id_role_fk', 'id_cabang_fk' ,'nama_pegawai','alamat_pegawai','noTelp_pegawai', 'gaji_pegawai'];
+        document.getElementById("id_role_fk").value = data[col[1]];
+        document.getElementById("id_cabang_fk").value = data[col[2]];
+        document.getElementById("nama_pegawai").value = data[col[3]];
+        document.getElementById("alamat_pegawai").value = data[col[4]];
+        document.getElementById("noTelp_pegawai").value = data[col[5]];
+        document.getElementById("gaji_pegawai").value = data[col[6]];
         console.log(data[col[1]]);
         console.log(data);
     })
@@ -139,35 +149,40 @@
     }
 
     function simpan(){
-        let formData = new FormData; 
-        let kode_cabang = document.getElementById('kode_cabang').value;
-        let nama_pegawai = document.getElementById('nama_pegawai').value;
-        let alamat_pegawai = document.getElementById('alamat_pegawai').value;
-        let notelp_pegawai = document.getElementById('notelp_pegawai').value;
-        let gaji_per_minggu = document.getElementById('gaji_per_minggu').value;
-        let jabatan_pegawai = document.getElementById('jabatan_pegawai').value;
-        let username = document.getElementById('username').value;
-        let password = document.getElementById('password').value;
-        formData.append('_method', 'PUT');
-        formData.append('kode_cabang', kode_cabang);
-        formData.append('nama_pegawai', nama_pegawai);
-        formData.append('alamat_pegawai', alamat_pegawai);
-        formData.append('notelp_pegawai', notelp_pegawai);
-        formData.append('gaji_per_minggu', gaji_per_minggu);
-        formData.append('jabatan_pegawai', jabatan_pegawai);
-        formData.append('username', username);
-        formData.append('password', password);
-        console.log(nama_pegawai);
-        axios.post('http://127.0.0.1:8001/api/pegawai/'+b, formData)
-                .then((result) => {
-                    console.log(result);
-
-                    edited = false;
-                }).catch((err) => {
-                    console.log(err);
-                });
-        location.href = "{{ route('dpegawai') }}";
-        return false;
+        // if(cekEmpty())
+        // {
+        //     alert("Data Tidak Boleh Kosong");
+        //     return false;
+        // }
+        // else
+        // {
+            let formData = new FormData; 
+            let id_role = document.getElementById('id_role_fk').value;
+            let id_cabang = document.getElementById('id_cabang_fk').value;
+            let nama_pegawai = document.getElementById('nama_pegawai').value;
+            let alamat_pegawai = document.getElementById('alamat_pegawai').value;
+            let notelp_pegawai = document.getElementById('noTelp_pegawai').value;
+            let gaji_pegawai = document.getElementById('gaji_pegawai').value;
+            formData.append('_method', 'PUT');
+            formData.append('id_role_fk', id_role);
+            formData.append('id_cabang_fk', id_cabang);
+            formData.append('nama_pegawai', nama_pegawai);
+            formData.append('alamat_pegawai', alamat_pegawai);
+            formData.append('noTelp_pegawai', notelp_pegawai);
+            formData.append('gaji_pegawai', gaji_pegawai);
+            console.log(nama_pegawai);
+            axios.post('http://192.168.19.140/P3L_L_1/api/pegawai/' + b, formData)
+                    .then((result) => {
+                        console.log(result);
+                        edited = false;
+                    }).catch((err) => {
+                        console.log(err);
+                        alert("Edit Data Gagal");
+                    });
+            alert("Edit Data Berhasil");
+            location.href = "{{ route('dpegawai') }}";
+            return false;
+        // }
     }
 
 </script>

@@ -73,7 +73,7 @@
     //     console.log(err);
     // });
 
-    axios.get('http://10.53.0.175:8000/api/motor/'+b)
+    axios.get('http://192.168.19.140/P3L_L_1/api/motor/'+b)
     .then(function (response) {
         // handle success
         data = response.data.data;
@@ -102,7 +102,7 @@
         // formData.append('kode_sparepart_fk', kode_sparepart);
         formData.append('merk_motor', merk_motor);
         formData.append('tipe_motor', tipe_motor);
-        axios.post('http://10.53.0.175:8000/api/motor/' + b, formData)
+        axios.post('http://192.168.19.140/P3L_L_1/api/motor/' + b, formData)
                 .then((result) => {
                     console.log(result);
                 

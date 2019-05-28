@@ -126,7 +126,7 @@ table tr td:nth-child(3) {
    
     let total = 0;
 
-    axios.get('http://10.53.0.175:8000/api/sisastok/' + sparepart + '/' + tahun)
+    axios.get('http://192.168.19.140/P3L_L_1/api/sisastok/' + sparepart + '/' + tahun)
     .then((result) => {
         let temp = result.data;
         for(let i = 0 ; i < temp.length; i++) {

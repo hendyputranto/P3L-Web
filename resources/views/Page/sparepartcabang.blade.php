@@ -61,7 +61,7 @@
     let col = ['id_sparepartCabang', 'id_cabang_fk', 'kode_sparepart_fk', 'hargaBeli_sparepart', 'hargaJual_sparepart', 'letak_sparepart', 
     'stokMin_sparepart', 'stokSisa_sparepart'];
 
-    axios.get('http://10.53.0.175:8000/api/sparepartCabang/')
+    axios.get('http://192.168.19.140/P3L_L_1/api/sparepartCabang/')
     .then((result) => {
         console.log(result.data.data);
         SparepartCabang = result.data.data;
@@ -112,7 +112,7 @@
 
     function hapus(obj) {
         console.log(obj.parentNode.parentNode.cells[0].innerHMTL);
-        axios.delete('http://10.53.0.175:8000/api/sparepartCabang/'+obj.parentNode.parentNode.cells[0].innerHTML)
+        axios.delete('http://192.168.19.140/P3L_L_1/api/sparepartCabang/'+obj.parentNode.parentNode.cells[0].innerHTML)
         .then((result) => {
             sparepartCabang.splice(obj.parentNode.parentNode.rowIndex-1, 1);
             tableSparepartCabang.deleteRow(obj.parentNode.parentNode.rowIndex);

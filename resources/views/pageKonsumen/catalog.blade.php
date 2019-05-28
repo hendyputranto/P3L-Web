@@ -36,7 +36,8 @@
                         <th>NAMA</th>
                         <th>MERK</th>
                         <th>TIPE</th>
-                        <th>HARGA</th>
+                        <th onclick="sortTable(2)">HARGA</th>
+                        <th onclick="sortTable(3)">STOK</th>
                         <th>GAMBAR</th>
                     </tr>
                     </thead>
@@ -50,9 +51,9 @@
     let Sparepart;
     
     let tableSparepart = document.querySelector('#tableSparepart');
-    let col = ['kode_sparepart_fk', 'nama_sparepart', 'merk_sparepart', 'tipe_sparepart','hargaJual_sparepart','gambar_sparepart'];
+    let col = ['kode_sparepart_fk', 'nama_sparepart', 'merk_sparepart', 'tipe_sparepart','hargaJual_sparepart','stokSisa_sparepart','gambar_sparepart'];
     let col1 = ['hargaJual_sparepart'];
-    axios.get('http://127.0.0.1:8000/api/sparepartCabang')
+    axios.get('http://192.168.19.140/P3L_L_1/api/sparepartCabang')
     .then((result) => {
         console.log(result.data);
             Sparepart = result.data.data;
@@ -67,7 +68,7 @@
                 for(j=0;j<col.length;j++){
                     td = tr.insertCell();
                     console.log(j);
-                    if(j==5){
+                    if(j==6){
                         let img = document.createElement('img');
                         img.src = '/images/'+Sparepart[i][col[j]];
                         img.width = 150;
@@ -127,6 +128,62 @@
                     tr[i].style.display = "none";
                 }
             }       
+        }
+    }
+
+    //sorting berdasarkan harga untuk konsumen
+    function sortTable(n) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("tableSparepart");
+        switching = true;
+        // Set the sorting direction to ascending:
+        dir = "asc"; 
+        /* Make a loop that will continue until
+        no switching has been done: */
+        while (switching) {
+                    // Start by saying: no switching is done:
+                    switching = false;
+                    rows = table.rows;
+                    /* Loop through all table rows (except the
+                    first, which contains table headers): */
+                    for (i = 1; i < (rows.length - 1); i++) {
+                    // Start by saying there should be no switching:
+                    shouldSwitch = false;
+                    /* Get the two elements you want to compare,
+                    one from current row and one from the next: */
+                    x = rows[i].getElementsByTagName("TD")[n];
+                    y = rows[i + 1].getElementsByTagName("TD")[n];
+                    /* Check if the two rows should switch place,
+                    based on the direction, asc or desc: */
+                    if (dir == "asc") {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        // If so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                }
+            } else if (dir == "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                    // If so, mark as a switch and break the loop:
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+            }
+            if (shouldSwitch) {
+                /* If a switch has been marked, make the switch
+                and mark that a switch has been done: */
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                // Each time a switch is done, increase this count by 1:
+                switchcount ++; 
+                } else {
+                /* If no switching has been done AND the direction is "asc",
+                set the direction to "desc" and run the while loop again. */
+                if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+            }
+            }
         }
     }
     </script>

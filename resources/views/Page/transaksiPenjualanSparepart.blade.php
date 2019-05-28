@@ -1,4 +1,4 @@
-@extends('master.layout')
+@extends('master.layoutCS')
 @section('content')
     <style>
         .kotak {
@@ -197,7 +197,7 @@
 
 
             //tipe sparepart dropdown
-            axios.get('http://127.0.0.1:8000/api/sparepart')
+            axios.get('http://192.168.19.140/P3L_L_1/api/sparepart')
             .then((result) => {
                 sparepart = result.data.data;
                 let cek = document.getElementById("tipe_sparepart").value;
@@ -224,7 +224,7 @@
         
         
         //nama sparepart dropdown
-        axios.get('http://127.0.0.1:8000/api/sparepart')
+        axios.get('http://192.168.19.140/P3L_L_1/api/sparepart')
         .then((result) => {
             sparepart = result.data.data;
             let cek = document.getElementById("tipe_sparepart").value;
@@ -247,7 +247,7 @@
         });
 
         function harga(){
-            axios.get('http://127.0.0.1:8000/api/sparepartCabang')
+            axios.get('http://192.168.19.140/P3L_L_1/api/sparepartCabang')
             .then((result) => {
                 sparepart = result.data.data;
                 let cek = document.getElementById("nama_sparepart").value;
@@ -288,7 +288,7 @@
         }
         //cari
         function cari(){
-            axios.get('http://127.0.0.1:8000/api/konsumen')
+            axios.get('http://192.168.19.140/P3L_L_1/api/konsumen')
             .then((result) => {
                 konsumen = result.data.data;
                 let cek = document.getElementById("cari_nama").value;
@@ -321,7 +321,7 @@
             // formDataDetail.append('jumlah_pemesanan', jumlah_pemesanan);
             // formDataDetail.append('harga_beli', harga_beli);
             // formDataDetail.append('satuan', satuan);
-            axios.post('http://127.0.0.1:8000/api/detilSparepart', formDataDetail)
+            axios.post('http://192.168.19.140/P3L_L_1/api/detilSparepart', formDataDetail)
             .then((result) => {
                 console.log(result);
             }).catch((err) => {
@@ -338,7 +338,7 @@
         formData.append('diskon', 0);
         formData.append('total_transaksi', total);
         console.log(formData);
-        axios.post('http://127.0.0.1:8000/api/transaksiPenjualanSP', formData)
+        axios.post('http://192.168.19.140/P3L_L_1/api/transaksiPenjualanSP', formData)
         .then((result) =>{
             console.log(result);
             //let tes = result.data.data;

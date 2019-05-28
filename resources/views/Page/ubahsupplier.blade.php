@@ -73,7 +73,7 @@
     let b = localStorage.getItem("id_supplier");
     let data;
 
-    axios.get('http://10.53.3.189:8000/api/supplier/'+b)
+    axios.get('http://192.168.19.140/P3L_L_1/api/supplier/'+b)
     .then(function (response) {
         // handle success
         data = response.data.data;
@@ -108,7 +108,7 @@
         formData.append('alamat_supplier', alamat_supplier);
         formData.append('nama_sales', nama_sales);
         formData.append('noTelp_sales', noTelp_sales);
-        axios.post('http://10.53.3.189:8000/api/supplier/' + b, formData)
+        axios.post('http://192.168.19.140/P3L_L_1/api/supplier/' + b, formData)
                 .then((result) => {
                     console.log(result);
                 

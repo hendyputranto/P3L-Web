@@ -105,7 +105,7 @@
         formData.append('letak_sparepart', letak_sparepart);
         formData.append('stokMin_sparepart', stokMin_sparepart);
         formData.append('stokSisa_sparepart', stokSisa_sparepart);
-        axios.post('http://10.53.0.175:8000/api/sparepartCabang/', formData)
+        axios.post('http://192.168.19.140/P3L_L_1/api/sparepartCabang/', formData)
         .then((result) =>{
             console.log(result);
         })
@@ -119,7 +119,7 @@
     let select = document.querySelector('#id_cabang');
     let select2 = document.querySelector('#kode_sparepart');
 
-    axios.get('http://10.53.0.175:8000/api/cabang/')
+    axios.get('http://192.168.19.140/P3L_L_1/api/cabang/')
     .then((result) => {
         for(let i = 0; i<result.data.data.length; i++) {
             let option = document.createElement('option');
@@ -132,7 +132,7 @@
         console.log(err);
     });
 
-    axios.get('http://10.53.0.175:8000/api/sparepart/')
+    axios.get('http://192.168.19.140/P3L_L_1/sparepart/')
     .then((result) => {
         for(let i = 0; i<result.data.data.length; i++) {
             let option = document.createElement('option');

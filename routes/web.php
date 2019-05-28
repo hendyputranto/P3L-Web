@@ -192,9 +192,17 @@ Route::get('laporan/pendapatanBulanan', function() {
 
     return view('laporanPendapatanBulanan');
 });
+Route::get('laporan/pengeluaranBulanan', function() {
+
+    return view('pengeluaranbulanan');
+});
 Route::get('laporan/sparepartTerlaris', function() {
 
     return view('laporanSparepartTerlarisBulanan');
+});
+Route::get('laporan/sisastok', function() {
+
+    return view('laporanSisaStok');
 });
 Route::get('cetakPemesanan', function() {
 
@@ -223,7 +231,7 @@ Route::group(['prefix'=>'keloladataCS'],function(){
 
     Route::get('/dkonsumen', function () {
         
-        return view('pageCS.konsumen');
+        return view('page.konsumen');
 
     })->name('dkonsumen');
 
@@ -235,25 +243,31 @@ Route::group(['prefix'=>'keloladataCS'],function(){
 
     Route::get('/dtransaksiPenjualan', function () {
         
-        return view('pageCS.transaksiPenjualan');
+        return view('page.transaksiPenjualan');
 
     })->name('dtransaksiPenjualan');
 
     Route::get('/dtampilTransaksi', function () {
         
-        return view('pageCS.tampilTransaksi');
+        return view('page.tampilTransaksi');
 
     })->name('dtampilTransaksi');
 
     Route::get('/dtransaksiPenjualanSparepart', function () {
         
-        return view('pageCS.transaksiPenjualanSparepart');
+        return view('page.transaksiPenjualanSparepart');
 
     })->name('dtransaksiPenjualanSparepart');
 
+    Route::get('/dtransaksiPenjualanSS', function () {
+        
+        return view('page.transaksiPenjualanSS');
+
+    })->name('dtransaksiPenjualanSS');
+
     Route::get('/dtampilTransaksi1', function () {
         
-        return view('pageCS.tampilTransaksi1');
+        return view('page.tampilTransaksi1');
 
     })->name('dtampilTransaksi1');
 });
@@ -283,7 +297,7 @@ Route::get('/notaspk', function () {
 
 //bagian kosumen
 Route::get('/homeKonsumen', function () {
-    return view('pageKonsumen.homeKonsumen');
+    return view('page.homeKonsumen');
 });
 
 Route::get('/catalog', function () {

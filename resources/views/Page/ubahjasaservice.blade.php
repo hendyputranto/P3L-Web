@@ -51,7 +51,7 @@
     let b = localStorage.getItem("id_jasaService");
     let data;
 
-    axios.get('http://127.0.0.1:8000/api/jasaService/'+b)
+    axios.get('http://192.168.19.140/P3L_L_1/api/jasaService/'+b)
     .then(function (response) {
         // handle success
         data = response.data.data;
@@ -77,7 +77,7 @@
         formData.append('_method', 'PUT');
         formData.append('nama_jasaService', nama);
         formData.append('harga_jasaService', harga);
-        axios.post('http://127.0.0.1:8000/api/jasaService/' + b, formData)
+        axios.post('http://192.168.19.140/P3L_L_1/api/jasaService/' + b, formData)
                 .then((result) => {
                     console.log(result);
                 

@@ -1,4 +1,4 @@
-@extends('master.layout')
+@extends('master.layoutKonsumen')
 @section('content')
 <div class="container">
   <h2 align="middle">SELAMAT DATANG</h2>

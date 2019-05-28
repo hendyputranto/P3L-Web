@@ -60,7 +60,7 @@
         let col = ['id_transaksi', 'tgl_transaksi', 'plat_motorKonsumen', 'status_service', 'status_transaksi' ];
         let tableTransaksipenjualan = document.querySelector('#tableTransaksipenjualan tbody');
 
-        axios.get('http://10.53.0.175:8000/api/penjualan/tampilriwayat')
+        axios.get('http://192.168.19.140/P3L_L_1/api/penjualan/tampilriwayat')
         .then((result) => {
             console.log(result.data);
             let transaksipenjualan = result.data;

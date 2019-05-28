@@ -55,7 +55,7 @@
     let Pegawai;
     let tablePegawai = document.querySelector('#tableMotorKonsumen');
     let col = ['id_motorKonsumen', 'id_motor_fk', 'id_konsumen_fk', 'plat_motorKonsumen'];
-    axios.get('http://10.53.0.175:8000/api/motorKonsumen/')
+    axios.get('http://192.168.19.140/P3L_L_1/api/motorKonsumen/')
     .then((result) => {
         console.log(result.data.data);
         Pegawai = result.data.data;
@@ -108,7 +108,7 @@
 
     function hapus(obj) {
         console.log(obj.parentNode.parentNode.cells[0].innerHMTL);
-        axios.delete('http://10.53.0.175:8000/api/motorKonsumen/'+obj.parentNode.parentNode.cells[0].innerHTML)
+        axios.delete('http://192.168.19.140/P3L_L_1/api/motorKonsumen/'+obj.parentNode.parentNode.cells[0].innerHTML)
         .then((result) => {
             pegawai.splice(obj.parentNode.parentNode.rowIndex-1, 1);
             tablePegawai.deleteRow(obj.parentNode.parentNode.rowIndex);
