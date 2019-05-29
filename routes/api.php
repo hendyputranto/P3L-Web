@@ -153,6 +153,7 @@ Route::post('detilJasa','DetilTransaksiServiceController@create');
 //Route::put('detilJasa/{id}','DetilTransaksiServiceController@update')
 Route::delete('detilJasa/{id}','DetilTransaksiServiceController@delete');
 Route::post('createDetilTransaksiService','DetilTransaksiServiceController@createDetilTransaksiService');
+Route::get('detilJasa/showByIdTransaksi/{id}','DetilTransaksiServiceController@showByIdTransaksi');
 //Detil Transaksi Sparepart
 Route::get('detilSparepart','DetilTransaksiSparepartController@show');
 Route::get('detilSparepart/{id}','DetilTransaksiSparepartController@showById');
@@ -163,7 +164,7 @@ Route::post('createDetilTransaksiSparepart','DetilTransaksiSparepartController@c
 
 //Route::put('detilSparepart/{id}','DetilTransaksiSparepartController@update');
 Route::delete('detilSparepart/{id}','DetilTransaksiSparepartController@delete');
-
+Route::get('detilSparepart/showByIdTransaksi/{id}','DetilTransaksiSparepartController@showByIdTransaksi');
 //report
 Route::get('spkDesktop/{id}','ReportController@cetakSuratPerintahKerjaDesktop');
 Route::get('notaPembayaranDesktop/{id}','ReportController@cetakNotaPembayaranDesktop');

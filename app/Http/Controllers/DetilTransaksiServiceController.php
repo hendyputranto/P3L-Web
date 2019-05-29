@@ -32,6 +32,13 @@ class DetilTransaksiServiceController extends RestController
         $response = $this->generateItem($detilJasa);
         return $this->sendResponse($response);
     }
+
+    //tampil by id transaksi
+    public function showByIdTransaksi($id_transaksi_fk){
+        $detilJasa = Detil_TransaksiService::where('id_transaksi_fk',$id_transaksi_fk)->get();
+        $response = $this->generateCollection($detilJasa, new DetilTransaksiServiceTransformer);
+        return $this->sendResponse($response,201);
+    }
     //tampil by status
     public function showByStatus(){
         $detilJasa = Detil_TransaksiService::where('status_service',"Sudah Selesai")->get();
