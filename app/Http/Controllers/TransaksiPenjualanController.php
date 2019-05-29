@@ -25,6 +25,13 @@ class TransaksiPenjualanController extends RestController
         $response = $this->generateCollection($transaksi);
         return $this->sendResponse($response);
     }
+
+        
+    public function showByIdTransaksi($id_transaksi){
+        $transaksi = TransaksiPenjualan::where('id_transaksi',$id_transaksi)->get();
+        $response = $this->generateCollection($transaksi);
+        return $this->sendResponse($response,201);
+    }
     public function showByStatusTransaksi($status)
     {
         if($status==0)
@@ -110,6 +117,20 @@ class TransaksiPenjualanController extends RestController
                 $transaksiPenjualan = DB::transaction(function()use($transaksiPenjualan,$detil){
                 $transaksiPenjualan->detil_transaksi_service()->createMany($detil);
                 return $transaksiPenjualan;
+                });
+            }
+            if($request->has('id_cs'))
+            {
+                $pegawai_on_duty[0]['id_pegawai_fk'] = $request->id_cs;
+                if($request->id_montir !== null)
+                {
+                    $pegawai_on_duty[1]['id_pegawai_fk'] = $request->id_montir;
+                }
+                    
+                $transaksiPenjualan = DB::transaction(function()use($transaksiPenjualan,$pegawai_on_duty){
+                    $transaksiPenjualan->pegawai_onduty()->createMany($pegawai_on_duty);
+                    return $transaksiPenjualan;
+                    //input data dalam bentuk array 2d, meskipun datanya cuma 1. 
                 });
             }
             $transaksiPenjualan->save();

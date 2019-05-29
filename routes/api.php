@@ -140,9 +140,11 @@ Route::put('transaksiPenjualan/payment/{id}','TransaksiPenjualanController@payme
 Route::put('transaksiPenjualan/paymentDesktop/{id}','TransaksiPenjualanController@paymentDesktop');
 Route::delete('transaksiPenjualan/{id}','TransaksiPenjualanController@delete');
 
-Route::get('transaksiPenjualan/showByPlatKonsumen{id}','TransaksiPenjualanController@showByPlatKonsumen');
+Route::get('transaksiPenjualan/showByPlatKonsumen/{id}','TransaksiPenjualanController@showByPlatKonsumen');
 Route::get('transaksiPenjualan/showByStatusTransaksi/{status}', 'TransaksiPenjualanController@showByStatusTransaksi');
 
+
+Route::get('transaksiPenjualan/showByIdTransaksi/{id}','TransaksiPenjualanController@showByIdTransaksi');
 //Detil Transaksi Service
 Route::get('detilJasa','DetilTransaksiServiceController@show');
 Route::get('detilJasa/{id}','DetilTransaksiServiceController@showById');
