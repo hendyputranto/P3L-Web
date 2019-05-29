@@ -124,7 +124,10 @@ class SparepartCabangController extends RestController
             $sparepartCabang->hargaJual_sparepart = $request->hargaJual_sparepart;
             
             $id = array();
-            $id = SparepartCabang::orderBy('id_sparepartCabang','DESC')->where('letak_sparepart','like',$request->letak_sparepart.'%')->first();
+            $id = SparepartCabang::orderBy('id_sparepartCabang','DESC')
+            ->where('id_cabang_fk',$request->id_cabang_fk)
+            ->where('letak_sparepart','like',$request->letak_sparepart.'%')
+            ->first();
             if(!$id)
                 $no = 1;
             else {
@@ -148,7 +151,10 @@ class SparepartCabangController extends RestController
     public function update(request $request, $id_sparepartCabang){
 
         $id = array();
-            $id = SparepartCabang::orderBy('id_sparepartCabang','DESC')->where('letak_sparepart','like',$request->letak_sparepart.'%')->first();
+            $id = SparepartCabang::orderBy('id_sparepartCabang','DESC')
+                    ->where('id_cabang_fk',$request->id_cabang_fk)
+                    ->where('letak_sparepart','like',$request->letak_sparepart.'%')
+                    ->first();
             if(!$id)
                 $no = 1;
             else {
